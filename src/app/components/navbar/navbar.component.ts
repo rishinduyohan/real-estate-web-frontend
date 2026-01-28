@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, Building2, Menu, X, User, Heart, Plus } from 'lucide-angular';
 
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -10,7 +11,7 @@ import { LucideAngularModule, Building2, Menu, X, User, Heart, Plus } from 'luci
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  @Input() isAuthenticated: boolean = false;
+  @Input() isAuthenticated: boolean = true;
   @Input() userRole: 'customer' | 'owner' | 'agent' | 'admin' | undefined;
   @Input() currentScreen: string = 'home';
 

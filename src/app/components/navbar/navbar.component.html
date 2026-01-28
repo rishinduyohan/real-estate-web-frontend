@@ -1,55 +1,67 @@
-<nav class="navbar">
-    <div class="navbar-container">
-        <div class="navbar-content">
+<nav class="sticky top-0 z-50 w-full border-b border-border bg-background shadow-sm">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
 
-            <button (click)="onNavigate(isAuthenticated ? 'home' : 'landing')" class="nav-brand group">
-                <div class="logo-icon">
-                    <lucide-icon [img]="icons.Building2" class="icon-white"></lucide-icon>
+            <!-- Brand -->
+            <button (click)="onNavigate(isAuthenticated ? 'home' : 'landing')" class="group flex items-center gap-2">
+                <div
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary transition-transform duration-150 group-hover:scale-105">
+                    <lucide-icon [img]="icons.Building2" class="text-white h-6 w-6"></lucide-icon>
                 </div>
-                <div class="logo-text">
-                    <h1 class="brand-name">LK Estate</h1>
-                    <p class="brand-subtitle">Real Estate Portal</p>
+                <div class="hidden text-left sm:block">
+                    <h1 class="text-xl font-semibold leading-none text-foreground">LK Estate</h1>
+                    <p class="text-xs text-muted-foreground">Buy & Sell Properties</p>
                 </div>
             </button>
 
-            <!-- Desktop Navigation -->
-            <div class="nav-links desktop-only">
+            <!-- Desktop Links -->
+            <div class="hidden lg:flex lg:items-center lg:gap-1">
                 <button *ngFor="let item of navItems" (click)="onNavigate(item.id); mobileMenuOpen = false;"
-                    class="nav-link" [class.active]="currentScreen === item.id">
+                    class="rounded-lg px-4 py-2 text-base font-medium text-foreground transition-all duration-150 hover:bg-secondary/50"
+                    [class.bg-secondary]="currentScreen === item.id" [class.text-primary]="currentScreen === item.id">
                     {{ item.label }}
                 </button>
             </div>
 
-            <!-- Desktop Actions -->
-            <div class="nav-actions desktop-only">
+            <!-- Actions -->
+            <div class="flex items-center gap-3">
                 <ng-container *ngIf="isAuthenticated; else guestActions">
+                    <!-- Owner Add Property -->
                     <button *ngIf="userRole === 'owner'" (click)="onNavigate('add-property')"
-                        class="btn btn-primary btn-sm">
-                        <lucide-icon [img]="icons.Plus" class="icon-sm mr-2"></lucide-icon>
+                        class="inline-flex h-9 items-center justify-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90">
+                        <lucide-icon [img]="icons.Plus" class="mr-2 h-4 w-4"></lucide-icon>
                         List Property
                     </button>
 
-                    <button *ngIf="userRole === 'customer'" (click)="onNavigate('saved')" class="btn-icon">
-                        <lucide-icon [img]="icons.Heart" class="icon-muted"></lucide-icon>
+                    <!-- Customer Saved -->
+                    <button *ngIf="userRole === 'customer'" (click)="onNavigate('saved')"
+                        class="flex h-10 w-10 items-center justify-center rounded-lg transition-colors hover:bg-secondary">
+                        <lucide-icon [img]="icons.Heart" class="text-muted-foreground"></lucide-icon>
                     </button>
 
-                    <div class="user-menu-container">
-                        <button (click)="toggleUserMenu()" class="user-menu-btn">
-                            <div class="avatar">
-                                <lucide-icon [img]="icons.User" class="icon-white icon-xs"></lucide-icon>
+                    <!-- User Menu -->
+                    <div class="relative">
+                        <button (click)="toggleUserMenu()"
+                            class="flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-secondary">
+                            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white">
+                                <lucide-icon [img]="icons.User" class="h-4 w-4"></lucide-icon>
                             </div>
-                            <span class="user-label">Account</span>
+                            <span class="text-sm font-medium text-foreground">Account</span>
                         </button>
 
-                        <div *ngIf="userMenuOpen" class="dropdown-menu">
-                            <button (click)="onNavigate('profile'); userMenuOpen = false" class="dropdown-item">
+                        <!-- Dropdown -->
+                        <div *ngIf="userMenuOpen"
+                            class="absolute right-0 mt-2 w-48 overflow-hidden rounded-xl border border-border bg-background shadow-lg z-50">
+                            <button (click)="onNavigate('profile'); userMenuOpen = false"
+                                class="w-full px-4 py-3 text-left text-sm text-foreground transition-colors hover:bg-secondary">
                                 My Profile
                             </button>
                             <button (click)="onNavigate('settings'); userMenuOpen = false"
-                                class="dropdown-item border-top">
+                                class="w-full border-t border-border px-4 py-3 text-left text-sm text-foreground transition-colors hover:bg-secondary">
                                 Settings
                             </button>
-                            <button (click)="onLogoutClick()" class="dropdown-item border-top text-destructive">
+                            <button (click)="onLogoutClick()"
+                                class="w-full border-t border-border px-4 py-3 text-left text-sm text-destructive transition-colors hover:bg-secondary">
                                 Logout
                             </button>
                         </div>
@@ -57,56 +69,62 @@
                 </ng-container>
 
                 <ng-template #guestActions>
-                    <button (click)="login.emit()" class="btn btn-ghost btn-sm">
+                    <button (click)="login.emit()"
+                        class="inline-flex h-9 items-center justify-center rounded-md px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground">
                         Sign In
                     </button>
-                    <button (click)="onNavigate('register')" class="btn btn-primary btn-sm">
+                    <button (click)="onNavigate('register')"
+                        class="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90">
                         Get Started
                     </button>
                 </ng-template>
-            </div>
 
-            <!-- Mobile Menu Open Button -->
-            <button (click)="toggleMobileMenu()" class="mobile-menu-btn lg-hidden" *ngIf="!mobileMenuOpen">
-                <lucide-icon [img]="icons.Menu" class="icon-md"></lucide-icon>
-            </button>
+                <!-- Mobile Menu Button -->
+                <button (click)="toggleMobileMenu()"
+                    class="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-secondary lg:hidden"
+                    *ngIf="!mobileMenuOpen">
+                    <lucide-icon [img]="icons.Menu" class="h-6 w-6"></lucide-icon>
+                </button>
+            </div>
         </div>
     </div>
 
     <!-- Mobile Menu Overlay -->
-    <div *ngIf="mobileMenuOpen" class="mobile-menu lg-hidden">
-        <!-- Mobile Menu Header (Logo + Close) -->
-        <div class="mobile-menu-header">
-            <!-- Mobile Logo (Icon Only as per screenshot) -->
-            <div class="logo-icon">
-                <lucide-icon [img]="icons.Building2" class="icon-white"></lucide-icon>
+    <div *ngIf="mobileMenuOpen" class="fixed inset-0 z-50 flex flex-col bg-background lg:hidden">
+        <div class="flex items-center justify-between border-b border-border px-6 py-4">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
+                <lucide-icon [img]="icons.Building2" class="text-white h-6 w-6"></lucide-icon>
             </div>
-
-            <button (click)="toggleMobileMenu()" class="mobile-menu-btn">
-                <lucide-icon [img]="icons.X" class="icon-md"></lucide-icon>
+            <button (click)="toggleMobileMenu()"
+                class="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-secondary">
+                <lucide-icon [img]="icons.X" class="h-6 w-6"></lucide-icon>
             </button>
         </div>
 
-        <div class="mobile-menu-content">
+        <div class="flex flex-col gap-6 overflow-y-auto p-6">
             <button *ngFor="let item of navItems" (click)="onNavigate(item.id); mobileMenuOpen = false;"
-                class="mobile-nav-link" [class.active]="currentScreen === item.id">
+                class="w-full text-left text-lg font-medium text-foreground transition-colors hover:text-primary"
+                [class.text-primary]="currentScreen === item.id">
                 {{ item.label }}
             </button>
 
-            <div class="mobile-actions">
+            <div class="mt-auto flex flex-col gap-4 border-t border-border pt-6">
                 <ng-container *ngIf="isAuthenticated">
-                    <button (click)="onNavigate('profile'); mobileMenuOpen = false" class="mobile-nav-link">
+                    <button (click)="onNavigate('profile'); mobileMenuOpen = false"
+                        class="w-full text-left text-lg font-medium text-foreground">
                         My Profile
                     </button>
-                    <button (click)="onLogoutClick()" class="mobile-nav-link text-destructive">
+                    <button (click)="onLogoutClick()" class="w-full text-left text-lg font-medium text-destructive">
                         Logout
                     </button>
                 </ng-container>
                 <ng-container *ngIf="!isAuthenticated">
-                    <button (click)="login.emit(); mobileMenuOpen = false" class="btn-mobile-outline">
+                    <button (click)="login.emit(); mobileMenuOpen = false"
+                        class="inline-flex h-12 w-full items-center justify-center rounded-full border border-primary text-base font-semibold text-primary">
                         Sign In
                     </button>
-                    <button (click)="onNavigate('register'); mobileMenuOpen = false" class="btn-mobile-primary">
+                    <button (click)="onNavigate('register'); mobileMenuOpen = false"
+                        class="inline-flex h-12 w-full items-center justify-center rounded-full bg-primary text-base font-semibold text-white">
                         Get Started
                     </button>
                 </ng-container>
