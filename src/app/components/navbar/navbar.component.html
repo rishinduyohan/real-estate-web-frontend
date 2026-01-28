@@ -1,1 +1,116 @@
-<p>navbar works!</p>
+<nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-content">
+
+            <button (click)="onNavigate(isAuthenticated ? 'home' : 'landing')" class="nav-brand group">
+                <div class="logo-icon">
+                    <lucide-icon [img]="icons.Building2" class="icon-white"></lucide-icon>
+                </div>
+                <div class="logo-text">
+                    <h1 class="brand-name">LK Estate</h1>
+                    <p class="brand-subtitle">Real Estate Portal</p>
+                </div>
+            </button>
+
+            <!-- Desktop Navigation -->
+            <div class="nav-links desktop-only">
+                <button *ngFor="let item of navItems" (click)="onNavigate(item.id); mobileMenuOpen = false;"
+                    class="nav-link" [class.active]="currentScreen === item.id">
+                    {{ item.label }}
+                </button>
+            </div>
+
+            <!-- Desktop Actions -->
+            <div class="nav-actions desktop-only">
+                <ng-container *ngIf="isAuthenticated; else guestActions">
+                    <button *ngIf="userRole === 'owner'" (click)="onNavigate('add-property')"
+                        class="btn btn-primary btn-sm">
+                        <lucide-icon [img]="icons.Plus" class="icon-sm mr-2"></lucide-icon>
+                        List Property
+                    </button>
+
+                    <button *ngIf="userRole === 'customer'" (click)="onNavigate('saved')" class="btn-icon">
+                        <lucide-icon [img]="icons.Heart" class="icon-muted"></lucide-icon>
+                    </button>
+
+                    <div class="user-menu-container">
+                        <button (click)="toggleUserMenu()" class="user-menu-btn">
+                            <div class="avatar">
+                                <lucide-icon [img]="icons.User" class="icon-white icon-xs"></lucide-icon>
+                            </div>
+                            <span class="user-label">Account</span>
+                        </button>
+
+                        <div *ngIf="userMenuOpen" class="dropdown-menu">
+                            <button (click)="onNavigate('profile'); userMenuOpen = false" class="dropdown-item">
+                                My Profile
+                            </button>
+                            <button (click)="onNavigate('settings'); userMenuOpen = false"
+                                class="dropdown-item border-top">
+                                Settings
+                            </button>
+                            <button (click)="onLogoutClick()" class="dropdown-item border-top text-destructive">
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <ng-template #guestActions>
+                    <button (click)="login.emit()" class="btn btn-ghost btn-sm">
+                        Sign In
+                    </button>
+                    <button (click)="onNavigate('register')" class="btn btn-primary btn-sm">
+                        Get Started
+                    </button>
+                </ng-template>
+            </div>
+
+            <!-- Mobile Menu Open Button -->
+            <button (click)="toggleMobileMenu()" class="mobile-menu-btn lg-hidden" *ngIf="!mobileMenuOpen">
+                <lucide-icon [img]="icons.Menu" class="icon-md"></lucide-icon>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div *ngIf="mobileMenuOpen" class="mobile-menu lg-hidden">
+        <!-- Mobile Menu Header (Logo + Close) -->
+        <div class="mobile-menu-header">
+            <!-- Mobile Logo (Icon Only as per screenshot) -->
+            <div class="logo-icon">
+                <lucide-icon [img]="icons.Building2" class="icon-white"></lucide-icon>
+            </div>
+
+            <button (click)="toggleMobileMenu()" class="mobile-menu-btn">
+                <lucide-icon [img]="icons.X" class="icon-md"></lucide-icon>
+            </button>
+        </div>
+
+        <div class="mobile-menu-content">
+            <button *ngFor="let item of navItems" (click)="onNavigate(item.id); mobileMenuOpen = false;"
+                class="mobile-nav-link" [class.active]="currentScreen === item.id">
+                {{ item.label }}
+            </button>
+
+            <div class="mobile-actions">
+                <ng-container *ngIf="isAuthenticated">
+                    <button (click)="onNavigate('profile'); mobileMenuOpen = false" class="mobile-nav-link">
+                        My Profile
+                    </button>
+                    <button (click)="onLogoutClick()" class="mobile-nav-link text-destructive">
+                        Logout
+                    </button>
+                </ng-container>
+                <ng-container *ngIf="!isAuthenticated">
+                    <button (click)="login.emit(); mobileMenuOpen = false" class="btn-mobile-outline">
+                        Sign In
+                    </button>
+                    <button (click)="onNavigate('register'); mobileMenuOpen = false" class="btn-mobile-primary">
+                        Get Started
+                    </button>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</nav>
