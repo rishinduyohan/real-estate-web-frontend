@@ -1,0 +1,42 @@
+<div (click)="onCardClick()"
+    class="bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer group">
+    <div class="relative h-48 overflow-hidden">
+        <img [src]="image" [alt]="title"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            onerror="this.src='https://placehold.co/600x400?text=No+Image'" />
+        <div class="absolute top-3 left-3 bg-primary text-primary-foreground px-3 py-1 rounded-lg text-sm font-medium">
+            {{ status }}
+        </div>
+        <div
+            class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-foreground px-3 py-1 rounded-lg text-sm font-medium">
+            {{ type }}
+        </div>
+    </div>
+
+    <div class="p-4">
+        <h3 class="mb-2 line-clamp-1 text-lg font-medium">{{ title }}</h3>
+        <div class="flex items-center gap-1 text-muted-foreground mb-3">
+            <lucide-angular [img]="MapPin" class="w-4 h-4"></lucide-angular>
+            <span class="text-sm">{{ location }}</span>
+        </div>
+
+        <div class="flex items-center gap-4 mb-3 text-sm text-muted-foreground">
+            <div *ngIf="bedrooms > 0" class="flex items-center gap-1">
+                <lucide-angular [img]="Bed" class="w-4 h-4"></lucide-angular>
+                <span>{{ bedrooms }}</span>
+            </div>
+            <div *ngIf="bathrooms > 0" class="flex items-center gap-1">
+                <lucide-angular [img]="Bath" class="w-4 h-4"></lucide-angular>
+                <span>{{ bathrooms }}</span>
+            </div>
+            <div *ngIf="area" class="flex items-center gap-1">
+                <lucide-angular [img]="Maximize" class="w-4 h-4"></lucide-angular>
+                <span>{{ area }}</span>
+            </div>
+        </div>
+
+        <div class="pt-3 border-t border-border">
+            <p class="text-primary font-semibold">Rs. {{ price }}</p>
+        </div>
+    </div>
+</div>

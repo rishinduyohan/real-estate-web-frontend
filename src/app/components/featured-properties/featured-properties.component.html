@@ -1,0 +1,27 @@
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 max-w-7xl">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Featured Properties</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                Explore our handpicked selection of premium properties available now
+            </p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <app-property-card *ngFor="let property of featuredProperties" [id]="property.id" [image]="property.image"
+                [title]="property.title" [price]="property.price" [location]="property.location"
+                [bedrooms]="property.bedrooms" [bathrooms]="property.bathrooms" [area]="property.area"
+                [type]="property.type" [status]="property.status || 'For Sale'" (cardClick)="onPropertyClick($event)"
+                class="block h-full">
+            </app-property-card>
+        </div>
+
+        <div class="text-center">
+            <button
+                class="inline-flex items-center gap-2 px-8 py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-xl font-medium transition-all duration-300 group">
+                View All Properties
+                <lucide-angular [img]="ArrowRight"
+                    class="w-4 h-4 group-hover:translate-x-1 transition-transform"></lucide-angular>
+            </button>
+        </div>
+    </div>
+</section>
