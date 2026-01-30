@@ -4,6 +4,8 @@ import { HeroComponent } from '../../components/hero/hero.component';
 import { StatsComponent } from '../../components/stats/stats.component';
 import { FeaturedPropertiesComponent } from '../../components/featured-properties/featured-properties.component';
 import { WhyChooseUsComponent } from '../../components/why-choose-us/why-choose-us.component';
+import { ReviewsComponent } from '../../components/reviews/reviews.component';
+import { CtaComponent } from '../../components/cta/cta.component';
 import { RouterOutlet } from '@angular/router';
 import { AuthService, UserRole } from '../../service/auth.service';
 import { Subscription } from 'rxjs';
@@ -12,7 +14,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NavbarComponent, RouterOutlet, HeroComponent, StatsComponent, FeaturedPropertiesComponent, WhyChooseUsComponent, CommonModule],
+  imports: [NavbarComponent, RouterOutlet, HeroComponent, StatsComponent, FeaturedPropertiesComponent, WhyChooseUsComponent, ReviewsComponent, CtaComponent, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
