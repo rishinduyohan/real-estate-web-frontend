@@ -1,87 +1,65 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 import { LucideAngularModule, Building2, Menu, X, User, Heart, Plus } from 'lucide-angular';
-
+import { AuthService, UserRole } from '../../service/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [CommonModule, RouterModule, LucideAngularModule],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
-  @Input() isAuthenticated: boolean = true;
-  @Input() userRole: 'customer' | 'owner' | 'agent' | 'admin' | undefined;
-  @Input() currentScreen: string = 'home';
-
-  @Output() navigate = new EventEmitter<string>();
-  @Output() login = new EventEmitter<void>();
-  @Output() logout = new EventEmitter<void>();
-
+export class NavbarComponent implements OnInit, OnDestroy {
+  isAuthenticated = false;
+  userRole: UserRole = 'customer';
   mobileMenuOpen = false;
   userMenuOpen = false;
+  currentScreen = 'home';
 
-  readonly icons = {
-    Building2,
-    Menu,
-    X,
-    User,
-    Heart,
-    Plus
-  };
+  private subs: Subscription = new Subscription();
 
-  publicNavItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'properties', label: 'Properties' },
-    { id: 'agents', label: 'Our Agents' },
-    { id: 'about', label: 'About Us' },
-    { id: 'contact', label: 'Contact' },
-  ];
+  readonly Building2 = Building2;
+  readonly Menu = Menu;
+  readonly X = X;
+  readonly User = User;
+  readonly Heart = Heart;
+  readonly Plus = Plus;
 
-  customerNavItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'search', label: 'Browse Properties' },
-    { id: 'saved', label: 'Saved Properties' },
-    { id: 'my-inquiries', label: 'My Inquiries' },
-  ];
+  constructor(private authService: AuthService, private router: Router) { }
 
-  adminNavItems = [
-    { id: 'dashboard', label: 'Dashboard' },
-    { id: 'manage-properties', label: 'Manage Properties' },
-    { id: 'inquiries', label: 'Inquiries' },
-    { id: 'users', label: 'Users' },
-  ];
-
-  agentNavItems = [
-    { id: 'dashboard', label: 'Dashboard' },
-    { id: 'my-properties', label: 'My Properties' },
-    { id: 'inquiries', label: 'Inquiries' },
-    { id: 'profile', label: 'My Profile' },
-  ];
-
-  ownerNavItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'my-listings', label: 'My Listings' },
-    { id: 'add-property', label: 'Add Property' },
-    { id: 'inquiries', label: 'Inquiries' },
-  ];
-
-  get navItems() {
-    if (!this.isAuthenticated) return this.publicNavItems;
-    switch (this.userRole) {
-      case 'admin': return this.adminNavItems;
-      case 'agent': return this.agentNavItems;
-      case 'owner': return this.ownerNavItems;
-      case 'customer': return this.customerNavItems;
-      default: return this.publicNavItems;
-    }
+  ngOnInit() {
+    this.subs.add(
+      this.authService.isAuthenticated$.subscribe(isAuth => this.isAuthenticated = isAuth)
+    );
+    this.subs.add(
+      this.authService.userRole$.subscribe(role => this.userRole = role)
+    );
   }
 
-  onNavigate(screen: string) {
-    this.navigate.emit(screen);
-    this.mobileMenuOpen = false;
-    this.userMenuOpen = false;
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+
+  publicNavItems = [
+    { id: 'home', label: 'Home', link: '/' },
+    { id: 'properties', label: 'Properties', link: '/search' },
+    { id: 'agents', label: 'Our Agents', link: '/agents' },
+    { id: 'about', label: 'About Us', link: '/about' },
+    { id: 'contact', label: 'Contact', link: '/contact' },
+  ];
+
+  get filteredNavItems() {
+    if (this.userRole === 'admin') {
+      return [
+        { id: 'dashboard', label: 'Dashboard', link: '/dashboard' },
+        { id: 'users', label: 'Users', link: '/users' },
+        { id: 'settings', label: 'Settings', link: '/settings' },
+      ];
+    }
+    return this.publicNavItems;
   }
 
   toggleMobileMenu() {
@@ -92,9 +70,13 @@ export class NavbarComponent {
     this.userMenuOpen = !this.userMenuOpen;
   }
 
-  onLogoutClick() {
-    this.logout.emit();
+  onLogin() {
+    this.router.navigate(['/login']);
+  }
+
+  onLogout() {
+    this.authService.logout();
     this.userMenuOpen = false;
-    this.mobileMenuOpen = false;
+    this.router.navigate(['/']);
   }
 }

@@ -1,133 +1,122 @@
-<nav class="sticky top-0 z-50 w-full border-b border-border bg-background shadow-sm">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="flex h-16 items-center justify-between">
-
-            <!-- Brand -->
-            <button (click)="onNavigate(isAuthenticated ? 'home' : 'landing')" class="group flex items-center gap-2">
+<nav class="bg-white border-b border-border sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <!-- Logo -->
+            <button class="flex items-center gap-2 group focus:outline-none" [routerLink]="['/']">
                 <div
-                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary transition-transform duration-150 group-hover:scale-105">
-                    <lucide-icon [img]="icons.Building2" class="text-white h-6 w-6"></lucide-icon>
+                    class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <lucide-angular [img]="Building2" class="w-6 h-6 text-white"></lucide-angular>
                 </div>
-                <div class="hidden text-left sm:block">
-                    <h1 class="text-xl font-semibold leading-none text-foreground">LK Estate</h1>
-                    <p class="text-xs text-muted-foreground">Buy & Sell Properties</p>
+                <div class="hidden sm:block text-left">
+                    <h1 class="text-xl text-foreground font-medium">LK Estate</h1>
+                    <p class="text-xs text-muted-foreground -mt-1">Real Estate Portal</p>
                 </div>
             </button>
 
-            <!-- Desktop Links -->
-            <div class="hidden lg:flex lg:items-center lg:gap-1">
-                <button *ngFor="let item of navItems" (click)="onNavigate(item.id); mobileMenuOpen = false;"
-                    class="rounded-lg px-4 py-2 text-base font-medium text-foreground transition-all duration-150 hover:bg-secondary/50"
-                    [class.bg-secondary]="currentScreen === item.id" [class.text-primary]="currentScreen === item.id">
+            <!-- Desktop Navigation -->
+            <div class="hidden lg:flex items-center gap-1">
+                <button *ngFor="let item of publicNavItems" [routerLink]="[item.link]"
+                    routerLinkActive="bg-secondary text-primary" [routerLinkActiveOptions]="{exact: true}"
+                    class="px-4 py-2 rounded-lg transition-all text-foreground hover:bg-secondary/50 font-medium">
                     {{ item.label }}
                 </button>
             </div>
 
-            <!-- Actions -->
-            <div class="flex items-center gap-3">
-                <ng-container *ngIf="isAuthenticated; else guestActions">
-                    <!-- Owner Add Property -->
-                    <button *ngIf="userRole === 'owner'" (click)="onNavigate('add-property')"
-                        class="inline-flex h-9 items-center justify-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90">
-                        <lucide-icon [img]="icons.Plus" class="mr-2 h-4 w-4"></lucide-icon>
-                        List Property
+            <!-- Desktop Actions -->
+            <div class="hidden lg:flex items-center gap-3">
+                <ng-container *ngIf="isAuthenticated; else guestControls">
+                    <!-- Authenticated Controls -->
+                    <ng-container *ngIf="userRole === 'owner'">
+                        <button
+                            class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-colors">
+                            <lucide-angular [img]="Plus" class="w-4 h-4 mr-2"></lucide-angular>
+                            List Property
+                        </button>
+                    </ng-container>
+
+                    <button *ngIf="userRole === 'customer'"
+                        class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-secondary transition-all">
+                        <lucide-angular [img]="Heart" class="w-5 h-5 text-muted-foreground"></lucide-angular>
                     </button>
 
-                    <!-- Customer Saved -->
-                    <button *ngIf="userRole === 'customer'" (click)="onNavigate('saved')"
-                        class="flex h-10 w-10 items-center justify-center rounded-lg transition-colors hover:bg-secondary">
-                        <lucide-icon [img]="icons.Heart" class="text-muted-foreground"></lucide-icon>
-                    </button>
-
-                    <!-- User Menu -->
                     <div class="relative">
                         <button (click)="toggleUserMenu()"
-                            class="flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-secondary">
-                            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white">
-                                <lucide-icon [img]="icons.User" class="h-4 w-4"></lucide-icon>
+                            class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-secondary transition-all">
+                            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                <lucide-angular [img]="User" class="w-4 h-4 text-white"></lucide-angular>
                             </div>
-                            <span class="text-sm font-medium text-foreground">Account</span>
+                            <span class="text-sm font-medium">Account</span>
                         </button>
 
-                        <!-- Dropdown -->
                         <div *ngIf="userMenuOpen"
-                            class="absolute right-0 mt-2 w-48 overflow-hidden rounded-xl border border-border bg-background shadow-lg z-50">
-                            <button (click)="onNavigate('profile'); userMenuOpen = false"
-                                class="w-full px-4 py-3 text-left text-sm text-foreground transition-colors hover:bg-secondary">
+                            class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-border overflow-hidden py-1">
+                            <button class="w-full text-left px-4 py-3 hover:bg-secondary transition-all text-sm">
                                 My Profile
                             </button>
-                            <button (click)="onNavigate('settings'); userMenuOpen = false"
-                                class="w-full border-t border-border px-4 py-3 text-left text-sm text-foreground transition-colors hover:bg-secondary">
+                            <button
+                                class="w-full text-left px-4 py-3 hover:bg-secondary transition-all border-t border-border text-sm">
                                 Settings
                             </button>
-                            <button (click)="onLogoutClick()"
-                                class="w-full border-t border-border px-4 py-3 text-left text-sm text-destructive transition-colors hover:bg-secondary">
+                            <button (click)="onLogout()"
+                                class="w-full text-left px-4 py-3 hover:bg-secondary transition-all border-t border-border text-destructive text-sm">
                                 Logout
                             </button>
                         </div>
                     </div>
                 </ng-container>
 
-                <ng-template #guestActions>
-                    <button (click)="login.emit()"
-                        class="inline-flex h-9 items-center justify-center rounded-md px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground">
+                <ng-template #guestControls>
+                    <!-- Guest Controls -->
+                    <button (click)="onLogin()"
+                        class="px-4 py-2 rounded-lg hover:bg-secondary transition-colors text-sm font-medium">
                         Sign In
                     </button>
-                    <button (click)="onNavigate('register')"
-                        class="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90">
+                    <button
+                        class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                         Get Started
                     </button>
                 </ng-template>
-
-                <!-- Mobile Menu Button -->
-                <button (click)="toggleMobileMenu()"
-                    class="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-secondary lg:hidden"
-                    *ngIf="!mobileMenuOpen">
-                    <lucide-icon [img]="icons.Menu" class="h-6 w-6"></lucide-icon>
-                </button>
             </div>
+
+            <!-- Mobile Menu Button -->
+            <button (click)="toggleMobileMenu()"
+                class="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-secondary transition-all">
+                <lucide-angular *ngIf="!mobileMenuOpen" [img]="Menu" class="w-6 h-6"></lucide-angular>
+                <lucide-angular *ngIf="mobileMenuOpen" [img]="X" class="w-6 h-6"></lucide-angular>
+            </button>
         </div>
     </div>
 
-    <!-- Mobile Menu Overlay -->
-    <div *ngIf="mobileMenuOpen" class="fixed inset-0 z-50 flex flex-col bg-background lg:hidden">
-        <div class="flex items-center justify-between border-b border-border px-6 py-4">
-            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
-                <lucide-icon [img]="icons.Building2" class="text-white h-6 w-6"></lucide-icon>
-            </div>
-            <button (click)="toggleMobileMenu()"
-                class="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-secondary">
-                <lucide-icon [img]="icons.X" class="h-6 w-6"></lucide-icon>
-            </button>
-        </div>
-
-        <div class="flex flex-col gap-6 overflow-y-auto p-6">
-            <button *ngFor="let item of navItems" (click)="onNavigate(item.id); mobileMenuOpen = false;"
-                class="w-full text-left text-lg font-medium text-foreground transition-colors hover:text-primary"
-                [class.text-primary]="currentScreen === item.id">
+    <!-- Mobile Menu -->
+    <div *ngIf="mobileMenuOpen" class="lg:hidden border-t border-border bg-white">
+        <div class="px-4 py-4 space-y-2">
+            <button *ngFor="let item of publicNavItems" [routerLink]="[item.link]" (click)="mobileMenuOpen = false"
+                routerLinkActive="bg-secondary text-primary"
+                class="w-full text-left px-4 py-3 rounded-lg transition-all text-foreground hover:bg-secondary/50 font-medium">
                 {{ item.label }}
             </button>
 
-            <div class="mt-auto flex flex-col gap-4 border-t border-border pt-6">
-                <ng-container *ngIf="isAuthenticated">
-                    <button (click)="onNavigate('profile'); mobileMenuOpen = false"
-                        class="w-full text-left text-lg font-medium text-foreground">
+            <div class="pt-4 border-t border-border space-y-2">
+                <ng-container *ngIf="isAuthenticated; else mobileGuestControls">
+                    <button class="w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-all font-medium">
                         My Profile
                     </button>
-                    <button (click)="onLogoutClick()" class="w-full text-left text-lg font-medium text-destructive">
+                    <button (click)="onLogout()"
+                        class="w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-all text-destructive font-medium">
                         Logout
                     </button>
                 </ng-container>
-                <ng-container *ngIf="!isAuthenticated">
-                    <button (click)="login.emit(); mobileMenuOpen = false"
-                        class="inline-flex h-12 w-full items-center justify-center rounded-full border border-primary text-base font-semibold text-primary">
+
+                <ng-template #mobileGuestControls>
+                    <button (click)="onLogin()"
+                        class="w-full text-center border border-border px-4 py-3 rounded-lg hover:bg-secondary transition-all font-medium">
                         Sign In
                     </button>
-                    <button (click)="onNavigate('register'); mobileMenuOpen = false"
-                        class="inline-flex h-12 w-full items-center justify-center rounded-full bg-primary text-base font-semibold text-white">
+                    <button
+                        class="w-full text-center bg-primary text-primary-foreground px-4 py-3 rounded-lg hover:bg-primary/90 transition-all font-medium">
                         Get Started
                     </button>
-                </ng-container>
+                </ng-template>
             </div>
         </div>
     </div>
