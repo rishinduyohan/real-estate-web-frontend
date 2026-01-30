@@ -1,7 +1,6 @@
 <nav class="bg-white border-b border-border sticky top-0 z-50 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
-            <!-- Logo -->
             <button class="flex items-center gap-2 group focus:outline-none" [routerLink]="['/']">
                 <div
                     class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -13,20 +12,17 @@
                 </div>
             </button>
 
-            <!-- Desktop Navigation -->
             <div class="hidden lg:flex items-center gap-1">
-                <button *ngFor="let item of publicNavItems" [routerLink]="[item.link]"
-                    routerLinkActive="bg-secondary text-primary" [routerLinkActiveOptions]="{exact: true}"
-                    class="px-4 py-2 rounded-lg transition-all text-foreground hover:bg-secondary/50 font-medium">
-                    {{ item.label }}
-                </button>
+                    <button *ngFor="let item of navItems" [routerLink]="[item.link]"
+                        routerLinkActive="bg-secondary text-primary" [routerLinkActiveOptions]="{exact: true}"
+                        class="px-4 py-2 rounded-lg transition-all text-foreground hover:bg-secondary/50 font-medium">
+                        {{ item.label }}
+                    </button>
             </div>
 
-            <!-- Desktop Actions -->
             <div class="hidden lg:flex items-center gap-3">
                 <ng-container *ngIf="isAuthenticated; else guestControls">
-                    <!-- Authenticated Controls -->
-                    <ng-container *ngIf="userRole === 'owner'">
+                    <ng-container *ngIf="userRole === 'admin'">
                         <button
                             class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-colors">
                             <lucide-angular [img]="Plus" class="w-4 h-4 mr-2"></lucide-angular>
@@ -66,7 +62,6 @@
                 </ng-container>
 
                 <ng-template #guestControls>
-                    <!-- Guest Controls -->
                     <button (click)="onLogin()"
                         class="px-4 py-2 rounded-lg hover:bg-secondary transition-colors text-sm font-medium">
                         Sign In
@@ -78,7 +73,6 @@
                 </ng-template>
             </div>
 
-            <!-- Mobile Menu Button -->
             <button (click)="toggleMobileMenu()"
                 class="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-secondary transition-all">
                 <lucide-angular *ngIf="!mobileMenuOpen" [img]="Menu" class="w-6 h-6"></lucide-angular>
@@ -86,8 +80,6 @@
             </button>
         </div>
     </div>
-
-    <!-- Mobile Menu -->
     <div *ngIf="mobileMenuOpen" class="lg:hidden border-t border-border bg-white">
         <div class="px-4 py-4 space-y-2">
             <button *ngFor="let item of publicNavItems" [routerLink]="[item.link]" (click)="mobileMenuOpen = false"

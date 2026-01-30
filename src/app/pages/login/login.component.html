@@ -1,0 +1,64 @@
+<div class="min-h-screen flex items-center justify-center bg-background py-12 px-4">
+    <div class="w-full max-w-md bg-card rounded-2xl shadow-xl p-8">
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <lucide-angular [img]="Building2" class="w-10 h-10 text-white"></lucide-angular>
+            </div>
+            <h2 class="text-2xl mb-2 font-semibold">Welcome Back</h2>
+            <p class="text-muted-foreground">Sign in to your account</p>
+        </div>
+
+        <form (ngSubmit)="onSubmit()" class="space-y-4">
+            <div class="relative">
+                <div class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                    <lucide-angular [img]="Mail" class="w-5 h-5"></lucide-angular>
+                </div>
+                <input type="email" [(ngModel)]="email" name="email" placeholder="Email address" required
+                    class="w-full pl-10 pr-4 py-3 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all" />
+            </div>
+            <div class="relative">
+                <div class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                    <lucide-angular [img]="Lock" class="w-5 h-5"></lucide-angular>
+                </div>
+                <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password"
+                    placeholder="Password" required
+                    class="w-full pl-10 pr-12 py-3 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all" />
+                <button type="button" (click)="togglePasswordVisibility()"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer">
+                    <lucide-angular *ngIf="showPassword" [img]="EyeOff" class="w-5 h-5"></lucide-angular>
+                    <lucide-angular *ngIf="!showPassword" [img]="Eye" class="w-5 h-5"></lucide-angular>
+                </button>
+            </div>
+            <div class="flex items-center justify-between text-sm">
+                <label class="flex items-center gap-2 cursor-pointer select-none">
+                    <input type="checkbox" class="rounded border-border text-primary focus:ring-primary" />
+                    <span class="text-muted-foreground">Remember me</span>
+                </label>
+                <button type="button" class="text-primary hover:underline font-medium">
+                    Forgot Password?
+                </button>
+            </div>
+            <button type="submit"
+                class="w-full bg-primary text-white font-medium py-3 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+                Sign In
+            </button>
+        </form>
+        <div class="mt-6">
+            <p class="text-center text-muted-foreground text-sm mb-4">
+                Demo: Use
+                <button type="button" (click)="fillDemoAdmin()" class="text-primary hover:underline font-medium">
+                    admin&#64;lkestate.lk
+                </button>
+                for admin view
+            </p>
+        </div>
+        <div class="mt-6 pt-6 border-t border-border text-center">
+            <p class="text-muted-foreground">
+                Don't have an account?
+                <a routerLink="/register" class="text-primary hover:underline font-medium cursor-pointer">
+                    Sign Up
+                </a>
+            </p>
+        </div>
+    </div>
+</div>

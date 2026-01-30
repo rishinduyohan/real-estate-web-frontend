@@ -9,7 +9,7 @@ export type UserRole = 'customer' | 'owner' | 'agent' | 'admin';
 export class AuthService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
-
+  
   private userRoleSubject = new BehaviorSubject<UserRole>('customer');
   userRole$ = this.userRoleSubject.asObservable();
 
