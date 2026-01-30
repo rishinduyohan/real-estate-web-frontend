@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { LucideAngularModule, Building2, Menu, X, User, Heart, Plus } from 'lucide-angular';
@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+  @Input() isTransparent = false;
   isAuthenticated = false;
   userRole: UserRole = 'customer';
   mobileMenuOpen = false;
