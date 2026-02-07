@@ -11,11 +11,13 @@ import { AuthService, UserRole } from '../../service/auth.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { UserHero } from '../../components/user-hero/user-hero';
+import { PropertyTypes } from '../../components/property-types/property-types';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NavbarComponent, RouterOutlet, HeroComponent, StatsComponent, FeaturedPropertiesComponent, WhyChooseUsComponent, ReviewsComponent, CtaComponent, CommonModule,FooterComponent],
+  imports: [NavbarComponent, HeroComponent, StatsComponent, FeaturedPropertiesComponent, WhyChooseUsComponent, ReviewsComponent, CtaComponent, CommonModule,FooterComponent, UserHero, PropertyTypes],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
