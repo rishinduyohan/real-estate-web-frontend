@@ -1,13 +1,11 @@
-<div class="mb-6">
-    <h3 class="mb-4 font-medium text-lg">Property Type</h3>
-    <div class="flex gap-2 overflow-x-auto pb-2 hide-scrollbar">
-        <button *ngFor="let filter of ['All', 'House', 'Apartment', 'Land', 'Commercial']"
-            (click)="setActiveFilter(filter.toLowerCase())"
-            [class.bg-primary]="activeFilter === filter.toLowerCase()"
+<div class="text-center mb-12">
+    <h2 class="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">Property Types</h2>
+    <div class="justify-center mt-10 lg:space-x-3 space-x-3 space-y-3 overflow-x-auto pb-2 hide-scrollbar">
+        <button *ngFor="let filter of ['All', 'House', 'Apartment', 'Land', 'Commercial','Luxury','Semi-luxury','Villas','Bording Houses']"
+            (click)="setActiveFilter(filter.toLowerCase())" [class.bg-primary]="activeFilter === filter.toLowerCase()"
             [class.text-white]="activeFilter === filter.toLowerCase()"
-            [class.bg-secondary]="activeFilter !== filter.toLowerCase()"
             [class.text-foreground]="activeFilter !== filter.toLowerCase()"
-            class="px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-colors">
+            class="px-4 py-2 rounded-sm whitespace-nowrap text-sm font-medium">
             {{ filter }}
         </button>
     </div>

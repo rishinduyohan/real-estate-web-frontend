@@ -1,8 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-property-types',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './property-types.html',
   styleUrl: './property-types.css',
 })

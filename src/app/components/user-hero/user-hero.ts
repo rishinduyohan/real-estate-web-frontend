@@ -21,12 +21,12 @@ export class UserHero {
     role:"customer",
     createdDate:new Date()
   };
-
+  
   readonly Search = Search;
   readonly SlidersHorizontal = SlidersHorizontal;
   readonly MapPin = MapPin;
   readonly Bell = Bell;
-
+  
   locations = [
     { id: 'colombo', name: 'Colombo', count: 245 },
     { id: 'kandy', name: 'Kandy', count: 89 },
