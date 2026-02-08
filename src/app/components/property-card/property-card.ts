@@ -7,7 +7,6 @@ import { LucideAngularModule, MapPin, Bed, Bath, Maximize } from 'lucide-angular
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './property-card.html',
-  styleUrl: './property-card.css'
 })
 export class PropertyCard {
   @Input() id!: string;

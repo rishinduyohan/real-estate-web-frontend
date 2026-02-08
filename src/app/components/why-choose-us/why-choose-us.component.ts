@@ -7,7 +7,6 @@ import { LucideAngularModule, Building2, Users, CheckCircle } from 'lucide-angul
     standalone: true,
     imports: [CommonModule, LucideAngularModule],
     templateUrl: './why-choose-us.component.html',
-    styleUrl: './why-choose-us.component.css'
 })
 export class WhyChooseUsComponent {
     readonly Building2 = Building2;

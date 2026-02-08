@@ -8,7 +8,6 @@ import { User } from '../../model/user.model';
   selector: 'app-user-hero',
   imports: [CommonModule,LucideAngularModule],
   templateUrl: './user-hero.html',
-  styleUrl: './user-hero.css',
 })
 export class UserHero {
 
@@ -26,7 +25,7 @@ export class UserHero {
   readonly SlidersHorizontal = SlidersHorizontal;
   readonly MapPin = MapPin;
   readonly Bell = Bell;
-  
+
   locations = [
     { id: 'colombo', name: 'Colombo', count: 245 },
     { id: 'kandy', name: 'Kandy', count: 89 },

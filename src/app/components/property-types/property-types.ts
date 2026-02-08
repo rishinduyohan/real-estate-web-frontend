@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
   selector: 'app-property-types',
   imports: [CommonModule],
   templateUrl: './property-types.html',
-  styleUrl: './property-types.css',
 })
 export class PropertyTypes {
   activeFilter = 'all';

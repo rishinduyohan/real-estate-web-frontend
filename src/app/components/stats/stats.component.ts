@@ -7,7 +7,6 @@ import { LucideAngularModule, Building2, Users, TrendingUp, Star, Building2Icon 
     standalone: true,
     imports: [CommonModule, LucideAngularModule],
     templateUrl: './stats.component.html',
-    styleUrl: './stats.component.css'
 })
 export class StatsComponent {
     readonly Building2 = Building2;

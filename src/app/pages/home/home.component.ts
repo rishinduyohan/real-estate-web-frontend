@@ -18,7 +18,6 @@ import { PropertyTypes } from '../../components/property-types/property-types';
   standalone: true,
   imports: [NavbarComponent, HeroComponent, StatsComponent, FeaturedPropertiesComponent, WhyChooseUsComponent, ReviewsComponent, CtaComponent, CommonModule,FooterComponent, UserHero, PropertyTypes],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit, OnDestroy {
   isAuthenticated = false;

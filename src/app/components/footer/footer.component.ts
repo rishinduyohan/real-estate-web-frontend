@@ -7,7 +7,6 @@ import { LucideAngularModule, Building2, Mail, Phone, MapPin, Facebook, Twitter,
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './footer.component.html',
-  styleUrl: './footer.component.css'
 })
 export class FooterComponent {
   readonly Building2 = Building2;

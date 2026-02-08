@@ -7,7 +7,6 @@ import { LucideAngularModule, User, Star } from 'lucide-angular';
     standalone: true,
     imports: [CommonModule, LucideAngularModule],
     templateUrl: './reviews.component.html',
-    styleUrl: './reviews.component.css'
 })
 export class ReviewsComponent {
     readonly User = User;

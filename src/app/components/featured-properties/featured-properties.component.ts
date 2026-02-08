@@ -8,7 +8,6 @@ import { LucideAngularModule, ArrowRight } from 'lucide-angular';
     standalone: true,
     imports: [CommonModule, PropertyCard, LucideAngularModule],
     templateUrl: './featured-properties.component.html',
-    styleUrl: './featured-properties.component.css'
 })
 export class FeaturedPropertiesComponent {
     readonly ArrowRight = ArrowRight;
