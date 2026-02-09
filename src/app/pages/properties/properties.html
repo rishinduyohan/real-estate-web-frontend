@@ -33,6 +33,12 @@
         </div>
     </div>
 
+    <div class="flex items-center gap-1 mb-7 text-muted-foreground">
+        <span>Found</span>
+        <span class="font-bold text-primary">{{ calculateProperties() }}</span>
+        <span>Properties</span>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
        <app-property-card *ngFor="let prop of properties" [id]=  'prop.id.toString()' [image]="prop.image"
             [title]="prop.title" [price]="prop.price" [area]="prop.location"  [description]="prop.details.description"
@@ -40,12 +46,18 @@
             ></app-property-card>
     </div>
 
-    <!-- 
-
-    Empty State
     <div *ngIf="filteredProperties.length === 0" class="text-center py-20">
         <p class="text-muted-foreground text-lg">No properties found matching your criteria.</p>
-    </div> -->
+    </div>
+
+    <div class="text-center mt-10">
+            <button
+                class="inline-flex items-center gap-2 px-8 py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-xl font-medium transition-all duration-300 group">
+                View All Properties
+                <lucide-angular [img]="ArrowRight"
+                    class="w-4 h-4 group-hover:translate-x-1 transition-transform"></lucide-angular>
+            </button>
+        </div>
 </div>
 <div>
     <app-footer></app-footer>

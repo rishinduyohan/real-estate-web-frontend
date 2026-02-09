@@ -1,12 +1,13 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, model, OnInit } from '@angular/core';
 import { PropertyService } from '../../service/property-service.service';
 import { Property } from '../../model/property.model';
-import { LucideAngularModule,Search, SlidersHorizontal } from 'lucide-angular';
+import { LucideAngularModule,Search, SlidersHorizontal,ArrowRight} from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { PropertyCard } from '../../components/property-card/property-card';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-properties',
@@ -22,12 +23,15 @@ export class Properties implements OnInit{
 
   readonly Search = Search;
   readonly SlidersHorizontal = SlidersHorizontal;
+  readonly ArrowRight = ArrowRight;
 
   constructor(private propertyService : PropertyService){
   }
 
   ngOnInit(){
-    this.propertyService.getProperties().subscribe(
+    this.propertyService.getProperties().pipe(
+      map(res=> res.slice(0,9))
+    ).subscribe(
       response =>{
         console.log(response);
         this.properties = response
@@ -37,7 +41,10 @@ export class Properties implements OnInit{
 
   filteredProperties(){
     console.log('filter');
-    
+  }
+
+  calculateProperties():string{
+    return this.properties.length.toString();
   }
 
   
