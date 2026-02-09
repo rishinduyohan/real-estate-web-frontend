@@ -45,7 +45,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   publicNavItems = [
     { id: 'home', label: 'Home', link: '/' },
-    { id: 'properties', label: 'Properties', link: '/search' },
+    { id: 'properties', label: 'Properties', link: '/properties' },
     { id: 'agents', label: 'Our Agents', link: '/agents' },
     { id: 'about', label: 'About Us', link: '/about' },
     { id: 'contact', label: 'Contact', link: '/contact' },

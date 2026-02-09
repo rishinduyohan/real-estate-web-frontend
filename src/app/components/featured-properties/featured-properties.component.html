@@ -7,12 +7,11 @@
             </p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            <app-property-card *ngFor="let property of featuredProperties" [id]="property.id" [image]="property.image"
-                [title]="property.title" [price]="property.price" [location]="property.location"
-                [bedrooms]="property.bedrooms" [bathrooms]="property.bathrooms" [area]="property.area"
-                [type]="property.type" [status]="property.status || 'For Sale'" (cardClick)="onPropertyClick($event)"
-                class="block h-full">
-            </app-property-card>
+            <app-property-card *ngFor="let prop of featuredProperties" [id]=  'prop.id.toString()' [image]="prop.image"
+            [title]="prop.title" [price]="prop.price" [area]="prop.location"  [description]="prop.details.description"
+             [status]='prop.status' [type]="prop.type" [size]="prop.size" [bedrooms]="prop.details.bedrooms" [bathrooms]="prop.details.bathrooms"
+            ></app-property-card>
+
         </div>
 
         <div class="text-center">

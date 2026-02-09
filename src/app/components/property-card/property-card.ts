@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, MapPin, Bed, Bath, Maximize } from 'lucide-angular';
+import { LucideAngularModule, MapPin, Bed, Bath, Maximize, Check, List, Info } from 'lucide-angular';
+import { Property } from '../../model/property.model';
 
 @Component({
   selector: 'app-property-card',
@@ -9,16 +10,19 @@ import { LucideAngularModule, MapPin, Bed, Bath, Maximize } from 'lucide-angular
   templateUrl: './property-card.html',
 })
 export class PropertyCard {
+
   @Input() id!: string;
   @Input() image!: string;
   @Input() title!: string;
-  @Input() price!: string;
-  @Input() location!: string;
-  @Input() bedrooms: number = 0;
-  @Input() bathrooms: number = 0;
+  @Input() size!: string;
+  @Input() description!: string;
+  @Input() price!: number;
   @Input() area!: string;
-  @Input() type: 'House' | 'Apartment' | 'Land' | 'Commercial' = 'House';
-  @Input() status: 'For Sale' | 'For Rent' = 'For Sale';
+  @Input() type!:string;
+  @Input() status!:string;
+  @Input() bedrooms!:number;
+  @Input() bathrooms!:number;
+
 
   @Output() cardClick = new EventEmitter<string>();
 
@@ -30,18 +34,4 @@ export class PropertyCard {
   onCardClick() {
     this.cardClick.emit(this.id);
   }
-}
-
-export interface PropertyCardProps {
-  id: string;
-  image: string;
-  title: string;
-  price: string;
-  location: string;
-  bedrooms: number;
-  bathrooms: number;
-  area: string;
-  type: 'House' | 'Apartment' | 'Land' | 'Commercial';
-  status?: 'For Sale' | 'For Rent';
-  onClick?: () => void;
 }

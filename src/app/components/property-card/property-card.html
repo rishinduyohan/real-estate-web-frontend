@@ -16,11 +16,13 @@
     <div class="p-4">
         <h3 class="mb-2 line-clamp-1 text-lg font-medium">{{ title }}</h3>
         <div class="flex items-center gap-1 text-muted-foreground mb-3">
-            <lucide-angular [img]="MapPin" class="w-4 h-4"></lucide-angular>
-            <span class="text-sm">{{ location }}</span>
+            <span class="text-sm">{{ description }}</span>
         </div>
-
-        <div class="flex items-center gap-4 mb-3 text-sm text-muted-foreground">
+        <div class="flex items-center gap-1 text-muted-foreground mb-3">
+            <lucide-angular [img]="MapPin" class="w-4 h-4"></lucide-angular>
+            <span class="text-sm">{{ area }}</span>
+        </div>
+         <div class="flex items-center gap-4 mb-3 text-sm text-muted-foreground">
             <div *ngIf="bedrooms > 0" class="flex items-center gap-1">
                 <lucide-angular [img]="Bed" class="w-4 h-4"></lucide-angular>
                 <span>{{ bedrooms }}</span>
@@ -31,7 +33,7 @@
             </div>
             <div *ngIf="area" class="flex items-center gap-1">
                 <lucide-angular [img]="Maximize" class="w-4 h-4"></lucide-angular>
-                <span>{{ area }}</span>
+                <span>{{ size }}</span>
             </div>
         </div>
 
