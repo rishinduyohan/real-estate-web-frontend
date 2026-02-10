@@ -82,7 +82,7 @@
     </div>
     <div *ngIf="mobileMenuOpen" class="lg:hidden border-t border-border bg-white">
         <div class="px-4 py-4 space-y-2">
-            <button *ngFor="let item of publicNavItems" [routerLink]="[item.link]" (click)="mobileMenuOpen = false"
+            <button *ngFor="let item of publicNavItems" [routerLink]="[item.link]" (click)="mobileMenuOpen = false" [routerLinkActiveOptions]="{exact: true}"
                 routerLinkActive="bg-secondary text-primary"
                 class="w-full text-left px-4 py-3 rounded-lg transition-all text-foreground hover:bg-secondary/50 font-medium">
                 {{ item.label }}

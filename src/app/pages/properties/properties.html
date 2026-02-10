@@ -40,7 +40,7 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-       <app-property-card *ngFor="let prop of properties" [id]=  'prop.id.toString()' [image]="prop.image"
+       <app-property-card *ngFor="let prop of filteredProperties" [id]=  'prop.id.toString()' [image]="prop.image"
             [title]="prop.title" [price]="prop.price" [area]="prop.location"  [description]="prop.details.description"
              [status]='prop.status' [type]="prop.type" [size]="prop.size" [bedrooms]="prop.details.bedrooms" [bathrooms]="prop.details.bathrooms"
             ></app-property-card>
@@ -50,10 +50,10 @@
         <p class="text-muted-foreground text-lg">No properties found matching your criteria.</p>
     </div>
 
-    <div class="text-center mt-10">
-            <button
+    <div *ngIf="properties.length === 9" class="text-center mt-10">
+            <button (click)="seeMoreClick()"
                 class="inline-flex items-center gap-2 px-8 py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-xl font-medium transition-all duration-300 group">
-                View All Properties
+                See More
                 <lucide-angular [img]="ArrowRight"
                     class="w-4 h-4 group-hover:translate-x-1 transition-transform"></lucide-angular>
             </button>

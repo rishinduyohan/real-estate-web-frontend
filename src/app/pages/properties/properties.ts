@@ -1,7 +1,7 @@
 import { Component, inject, model, OnInit } from '@angular/core';
 import { PropertyService } from '../../service/property-service.service';
 import { Property } from '../../model/property.model';
-import { LucideAngularModule,Search, SlidersHorizontal,ArrowRight} from 'lucide-angular';
+import { LucideAngularModule, Search, SlidersHorizontal, ArrowRight } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
@@ -11,41 +11,51 @@ import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-properties',
-  imports: [CommonModule, FormsModule, LucideAngularModule,NavbarComponent,FooterComponent, PropertyCard],
+  imports: [CommonModule, FormsModule, LucideAngularModule, PropertyCard,NavbarComponent,FooterComponent],
   templateUrl: './properties.html',
   styleUrl: './properties.css',
 })
-export class Properties implements OnInit{
+export class Properties implements OnInit {
 
-  properties : Property[] = [];
+  properties: Property[] = [];
   searchQuery = ''
-  activeFilter = ''
+  activeFilter = 'all'
 
   readonly Search = Search;
   readonly SlidersHorizontal = SlidersHorizontal;
   readonly ArrowRight = ArrowRight;
 
-  constructor(private propertyService : PropertyService){
+  constructor(private propertyService: PropertyService) {
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.propertyService.getProperties().pipe(
-      map(res=> res.slice(0,9))
+      map(res => res.slice(0, 9))
     ).subscribe(
-      response =>{
+      response => {
         console.log(response);
         this.properties = response
       }
     );
   }
 
-  filteredProperties(){
-    console.log('filter');
+  get filteredProperties() {
+    return this.properties.filter(prop =>{
+      const searching = prop.title.toLowerCase().includes(this.searchQuery.toLowerCase()) || prop.location.toLowerCase().includes(this.searchQuery.toLowerCase());
+      const types = this.activeFilter === 'all' || this.activeFilter === prop.type.toLowerCase();
+      return searching && types; 
+    })
   }
 
-  calculateProperties():string{
-    return this.properties.length.toString();
+  calculateProperties(): string {
+    return this.filteredProperties.length.toString();
   }
 
-  
+  seeMoreClick() {
+    this.propertyService.getProperties().subscribe(res => {
+      this.properties = res;
+    });
+  }
+
+
 }
