@@ -1,0 +1,26 @@
+<section class="py-16 bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">Our Journey</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                A decade of growth, innovation, and customer success
+            </p>
+        </div>
+
+        <div class="space-y-8 relative">
+            <div *ngFor="let milestone of milestones.reverse(); let last = last" class="flex gap-6 group">
+                <div class="flex flex-col items-center">
+                    <div
+                        class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold flex-shrink-0 shadow-lg z-10">
+                        {{ milestone.year }}
+                    </div>
+                    <div *ngIf="!last" class="w-0.5 h-full bg-gray-300 mt-0 -mb-8"></div>
+                </div>
+                <div class="flex-1 pb-12 pt-2">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ milestone.event }}</h3>
+                    <p class="text-gray-600">{{ milestone.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,37 @@
+<section class="py-16 bg-gray-50 overflow-hidden">
+    <div class="container mx-auto px-4 max-w-7xl relative">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">Our Values</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                These core values guide everything we do at LK Estate
+            </p>
+        </div>
+        <div
+            class="hidden md:flex justify-between absolute top-1/2 left-0 right-0 z-10 px-2 -translate-y-1/2 pointer-events-none">
+            <button (click)="scroll('left')"
+                class="p-3 rounded-full bg-white shadow-lg pointer-events-auto hover:bg-gray-50 transition">
+                <lucide-angular [img]="ChevronLeft" class="w-6 h-6 text-gray-700"></lucide-angular>
+            </button>
+            <button (click)="scroll('right')"
+                class="p-3 rounded-full bg-white shadow-lg pointer-events-auto hover:bg-gray-50 transition">
+                <lucide-angular [img]="ChevronRight" class="w-6 h-6 text-gray-700"></lucide-angular>
+            </button>
+        </div>
+        <div #scrollContainer
+            class="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-hide scroll-smooth px-4">
+            <div *ngFor="let value of values" class="min-w-[320px] sm:min-w-[320px] snap-center text-center">
+                <div
+                    class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 h-full hover:shadow-md transition-all duration-300 hover:-translate-y-1 flex flex-col items-center text-center">
+                    <div
+                        class="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mb-6 text-[#ff6b35] mx-auto">
+                        <lucide-angular [img]="value.icon" class="w-8 h-8"></lucide-angular>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">{{ value.title }}</h3>
+                    <p class="text-gray-600 leading-relaxed text-base">
+                        {{ value.description }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

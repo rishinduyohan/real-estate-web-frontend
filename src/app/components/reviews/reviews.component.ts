@@ -6,7 +6,7 @@ import { User, Star, ChevronLeft, ChevronRight, LucideAngularModule } from 'luci
     selector: 'app-reviews',
     standalone: true,
     imports: [CommonModule, LucideAngularModule],
-    styleUrl:'reviews.component.css',
+    styleUrl: 'reviews.component.css',
     templateUrl: './reviews.component.html',
 })
 export class ReviewsComponent {
@@ -35,15 +35,15 @@ export class ReviewsComponent {
 
     stars = [1, 2, 3, 4, 5];
 
-  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+    @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
-  scroll(direction: 'left' | 'right') {
-    const container = this.scrollContainer.nativeElement;
-    const scrollAmount = 400; 
-    container.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
-      behavior: 'smooth'
-    });
+    scroll(direction: 'left' | 'right') {
+        const container = this.scrollContainer.nativeElement;
+        const scrollAmount = 400;
+        container.scrollBy({
+            left: direction === 'left' ? -scrollAmount : scrollAmount,
+            behavior: 'smooth'
+        });
 
-}
+    }
 }
