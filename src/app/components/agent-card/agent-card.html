@@ -1,0 +1,68 @@
+<div *ngIf="agent"
+    class="bg-white rounded-none overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-row md:flex-col h-auto md:h-full items-center md:items-stretch">
+
+    <div class="w-24 h-24 md:w-full md:h-48 bg-gray-200 shrink-0">
+        <img [src]="agent.image" [alt]="agent.name" class="w-full h-full object-cover">
+    </div>
+
+    <div class="p-3 md:p-5 flex-1 flex flex-col justify-center md:block">
+        <div class="md:mb-4 text-left md:text-center">
+            <h3 class="text-base md:text-xl font-normal mb-0.5 md:mb-1 truncate">{{ agent.name }}</h3>
+            <div class="flex items-center md:justify-center gap-1.5 mb-1 md:mb-2 text-xs text-gray-500">
+                <lucide-angular [img]="MapPin" class="w-3.5 h-3.5 text-[#ff6b35]"></lucide-angular>
+                <span class="truncate max-w-[150px]">{{ agent.location }}</span>
+            </div>
+
+            <div class="flex items-center md:justify-center gap-1.5">
+                <div class="flex gap-0.5">
+                    <lucide-angular *ngFor="let _ of [1,2,3,4,5]" [img]="Star"
+                        class="w-3.5 h-3.5 fill-[#ffb400] text-[#ffb400]"></lucide-angular>
+                </div>
+                <span class="text-xs font-medium">{{ agent.details.rating }}
+                    <span class="hidden md:inline">({{ agent.details.reviews }} reviews)</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="hidden md:grid grid-cols-3 gap-2 py-4 border-t border-gray-100 mt-auto">
+            <div class="text-center">
+                <p class="text-[#ff6b35] font-bold text-lg">{{ agent.details.listings }}</p>
+                <p class="text-[10px] text-gray-400 font-medium uppercase">Listings</p>
+            </div>
+            <div class="text-center border-l border-gray-100">
+                <p class="text-[#ff6b35] font-bold text-lg">{{ agent.details.sold }}</p>
+                <p class="text-[10px] text-gray-400 font-medium uppercase">Sold</p>
+            </div>
+            <div class="text-center border-l border-gray-100">
+                <p class="text-[#ff6b35] font-bold text-lg">{{ agent.details.experience }}</p>
+                <p class="text-[10px] text-gray-400 font-medium uppercase">Exp</p>
+            </div>
+        </div>
+
+        <div class="hidden md:block space-y-4 border-t border-gray-100 pt-4">
+            <div class="space-y-2.5 px-2">
+                <a [href]="'tel:' + agent.phone"
+                    class="flex items-center gap-2 text-gray-600 hover:text-[#ff6b35] transition-colors cursor-pointer text-xs font-medium">
+                    <lucide-angular [img]="Phone" class="w-3.5 h-3.5 text-[#ff6b35]"></lucide-angular>
+                    <span class="truncate">{{ agent.phone }}</span>
+                </a>
+                <a [href]="'mailto:' + agent.email"
+                    class="flex items-center gap-2 text-gray-600 hover:text-[#ff6b35] transition-colors cursor-pointer text-xs font-medium">
+                    <lucide-angular [img]="Mail" class="w-3.5 h-3.5 text-[#ff6b35]"></lucide-angular>
+                    <span class="truncate">{{ agent.email }}</span>
+                </a>
+            </div>
+
+            <button
+                class="w-full bg-[#ff6b35] text-white py-2.5 rounded-xl font-bold text-sm hover:bg-[#ff8555] transition-all">
+                View Properties
+            </button>
+        </div>
+
+        <div class="md:hidden ml-auto pr-2">
+            <button class="bg-[#ff6b35] text-white p-2 rounded-lg">
+                <lucide-angular [img]="ArrowRight" class="w-4 h-4"></lucide-angular>
+            </button>
+        </div>
+    </div>
+</div>
