@@ -4,6 +4,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { Properties } from './pages/properties/properties';
 import { Agents } from './pages/agents/agents';
 import { About } from './pages/about/about';
+import { Contact } from './pages/contact/contact';
 
 export const routes: Routes = [
     {
@@ -25,5 +26,9 @@ export const routes: Routes = [
     {
         path: 'about',
         component:About
+    },
+    {
+        path:'contact',
+        component:Contact
     }
 ];
