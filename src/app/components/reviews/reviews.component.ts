@@ -1,16 +1,19 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, User, Star } from 'lucide-angular';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { User, Star, ChevronLeft, ChevronRight, LucideAngularModule } from 'lucide-angular';
 
 @Component({
     selector: 'app-reviews',
     standalone: true,
     imports: [CommonModule, LucideAngularModule],
+    styleUrl:'reviews.component.css',
     templateUrl: './reviews.component.html',
 })
 export class ReviewsComponent {
     readonly User = User;
     readonly Star = Star;
+    readonly ChevronLeft = ChevronLeft;
+    readonly ChevronRight = ChevronRight;
 
     reviews = [
         {
@@ -31,4 +34,16 @@ export class ReviewsComponent {
     ];
 
     stars = [1, 2, 3, 4, 5];
+
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+
+  scroll(direction: 'left' | 'right') {
+    const container = this.scrollContainer.nativeElement;
+    const scrollAmount = 400; 
+    container.scrollBy({
+      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth'
+    });
+
+}
 }

@@ -6,6 +6,7 @@ import { LucideAngularModule, Building2, Users, CheckCircle } from 'lucide-angul
     selector: 'app-why-choose-us',
     standalone: true,
     imports: [CommonModule, LucideAngularModule],
+    styleUrl: './why-choose-us.component.css',
     templateUrl: './why-choose-us.component.html',
 })
 export class WhyChooseUsComponent {
