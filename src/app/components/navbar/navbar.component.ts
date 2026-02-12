@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { LucideAngularModule, Building2, Menu, X, User, Heart, Plus } from 'lucide-angular';
+import { LucideAngularModule, Menu, X, User, Heart, Plus } from 'lucide-angular';
 import { AuthService, UserRole } from '../../service/auth.service';
 import { Subscription } from 'rxjs';
 
@@ -21,7 +21,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   private subs: Subscription = new Subscription();
 
-  readonly Building2 = Building2;
   readonly Menu = Menu;
   readonly X = X;
   readonly User = User;

@@ -4,7 +4,7 @@
   </div>
 
   <main class="flex-grow">
-    @if (isAuthenticated) {
+    @if (!isAuthenticated) {
       <app-hero></app-hero>
       <app-stats></app-stats>
       <app-featured-properties class="lg:mr-52 lg:ml-52"></app-featured-properties>
