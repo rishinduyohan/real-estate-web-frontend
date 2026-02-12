@@ -6,6 +6,7 @@ import { Agents } from './pages/agents/agents';
 import { About } from './pages/about/about';
 import { Contact } from './pages/contact/contact';
 import { Register } from './pages/register/register';
+import { PropertyDetail } from './pages/property-detail/property-detail';
 
 export const routes: Routes = [
     {
@@ -23,6 +24,10 @@ export const routes: Routes = [
     {
         path: 'properties',
         component: Properties
+    },
+    {
+        path: 'propertyDetail/:id',
+        component: PropertyDetail
     },
     {
         path: 'agents',

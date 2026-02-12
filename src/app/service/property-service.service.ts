@@ -21,7 +21,11 @@ export class PropertyService {
     details: {
       bedrooms: 5,
       bathrooms: 4,
-      description: 'A beautiful luxury villa located in the heart of Colombo 7.'
+      description: 'A beautiful luxury villa located in the heart of Colombo 7.',
+      images: [
+        'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800',
+        'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800'
+      ]
     }
   },
   {
@@ -37,7 +41,11 @@ export class PropertyService {
     details: {
       bedrooms: 3,
       bathrooms: 2,
-      description: 'Modern apartment with a stunning view of the city skyline.'
+      description: 'Modern apartment with a stunning view of the city skyline.',
+      images: [
+        'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800',
+        'https://images.unsplash.com/photo-1502672260266-1c1ef2d9568d?w=800'
+      ]
     }
   },
   {
@@ -53,7 +61,11 @@ export class PropertyService {
     details: {
       bedrooms: 4,
       bathrooms: 3,
-      description: 'Spacious family home in a quiet neighborhood.'
+      description: 'Spacious family home in a quiet neighborhood.',
+      images: [
+        'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=800',
+        'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800'
+      ]
     }
   },
   {
@@ -69,7 +81,11 @@ export class PropertyService {
     details: {
       bedrooms: 4,
       bathrooms: 3,
-      description: 'Tropical paradise villa with a private swimming pool.'
+      description: 'Tropical paradise villa with a private swimming pool.',
+      images: [
+        'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800',
+        'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800'
+      ]
     }
   },
   {
@@ -85,7 +101,10 @@ export class PropertyService {
     details: {
       bedrooms: 0,
       bathrooms: 0,
-      description: 'Prime residential land perfect for building your dream home.'
+      description: 'Prime residential land perfect for building your dream home.',
+      images: [
+        'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800'
+      ]
     }
   },
   {
@@ -101,7 +120,10 @@ export class PropertyService {
     details: {
       bedrooms: 2,
       bathrooms: 2,
-      description: 'Relaxing beachfront apartment with panoramic ocean views.'
+      description: 'Relaxing beachfront apartment with panoramic ocean views.',
+      images: [
+        'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800'
+      ]
     }
   },
   {
@@ -117,7 +139,10 @@ export class PropertyService {
     details: {
       bedrooms: 3,
       bathrooms: 2,
-      description: 'Eco-friendly bungalow surrounded by lush greenery.'
+      description: 'Eco-friendly bungalow surrounded by lush greenery.',
+      images: [
+        'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800'
+      ]
     }
   },
   {
@@ -133,7 +158,10 @@ export class PropertyService {
     details: {
       bedrooms: 4,
       bathrooms: 4,
-      description: 'Exclusive penthouse in the tallest skyscraper in Colombo.'
+      description: 'Exclusive penthouse in the tallest skyscraper in Colombo.',
+      images: [
+        'https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=800'
+      ]
     }
   },
   {
@@ -149,7 +177,10 @@ export class PropertyService {
     details: {
       bedrooms: 0,
       bathrooms: 0,
-      description: 'Highly productive coconut plantation land for sale.'
+      description: 'Highly productive coconut plantation land for sale.',
+      images: [
+        'https://images.unsplash.com/photo-1588411393572-3a04e0a9693b?w=800'
+      ]
     }
   },
   {
@@ -165,7 +196,10 @@ export class PropertyService {
     details: {
       bedrooms: 3,
       bathrooms: 2,
-      description: 'Modern family home located in a rapidly developing suburb.'
+      description: 'Modern family home located in a rapidly developing suburb.',
+      images: [
+        'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800'
+      ]
     }
   }
 ];
@@ -174,5 +208,9 @@ export class PropertyService {
 
   public getProperties():Observable<Property[]>{
     return of (this.propertyData);
+  }
+
+  getPropertyById(id: number): Observable<Property | any> {
+    return of(this.propertyData.find(p => p.id === id));
   }
 }

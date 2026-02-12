@@ -1,0 +1,35 @@
+<form (ngSubmit)="handleBookingSubmit()" class="space-y-4 bg-inherit">
+    <div>
+        <label class="block mb-1 text-sm font-medium">Your Name</label>
+        <input type="text" [(ngModel)]="bookingData.name" name="name"
+            class="w-full px-4 py-2 bg-white border border-border rounded-xl focus:ring-2 focus:ring-primary" required>
+    </div>
+    <div>
+        <label class="block mb-1 text-sm font-medium">Email</label>
+        <input type="email" [(ngModel)]="bookingData.email" name="email"
+            class="w-full px-4 py-2 bg-white border border-border rounded-xl focus:ring-2 focus:ring-primary" required>
+    </div>
+    <div>
+        <label class="block mb-1 text-sm font-medium">Phone</label>
+        <input type="tel" [(ngModel)]="bookingData.phone" name="phone"
+            class="w-full px-4 py-2 bg-white border border-border rounded-xl focus:ring-2 focus:ring-primary" required>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+        <div>
+            <label class="block mb-1 text-sm font-medium">Date</label>
+            <input type="date" [(ngModel)]="bookingData.date" name="date"
+                class="w-full px-4 py-2 bg-white border border-border rounded-xl focus:ring-2 focus:ring-primary"
+                required>
+        </div>
+        <div>
+            <label class="block mb-1 text-sm font-medium">Time</label>
+            <input type="time" [(ngModel)]="bookingData.time" name="time"
+                class="w-full px-4 py-2 bg-white border border-border rounded-xl focus:ring-2 focus:ring-primary"
+                required>
+        </div>
+    </div>
+    <div class="mt-20">
+        <button type="submit" class="w-full bg-primary text-white py-3 rounded-xl font-medium">Confirm
+            Booking</button>
+    </div>
+</form>

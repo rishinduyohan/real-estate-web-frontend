@@ -43,7 +43,7 @@
         <app-property-card *ngFor="let prop of filteredProperties" [id]='prop.id.toString()' [image]="prop.image"
             [title]="prop.title" [price]="prop.price" [area]="prop.location" [description]="prop.details.description"
             [status]='prop.status' [type]="prop.type" [size]="prop.size" [bedrooms]="prop.details.bedrooms"
-            [bathrooms]="prop.details.bathrooms"></app-property-card>
+            [bathrooms]="prop.details.bathrooms" (cardClick)="onPropertyClick(prop.id)"></app-property-card>
     </div>
 
     <div *ngIf="filteredProperties.length === 0" class="text-center py-20">

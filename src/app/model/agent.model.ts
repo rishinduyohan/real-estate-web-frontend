@@ -1,3 +1,5 @@
+import { Owner } from "./owner.model";
+
 export interface Agent {
     id: number;
     image: string;
@@ -6,6 +8,7 @@ export interface Agent {
     phone: string;
     email: string;
     details: agentDetails;
+    owner:Owner
 }
 
 interface agentDetails {

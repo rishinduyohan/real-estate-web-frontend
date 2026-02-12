@@ -15,4 +15,5 @@ export interface PropertyDetails{
     bedrooms:number;
     bathrooms:number;
     description:string;
+    images:string[];
 }

@@ -8,6 +8,7 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { PropertyCard } from '../../components/property-card/property-card';
 import { map, Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-properties',
@@ -25,7 +26,7 @@ export class Properties implements OnInit {
   readonly SlidersHorizontal = SlidersHorizontal;
   readonly ArrowRight = ArrowRight;
 
-  constructor(private propertyService: PropertyService) {
+  constructor(private propertyService: PropertyService,private router: Router) {
   }
 
   ngOnInit() {
@@ -55,6 +56,10 @@ export class Properties implements OnInit {
     this.propertyService.getProperties().subscribe(res => {
       this.properties = res;
     });
+  }
+  
+  onPropertyClick(id: number) {
+    this.router.navigate(['/propertyDetail', id]);
   }
 
 
