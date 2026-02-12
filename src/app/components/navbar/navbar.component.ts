@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  @Input() isTransparent = false;
+  @Input() isTransparent = true;
   isAuthenticated = false;
   userRole: UserRole = 'customer';
   mobileMenuOpen = false;
@@ -58,7 +58,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   customer = [
     { id: 'home', label: 'Home', link: '/home' },
-    { id: 'search', label: 'Browse Properties', link: '/search' },
+    { id: 'search', label: 'Browse Properties', link: '/properties' },
     { id: 'saved', label: 'Saved Properties', link: '/saved' },
     { id: 'my-inquiries', label: 'My Inquiries', link: '/my-inquiries' },
   ];
@@ -98,6 +98,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   onLogin() {
     this.router.navigate(['/login']);
+  }
+
+  onSignUp() {
+    this.router.navigate(['/register']);
   }
 
   onLogout() {
