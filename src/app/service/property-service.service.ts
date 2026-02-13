@@ -213,4 +213,8 @@ export class PropertyService {
   getPropertyById(id: number): Observable<Property | any> {
     return of(this.propertyData.find(p => p.id === id));
   }
+  deleteProperty(id: number): Observable<void> {
+    this.propertyData = this.propertyData.filter(p => p.id !== id);
+    return of(void 0);
+  }
 }

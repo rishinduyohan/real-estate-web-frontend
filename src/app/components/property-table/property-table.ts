@@ -16,13 +16,24 @@ export class PropertyTable implements OnInit{
 
   constructor(private propertyService:PropertyService){}
 
-  ngOnInit() {
-    this.propertyService.getProperties().pipe(
-      map(res=> res.slice(0,6))
-    ).
-    subscribe(props => {
-      this.allProperties = props;
-    });
-  }
+   ngOnInit(): void {
+        this.loadProperties();
+    }
+
+    loadProperties(): void {
+        this.propertyService.getProperties().pipe(
+          map(res=> res.slice(0,6))
+        ).subscribe(properties => {
+            this.allProperties = properties;
+        });
+    }
+
+  deleteProperty(id: number): void {
+        if (confirm('Are you sure you want to delete this property?')) {
+            this.propertyService.deleteProperty(id).subscribe(() => {
+                this.loadProperties();
+            });
+        }
+    }
 
 }

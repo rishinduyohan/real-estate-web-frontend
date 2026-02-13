@@ -8,6 +8,7 @@ import { Contact } from './pages/contact/contact';
 import { Register } from './pages/register/register';
 import { PropertyDetail } from './pages/property-detail/property-detail';
 import { DashboardComponent } from './pages/dashboard/dashboard';
+import { ManageProperties } from './pages/manage-properties/manage-properties';
 
 export const routes: Routes = [
     {
@@ -45,5 +46,9 @@ export const routes: Routes = [
     {
         path:'dashboard',
         component: DashboardComponent
+    },
+    {
+        path: 'manage-properties',
+        component: ManageProperties
     }
 ];
