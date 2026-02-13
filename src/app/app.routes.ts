@@ -7,6 +7,7 @@ import { About } from './pages/about/about';
 import { Contact } from './pages/contact/contact';
 import { Register } from './pages/register/register';
 import { PropertyDetail } from './pages/property-detail/property-detail';
+import { DashboardComponent } from './pages/dashboard/dashboard';
 
 export const routes: Routes = [
     {
@@ -40,5 +41,9 @@ export const routes: Routes = [
     {
         path:'contact',
         component:Contact
+    },
+    {
+        path:'dashboard',
+        component: DashboardComponent
     }
 ];

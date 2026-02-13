@@ -1,0 +1,23 @@
+<div class="space-y-4">
+    <div *ngFor="let inquiry of recentInquiries"
+        class="flex items-center justify-between p-4 bg-secondary rounded-none hover:bg-[#ffe8dd] transition-all cursor-pointer">
+        <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+                <p class="font-medium">{{ inquiry.customer }}</p>
+                <span [ngClass]="{
+                  'bg-primary text-primary-foreground': inquiry.status === 'New',
+                  'bg-blue-100 text-blue-700': inquiry.status === 'In Progress',
+                  'bg-green-100 text-green-700': inquiry.status === 'Responded'
+                }" class="text-xs px-2 py-1 rounded-full">
+                    {{ inquiry.status }}
+                </span>
+            </div>
+            <p class="text-sm text-muted-foreground line-clamp-1">{{ inquiry.property }}</p>
+            <p class="text-xs text-muted-foreground mt-1">{{ inquiry.time }}</p>
+        </div>
+        <button
+            class="ml-4 px-4 py-2 bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-all text-sm font-medium">
+            Respond
+        </button>
+    </div>
+</div>
