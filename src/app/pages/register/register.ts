@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import { CommonModule, getLocaleDateFormat } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { LucideAngularModule, User, Mail, Lock, Eye, EyeOff, Phone } from 'lucide-angular';
+import { LucideAngularModule, Mail, UserCheck, Lock, Eye, EyeOff, Phone } from 'lucide-angular';
 import { AuthService } from '../../service/auth.service';
+import { User } from '../../model/user.model';
 
 @Component({
   selector: 'app-register',
@@ -20,8 +21,11 @@ export class Register {
   showPassword = false;
   userType: 'buyer' | 'seller' = 'buyer';
   agreedToTerms = false;
+  @Input() role !: 'customer' | 'owner';
 
-  readonly User = User;
+  user !: User;
+
+  readonly User2 = UserCheck;
   readonly Mail = Mail;
   readonly Lock = Lock;
   readonly Eye = Eye;
@@ -49,15 +53,27 @@ export class Register {
       return;
     }
 
-    console.log('Registering user:', {
-      name: this.name,
-      email: this.email,
-      phone: this.phone,
-      role: this.userType
-    });
+    this.role = this.userType === 'buyer' ? 'customer' : 'owner';
 
-    const role = this.userType === 'buyer' ? 'customer' : 'owner';
-    this.authService.login(role, this.email);
+    this.setUserDetails();
+
+    console.log('Registered User:', this.user);
+
+    this.authService.login(this.user);
+
     this.router.navigate(['/']);
+  }
+
+  setUserDetails() {
+    this.user = {
+      id: Math.floor(Math.random() * 1000),
+      fullName: this.name,
+      email: this.email,
+      image: '',
+      password: this.password,
+      phone: this.phone,
+      role: this.role as 'customer' | 'owner',
+      createdDate: new Date()
+    };
   }
 }

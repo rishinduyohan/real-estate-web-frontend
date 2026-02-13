@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-
-export type UserRole = 'customer' | 'owner' | 'agent' | 'admin';
+import { User } from '../model/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
   
-  private userRoleSubject = new BehaviorSubject<UserRole>('customer');
+  private userRoleSubject = new BehaviorSubject<string>('customer');
   userRole$ = this.userRoleSubject.asObservable();
 
   private userNameSubject = new BehaviorSubject<string>('Rishindu Yohan');
@@ -18,13 +18,13 @@ export class AuthService {
 
   constructor() { }
 
-  login(role: UserRole, email: string = 'user@example.com') {
-    this.isAuthenticatedSubject.next(true);
-    this.userRoleSubject.next(role);
-    if (role === 'admin') {
-      this.userNameSubject.next('Admin User');
+  login(user:User) {
+  this.isAuthenticatedSubject.next(true);
+  this.userRoleSubject.next(user.role);
+    if (user.role === 'admin') {
+      this.userNameSubject.next(user.fullName);
     } else {
-      this.userNameSubject.next('Rishindu Yohan');
+      this.userNameSubject.next(user.fullName);
     }
   }
 
@@ -34,7 +34,7 @@ export class AuthService {
     this.userNameSubject.next('Guest');
   }
 
-  getCurrentRole(): UserRole {
+  getCurrentRole() {
     return this.userRoleSubject.value;
   }
 

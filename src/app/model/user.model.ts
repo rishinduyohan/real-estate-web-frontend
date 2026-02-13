@@ -1,11 +1,10 @@
-import { UserRole } from "../service/auth.service";
-
 export interface User{
     id:number;
+    image:string;
     fullName:string;
     email:string;
     password:string;
     phone:string;
-    role:UserRole;
+    role:'customer' | 'owner' | 'agent' | 'admin';
     createdDate:Date
 }

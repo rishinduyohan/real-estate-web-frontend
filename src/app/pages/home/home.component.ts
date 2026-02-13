@@ -6,7 +6,7 @@ import { FeaturedPropertiesComponent } from '../../components/featured-propertie
 import { WhyChooseUsComponent } from '../../components/why-choose-us/why-choose-us.component';
 import { ReviewsComponent } from '../../components/reviews/reviews.component';
 import { CtaComponent } from '../../components/cta/cta.component';
-import { AuthService, UserRole } from '../../service/auth.service';
+import { AuthService } from '../../service/auth.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../../components/footer/footer.component';

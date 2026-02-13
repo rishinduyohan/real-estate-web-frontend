@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { LucideAngularModule, Building2, Mail, Lock, Eye, EyeOff } from 'lucide-angular';
 import { AuthService } from '../../service/auth.service';
+import { UserService } from '../../service/user.service';
+import { User } from '../../model/user.model';
 
 @Component({
   selector: 'app-login',
@@ -23,26 +25,30 @@ export class LoginComponent {
   readonly Eye = Eye;
   readonly EyeOff = EyeOff;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router,private userService:UserService) { }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
   onSubmit() {
-    const role = this.email === 'admin@lkestate.lk' ? 'admin' : 'customer';
+  this.userService.validateUser(this.email, this.password).subscribe(user => {
+    if (user) {
+      this.authService.login(user); 
 
-    this.authService.login(role, this.email);
-
-    if (role === 'admin') {
-      this.router.navigate(['/dashboard']);
+      if (user.role === 'admin') {
+        this.router.navigate(['/dashboard']);
+      } else {
+        this.router.navigate(['/']);
+      }
     } else {
-      this.router.navigate(['/']); 
+      alert('Invalid email or password. Please try again.');
     }
-  }
+  });
+}
 
-  fillDemoAdmin() {
-    this.email = 'admin@lkestate.lk';
-    this.password = 'admin123';
-  }
+fillDemoAdmin() {
+  this.email = 'admin@lkestate.lk';
+  this.password = '1234';
+}
 }
