@@ -9,6 +9,7 @@ import { Register } from './pages/register/register';
 import { PropertyDetail } from './pages/property-detail/property-detail';
 import { DashboardComponent } from './pages/dashboard/dashboard';
 import { ManageProperties } from './pages/manage-properties/manage-properties';
+import { EditProperty } from './components/edit-property/edit-property';
 
 export const routes: Routes = [
     {
@@ -50,5 +51,9 @@ export const routes: Routes = [
     {
         path: 'manage-properties',
         component: ManageProperties
+    },
+    {
+        path:'edit-property',
+        component:EditProperty
     }
 ];

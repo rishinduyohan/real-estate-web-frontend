@@ -217,4 +217,11 @@ export class PropertyService {
     this.propertyData = this.propertyData.filter(p => p.id !== id);
     return of(void 0);
   }
+  updateProperty(property: Property): Observable<void> {
+    const index = this.propertyData.findIndex(p => p.id === property.id);
+    if (index !== -1) {
+      this.propertyData[index] = property;
+    }
+    return of(void 0);
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Property } from '../../model/property.model';
 import { CommonModule } from '@angular/common';
 import { PropertyService } from '../../service/property-service.service';
@@ -11,29 +11,15 @@ import { map } from 'rxjs';
   templateUrl: './property-table.html',
   styleUrl: './property-table.css',
 })
-export class PropertyTable implements OnInit{
-  allProperties: Property[] = [];
+export class PropertyTable {
 
-  constructor(private propertyService:PropertyService){}
-
-   ngOnInit(): void {
-        this.loadProperties();
-    }
-
-    loadProperties(): void {
-        this.propertyService.getProperties().pipe(
-          map(res=> res.slice(0,6))
-        ).subscribe(properties => {
-            this.allProperties = properties;
-        });
-    }
+  @Input() property!: Property;
+  @Input() allProperties: Property[] = []; 
+  @Output() deleted = new EventEmitter<number>(); 
 
   deleteProperty(id: number): void {
-        if (confirm('Are you sure you want to delete this property?')) {
-            this.propertyService.deleteProperty(id).subscribe(() => {
-                this.loadProperties();
-            });
-        }
+    if (confirm('Are you sure?')) {
+      this.deleted.emit(id);
     }
-
+  }
 }

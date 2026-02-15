@@ -15,41 +15,39 @@ import { PropertyTable } from '../../components/property-table/property-table';
     styleUrls: [] 
 })
 export class ManageProperties implements OnInit {
-    properties: Property[] = [];
-    filteredProperties: Property[] = [];
-    searchQuery: string = '';
+  properties: Property[] = [];
+  filteredProperties: Property[] = [];
+  searchQuery: string = '';
 
-    constructor(private propertyService: PropertyService) { }
+  constructor(private propertyService: PropertyService) { }
 
-    ngOnInit(): void {
-        this.loadProperties();
+  ngOnInit(): void {
+    this.loadAll();
+  }
+
+  loadAll(): void {
+    this.propertyService.getProperties().subscribe(res => {
+      this.properties = res;
+      this.applyFilter(); 
+    });
+  }
+
+  applyFilter(): void {
+    if (!this.searchQuery) {
+      this.filteredProperties = this.properties;
+    } else {
+      const query = this.searchQuery.toLowerCase();
+      this.filteredProperties = this.properties.filter(p =>
+        p.title.toLowerCase().includes(query) ||
+        p.location.toLowerCase().includes(query) ||
+        p.type.toLowerCase().includes(query)
+      );
     }
+  }
 
-    loadProperties(): void {
-        this.propertyService.getProperties().subscribe(properties => {
-            this.properties = properties;
-            this.filterProperties();
-        });
-    }
-
-    filterProperties(): void {
-        if (!this.searchQuery) {
-            this.filteredProperties = this.properties;
-        } else {
-            const query = this.searchQuery.toLowerCase();
-            this.filteredProperties = this.properties.filter(property =>
-                property.title.toLowerCase().includes(query) ||
-                property.location.toLowerCase().includes(query) ||
-                property.type.toLowerCase().includes(query)
-            );
-        }
-    }
-
-    deleteProperty(id: number): void {
-        if (confirm('Are you sure you want to delete this property?')) {
-            this.propertyService.deleteProperty(id).subscribe(() => {
-                this.loadProperties(); // Reload list after deletion
-            });
-        }
-    }
+  onDelete(id: number): void {
+    this.propertyService.deleteProperty(id).subscribe(() => {
+      this.loadAll();
+    });
+  }
 }

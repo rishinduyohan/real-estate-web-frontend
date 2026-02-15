@@ -65,8 +65,10 @@
             <div class="p-6 border-b border-border">
                 <h3 class="font-semibold text-lg">Recent Properties</h3>
             </div>
-
-           <app-property-table></app-property-table>
+           <app-property-table
+           [allProperties]="recentProperties"
+           (deleted)="onDelete($event)"
+           ></app-property-table>
         </div>
     </div>
 </div>

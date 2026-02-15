@@ -1,0 +1,118 @@
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+    <div class="max-w-2xl w-full space-y-8">
+        <div class="flex items-center justify-between">
+            <button (click)="cancel()" class="flex items-center text-gray-500 hover:text-gray-900 transition-colors">
+                <lucide-angular [img]="ArrowLeft" class="w-5 h-5 mr-2"></lucide-angular>
+                Back to properties
+            </button>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Edit Property
+            </h2>
+            <div class="w-20"></div>
+        </div>
+
+        <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10" *ngIf="property">
+            <form class="space-y-6" (ngSubmit)="onSubmit()">
+
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700">Property Title</label>
+                    <div class="mt-1">
+                        <input type="text" name="title" id="title" required [(ngModel)]="property.title"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                    <div class="mt-1">
+                        <input type="text" name="location" id="location" required [(ngModel)]="property.location"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                    </div>
+                </div>
+                <div>
+                    <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-gray-500 sm:text-sm">Rs.</span>
+                        </div>
+                        <input type="text" name="price" id="price" required [(ngModel)]="property.price"
+                            class="focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                            placeholder="0.00">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+                    <div>
+                        <label for="type" class="block text-sm font-medium text-gray-700">Type</label>
+                        <div class="mt-1">
+                            <select id="type" name="type" [(ngModel)]="property.type"
+                                class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                                <option>House</option>
+                                <option>Apartment</option>
+                                <option>Land</option>
+                                <option>Commercial</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                        <div class="mt-1">
+                            <select id="status" name="status" [(ngModel)]="property.status"
+                                class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                                <option>For Sale</option>
+                                <option>For Rent</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-3">
+                    <div>
+                        <label for="bedrooms" class="block text-sm font-medium text-gray-700">Bedrooms</label>
+                        <div class="mt-1">
+                            <input type="number" name="bedrooms" id="bedrooms" required [(ngModel)]="property.details.bedrooms"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="bathrooms" class="block text-sm font-medium text-gray-700">Bathrooms</label>
+                        <div class="mt-1">
+                            <input type="number" name="bathrooms" id="bathrooms" required
+                                [(ngModel)]="property.details.bathrooms"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="area" class="block text-sm font-medium text-gray-700">Area</label>
+                        <div class="mt-1">
+                            <input type="text" name="area" id="area" required [(ngModel)]="property.size"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="image" class="block text-sm font-medium text-gray-700">Image URL</label>
+                    <div class="mt-1">
+                        <input type="text" name="image" id="image" required [(ngModel)]="property.image"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                    </div>
+                </div>
+
+
+                <div class="flex items-center justify-end space-x-3 pt-4">
+                    <button type="button" (click)="cancel()"
+                        class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                        Save Changes
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

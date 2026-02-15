@@ -19,6 +19,7 @@ import { PropertyTable } from '../../components/property-table/property-table';
 export class DashboardComponent implements OnInit {
   userRole$: any;
   topProperties: Property[] = [];
+  recentProperties: Property[] = [];
 
   readonly Building2 = Building2;
   readonly MessageSquare = MessageSquare;
@@ -73,6 +74,19 @@ export class DashboardComponent implements OnInit {
     this.userRole$ = this.authService.userRole$;
     this.propertyService.getProperties().subscribe(props => {
       this.topProperties = props.slice(0, 5);
+      this.loadAll();
+    });
+  }
+
+  loadAll(): void {
+    this.propertyService.getProperties().subscribe(res => {
+      this.recentProperties = res.slice(0,6);
+    });
+  }
+
+  onDelete(id: number): void {
+    this.propertyService.deleteProperty(id).subscribe(() => {
+      this.loadAll();
     });
   }
 
