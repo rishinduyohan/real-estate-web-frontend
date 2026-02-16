@@ -79,7 +79,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   customer = [
     { id: 'home', label: 'Home', link: '/' },
     { id: 'search', label: 'Browse Properties', link: '/properties' },
-    { id: 'saved', label: 'Saved Properties', link: '/saved' },
+    { id: 'agents', label: 'Agents', link: '/agents' },
     { id: 'my-inquiries', label: 'My Inquiries', link: '/my-inquiries' },
   ];
   owner = [

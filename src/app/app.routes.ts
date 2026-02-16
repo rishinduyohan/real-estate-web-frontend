@@ -14,6 +14,7 @@ import { InquiriesPage } from './pages/inquiries/inquiries';
 import { MyProperties } from './pages/my-properties/my-properties';
 import { UserManagementPage } from './pages/users/users';
 import { RelationshipManagementComponent } from './components/relationship-management/relationship-management.component';
+import { AgentRegistrationComponent } from './components/agent-registration/agent-registration.component';
 
 export const routes: Routes = [
     {
@@ -79,5 +80,9 @@ export const routes: Routes = [
     {
         path: 'contact-owner',
         component: RelationshipManagementComponent
+    },
+    {
+        path: 'register-agent',
+        component: AgentRegistrationComponent
     }
 ];

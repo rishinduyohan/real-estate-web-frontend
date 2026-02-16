@@ -220,4 +220,69 @@ export class AgentService {
     this.agents = this.agents.filter(a => a.id !== id);
     return of(void 0);
   }
+
+  // Request Management
+  private requests: AgentRequest[] = [];
+
+  createRequest(request: AgentRequest): Observable<void> {
+    request.id = this.requests.length + 1;
+    this.requests.push(request);
+    return of(void 0);
+  }
+
+  getRequestsByOwner(ownerId: number): Observable<AgentRequest[]> {
+    return of(this.requests.filter(r => r.ownerId === ownerId && r.status === 'pending'));
+  }
+
+  approveRequest(requestId: number): Observable<void> {
+    const request = this.requests.find(r => r.id === requestId);
+    if (request) {
+      request.status = 'approved';
+      // In a real app, we would fetch the full User and Owner details to create the Agent.
+      // Here we will mock the creation of the agent based on the request.
+
+      // We need to find the Owner details to assign to the Agent. 
+      // We can try to find an existing agent with this owner to copy details, 
+      // or just create a mock owner object since we don't have a centralized Owner Service yet.
+      // Let's try to find an existing agent for this owner to get the Owner object.
+      const existingAgent = this.agents.find(a => a.owner.id === request.ownerId);
+
+      let ownerDetails: any = { id: request.ownerId, name: 'Owner ' + request.ownerId }; // Fallback
+      if (existingAgent) {
+        ownerDetails = existingAgent.owner;
+      }
+
+      const newAgent: Agent = {
+        id: this.agents.length + 100, // Simple ID generation
+        name: request.userName,
+        email: request.userEmail,
+        location: 'Colombo', // Default
+        phone: 'N/A', // Details not in request
+        image: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=400', // Default placeholder
+        details: { listings: 0, sold: 0, experience: 0, rating: 0, reviews: 0 },
+        owner: ownerDetails
+      };
+
+      this.agents.push(newAgent);
+    }
+    return of(void 0);
+  }
+
+  rejectRequest(requestId: number): Observable<void> {
+    const request = this.requests.find(r => r.id === requestId);
+    if (request) {
+      request.status = 'rejected';
+    }
+    return of(void 0);
+  }
+}
+
+export interface AgentRequest {
+  id: number;
+  userId: number;
+  userName: string;
+  userEmail: string;
+  ownerId: number;
+  status: 'pending' | 'approved' | 'rejected';
+  date: Date;
 }

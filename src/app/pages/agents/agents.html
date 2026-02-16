@@ -25,24 +25,27 @@
 
 </div>
 <section class="py-20 bg-gradient-to-br from-[#FF7F50] to-[#FF6347]">
-            <div class="container mx-auto px-4 max-w-7xl text-center">
-                <h2 class="text-3xl md:text-4xl font-semibold text-white mb-6">
-                    Want to Become an Agent? </h2>
-                <p class="text-white/90 text-lg mb-10 max-w-2xl mx-auto">
-                    Join our team of professional real estate agents and grow your career with LK Estate.
-                </p>
+    <div class="container mx-auto px-4 max-w-7xl text-center">
+        <h2 class="text-3xl md:text-4xl font-semibold text-white mb-6">
+            Want to Become an Agent? </h2>
+        <p class="text-white/90 text-lg mb-10 max-w-2xl mx-auto">
+            Join our team of professional real estate agents and grow your career with LK Estate.
+        </p>
 
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <button
-                        class="w-full sm:w-auto px-8 py-3 bg-white text-[#FF6347] font-semibold rounded-xl hover:bg-gray-50 transition-colors shadow-lg">
-                        Apply Now
-                    </button>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button (click)="navigateToRegister()" *ngIf="isCustomer"
+                class="w-full sm:w-auto px-8 py-3 bg-white text-[#FF6347] font-semibold rounded-xl hover:bg-gray-50 transition-colors shadow-lg">
+                Apply Now
+            </button>
+            <button *ngIf="!isCustomer" disabled
+                class="w-full sm:w-auto px-8 py-3 bg-white/50 text-white font-semibold rounded-xl cursor-not-allowed">
+                Login as Customer to Apply
+            </button>
+        </div>
+    </div>
+</section>
 
-                </div>
-            </div>
-        </section>
-    
 <div>
-    
+
     <app-footer></app-footer>
 </div>
