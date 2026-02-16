@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -15,6 +15,9 @@ import { Property } from '../../model/property.model';
 })
 export class EditProperty implements OnInit {
     @Input() property!: Property;
+    @Input() isModal: boolean = false;
+    @Output() saved = new EventEmitter();
+    @Output() closed = new EventEmitter();
 
     readonly Save = Save;
     readonly X = X;
@@ -26,7 +29,7 @@ export class EditProperty implements OnInit {
         private propertyService: PropertyService
     ) { }
 
-    ngOnInit(): void {
+    ngOnInit() {
         this.route.paramMap.subscribe(params => {
             const id = params.get('id');
             if (id) {
@@ -41,16 +44,16 @@ export class EditProperty implements OnInit {
         });
     }
 
-    onSubmit(): void {
+    onSubmit() {
         if (this.property) {
             this.propertyService.updateProperty(this.property).subscribe(() => {
                 alert('Property updated successfully!');
-                this.router.navigate(['/manage-properties']);
+                this.saved.emit();
             });
         }
     }
 
     cancel(): void {
-        this.router.navigate(['/manage-properties']);
+        this.closed.emit();
     }
 }

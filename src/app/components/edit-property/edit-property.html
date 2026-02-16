@@ -1,17 +1,35 @@
-<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-    <div class="max-w-2xl w-full space-y-8">
-        <div class="flex items-center justify-between">
-            <button (click)="cancel()" class="flex items-center text-gray-500 hover:text-gray-900 transition-colors">
+<div
+    [ngClass]="{'min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center': !isModal, 'fixed inset-0 z-50 overflow-y-auto': isModal}">
+
+    <div *ngIf="isModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
+        (click)="cancel()"></div>
+
+    <div
+        [ngClass]="{'max-w-2xl w-full space-y-8 relative z-10 transform transition-all sm:my-8 sm:align-middle': isModal, 'max-w-2xl w-full space-y-8': !isModal}">
+
+        <div class="flex items-center justify-between"
+            [ngClass]="{'bg-white px-4 py-4 sm:px-6 sm:rounded-t-lg': isModal}">
+            <button *ngIf="!isModal" (click)="cancel()"
+                class="flex items-center text-gray-500 hover:text-gray-900 transition-colors">
                 <lucide-angular [img]="ArrowLeft" class="w-5 h-5 mr-2"></lucide-angular>
                 Back to properties
             </button>
-            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+
+            <h2 class="text-center text-3xl font-extrabold text-gray-900"
+                [ngClass]="{'text-xl mt-0': isModal, 'mt-6': !isModal}">
                 Edit Property
             </h2>
-            <div class="w-20"></div>
+
+            <button *ngIf="isModal" (click)="cancel()" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+                <span class="sr-only">Close</span>
+                <lucide-angular [img]="X" class="w-6 h-6"></lucide-angular>
+            </button>
+
+            <div class="w-20" *ngIf="!isModal"></div>
         </div>
 
-        <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10" *ngIf="property">
+        <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10" [ngClass]="{'sm:rounded-t-none': isModal}"
+            *ngIf="property">
             <form class="space-y-6" (ngSubmit)="onSubmit()">
 
                 <div>
@@ -71,7 +89,8 @@
                     <div>
                         <label for="bedrooms" class="block text-sm font-medium text-gray-700">Bedrooms</label>
                         <div class="mt-1">
-                            <input type="number" name="bedrooms" id="bedrooms" required [(ngModel)]="property.details.bedrooms"
+                            <input type="number" name="bedrooms" id="bedrooms" required
+                                [(ngModel)]="property.details.bedrooms"
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
                         </div>
                     </div>
@@ -107,7 +126,7 @@
                         Cancel
                     </button>
                     <button type="submit"
-                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                         Save Changes
                     </button>
                 </div>

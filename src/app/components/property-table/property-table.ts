@@ -1,21 +1,38 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+// property-table.component.ts
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Property } from '../../model/property.model';
 import { CommonModule } from '@angular/common';
-import { PropertyService } from '../../service/property-service.service';
 import { RouterModule } from '@angular/router';
-import { map } from 'rxjs';
+import { EditProperty } from '../edit-property/edit-property';
 
 @Component({
   selector: 'app-property-table',
-  imports: [CommonModule,RouterModule],
+  standalone: true,
+  imports: [CommonModule, RouterModule, EditProperty], 
   templateUrl: './property-table.html',
-  styleUrl: './property-table.css',
 })
 export class PropertyTable {
-
-  @Input() property!: Property;
   @Input() allProperties: Property[] = []; 
   @Output() deleted = new EventEmitter<number>(); 
+  @Output() refreshRequest = new EventEmitter<void>();
+
+  isEditModalOpen = false; 
+  selectedProperty: Property | null = null;
+
+  onEdit(property: Property) {
+    console.log('Button clicked! Opening modal for:', property.title);
+    this.selectedProperty = { ...property }; 
+    this.isEditModalOpen = true; 
+  }
+
+  handleSaved() {
+    this.isEditModalOpen = false;
+    this.refreshRequest.emit();
+  }
+
+  handleClosed() {
+    this.isEditModalOpen = false;
+  }
 
   deleteProperty(id: number): void {
     if (confirm('Are you sure?')) {
