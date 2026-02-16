@@ -11,6 +11,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard';
 import { ManageProperties } from './pages/manage-properties/manage-properties';
 import { EditProperty } from './components/edit-property/edit-property';
 import { InquiriesPage } from './pages/inquiries/inquiries';
+import { UserManagementPage } from './pages/users/users';
 
 export const routes: Routes = [
     {
@@ -60,5 +61,9 @@ export const routes: Routes = [
     {
         path: 'inquiries',
         component: InquiriesPage
+    },
+    {
+        path: 'users',
+        component: UserManagementPage
     }
 ];
