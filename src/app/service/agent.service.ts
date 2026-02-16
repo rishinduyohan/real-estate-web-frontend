@@ -234,6 +234,10 @@ export class AgentService {
     return of(this.requests.filter(r => r.ownerId === ownerId && r.status === 'pending'));
   }
 
+  getRequestsByUser(userId: number): Observable<AgentRequest[]> {
+    return of(this.requests.filter(r => r.userId === userId));
+  }
+
   approveRequest(requestId: number): Observable<void> {
     const request = this.requests.find(r => r.id === requestId);
     if (request) {
@@ -273,6 +277,11 @@ export class AgentService {
     if (request) {
       request.status = 'rejected';
     }
+    return of(void 0);
+  }
+
+  cancelRequest(requestId: number): Observable<void> {
+    this.requests = this.requests.filter(r => r.id !== requestId);
     return of(void 0);
   }
 }

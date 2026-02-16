@@ -5,7 +5,10 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { InquiryService } from '../../service/inquiry.service';
 import { Inquiry } from '../../model/inquiry.model';
 import { AuthService } from '../../service/auth.service';
-import { LucideAngularModule, Search, MessageCircle, MoreVertical, X, Send } from 'lucide-angular';
+import { AgentService } from '../../service/agent.service';
+import { UserService } from '../../service/user.service';
+import { LucideAngularModule, Search, MessageCircle, MoreVertical, X, Send, Trash2 } from 'lucide-angular';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-inquiries',
@@ -27,10 +30,13 @@ export class InquiriesPage implements OnInit {
     readonly MoreVertical = MoreVertical;
     readonly X = X;
     readonly Send = Send;
+    readonly Trash2 = Trash2;
 
     constructor(
         private inquiryService: InquiryService,
-        private authService: AuthService
+        private authService: AuthService,
+        private agentService: AgentService,
+        private userService: UserService
     ) { }
 
     ngOnInit() {
@@ -41,13 +47,62 @@ export class InquiriesPage implements OnInit {
         const userId = this.authService.getCurrentUserId();
         const role = this.authService.getCurrentRole();
 
-        this.inquiryService.getInquiriesForUser(userId, role).subscribe({
-            next: (data) => {
-                this.inquiries = data;
-                this.applyFilter();
-            },
-            error: (err) => console.error('Failed to load inquiries', err)
-        });
+        let email = '';
+        if (role === 'customer') {
+            const user = this.userService.getUsers().find(u => u.id === userId);
+            email = user ? user.email : '';
+        }
+
+        const inquiries$ = this.inquiryService.getInquiriesForUser(userId, role, email);
+
+        if (role === 'customer') {
+            const requests$ = this.agentService.getRequestsByUser(userId);
+
+            forkJoin([inquiries$, requests$]).subscribe({
+                next: ([inquiries, requests]) => {
+                    const requestInquiries: any[] = requests.map(req => ({
+                        id: req.id + 10000, // Offset ID to avoid collision
+                        name: req.userName,
+                        email: req.userEmail,
+                        phone: 'N/A',
+                        message: `Agent Application for Owner ID: ${req.ownerId}`,
+                        propertyTitle: 'Agent Application',
+                        status: req.status === 'pending' ? 'In Progress' : 'Responded',
+                        date: req.date,
+                        reply: req.status === 'approved' ? 'Congratulations! Your application has been approved.' : (req.status === 'rejected' ? 'Your application was not successful.' : '')
+                    }));
+
+                    this.inquiries = [...inquiries, ...requestInquiries].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+                    this.applyFilter();
+                },
+                error: (err) => console.error('Failed to load data', err)
+            });
+        } else {
+            inquiries$.subscribe({
+                next: (data) => {
+                    this.inquiries = data;
+                    this.applyFilter();
+                },
+                error: (err) => console.error('Failed to load inquiries', err)
+            });
+        }
+    }
+
+    deleteInquiry(inquiry: Inquiry) {
+        if (!confirm('Are you sure you want to remove this inquiry?')) return;
+
+        if (inquiry.id >= 10000) {
+            // It's an agent request
+            const requestId = inquiry.id - 10000;
+            this.agentService.cancelRequest(requestId).subscribe(() => {
+                this.loadInquiries();
+            });
+        } else {
+            // Standard inquiry
+            this.inquiryService.deleteInquiry(inquiry.id).subscribe(() => {
+                this.loadInquiries();
+            });
+        }
     }
 
     applyFilter() {
@@ -65,7 +120,6 @@ export class InquiriesPage implements OnInit {
 
     openReplyModal(inquiry: Inquiry) {
         this.selectedInquiry = inquiry;
-        // If already replied, populate the message (optional, usually you want new reply)
         this.replyMessage = inquiry.reply || '';
         this.isReplyModalOpen = true;
     }
@@ -82,7 +136,7 @@ export class InquiriesPage implements OnInit {
         this.inquiryService.replyToInquiry(this.selectedInquiry.id, this.replyMessage).subscribe(() => {
             alert('Reply sent successfully!');
             this.closeReplyModal();
-            this.loadInquiries(); // Refresh list to see updated status
+            this.loadInquiries();
         });
     }
 

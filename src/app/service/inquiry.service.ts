@@ -58,9 +58,11 @@ export class InquiryService {
         }
     ];
 
-    getInquiriesForUser(userId: number, role: string): Observable<Inquiry[]> {
+    getInquiriesForUser(userId: number, role: string, email?: string): Observable<Inquiry[]> {
         if (role === 'admin') {
             return this.getInquiries();
+        } else if (role === 'customer' && email) {
+            return of(this.inquiries.filter(i => i.email === email));
         } else {
             return this.propertyService.getProperties().pipe(
                 map(properties => {
