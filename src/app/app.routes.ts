@@ -10,6 +10,7 @@ import { PropertyDetail } from './pages/property-detail/property-detail';
 import { DashboardComponent } from './pages/dashboard/dashboard';
 import { ManageProperties } from './pages/manage-properties/manage-properties';
 import { EditProperty } from './components/edit-property/edit-property';
+import { InquiriesPage } from './pages/inquiries/inquiries';
 
 export const routes: Routes = [
     {
@@ -38,14 +39,14 @@ export const routes: Routes = [
     },
     {
         path: 'about',
-        component:About
+        component: About
     },
     {
-        path:'contact',
-        component:Contact
+        path: 'contact',
+        component: Contact
     },
     {
-        path:'dashboard',
+        path: 'dashboard',
         component: DashboardComponent
     },
     {
@@ -53,7 +54,11 @@ export const routes: Routes = [
         component: ManageProperties
     },
     {
-        path:'edit-property',
-        component:EditProperty
+        path: 'edit-property',
+        component: EditProperty
+    },
+    {
+        path: 'inquiries',
+        component: InquiriesPage
     }
 ];
