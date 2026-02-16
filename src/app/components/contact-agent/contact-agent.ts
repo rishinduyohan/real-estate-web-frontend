@@ -45,14 +45,12 @@ export class ContactAgent implements OnInit {
     });
   }
 
-  searchAgents(ownerId: number): Owner | any {
-    if (this.agentService.getAgentByOwnerId(ownerId)) {
-      this.agentService.getAgentByOwnerId(ownerId).subscribe(agent => {
-        if (agent) {
-          this.agent = agent;
-        }
-      })
-    }
+  searchAgents(ownerId: number) {
+    this.agentService.getAgentsByOwnerId(ownerId).subscribe(agents => {
+      if (agents && agents.length > 0) {
+        this.agent = agents[0]; 
+      }
+    });
   }
 
   openInquiry() {

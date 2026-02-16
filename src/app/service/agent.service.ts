@@ -195,8 +195,12 @@ export class AgentService {
     return of(this.agents);
   }
 
-  getAgentByOwnerId(id: number): Observable<Agent | any> {
-    return of(this.agents.find(p => p.owner.id === id))
+  getAgentsByOwnerId(id: number): Observable<Agent[]> {
+    return of(this.agents.filter(p => p.owner.id === id));
+  }
+
+  getAgentByEmail(email: string): Observable<Agent | undefined> {
+    return of(this.agents.find(a => a.email === email));
   }
 
   addAgent(agent: Agent): Observable<void> {

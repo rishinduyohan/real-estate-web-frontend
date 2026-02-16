@@ -90,7 +90,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ];
   agent = [
     { id: 'search', label: 'Browse Properties', link: '/properties' },
-    { id: 'my-properties', label: 'My Properties', link: '/my-properties' },
     { id: 'inquiries', label: 'Inquiries', link: '/inquiries' },
     { id: 'owners', label: 'Owners', link: '/contact-owner' },
   ];

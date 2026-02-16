@@ -13,6 +13,7 @@ import { EditProperty } from './components/edit-property/edit-property';
 import { InquiriesPage } from './pages/inquiries/inquiries';
 import { MyProperties } from './pages/my-properties/my-properties';
 import { UserManagementPage } from './pages/users/users';
+import { RelationshipManagementComponent } from './components/relationship-management/relationship-management.component';
 
 export const routes: Routes = [
     {
@@ -70,5 +71,13 @@ export const routes: Routes = [
     {
         path: 'users',
         component: UserManagementPage
+    },
+    {
+        path: 'contact-agents',
+        component: RelationshipManagementComponent
+    },
+    {
+        path: 'contact-owner',
+        component: RelationshipManagementComponent
     }
 ];
