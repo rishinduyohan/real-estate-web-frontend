@@ -1,7 +1,7 @@
 import { Component, inject, model, OnInit } from '@angular/core';
 import { PropertyService } from '../../service/property-service.service';
 import { Property } from '../../model/property.model';
-import { LucideAngularModule, Search, SlidersHorizontal, ArrowRight } from 'lucide-angular';
+import { LucideAngularModule, Search, SlidersHorizontal, ArrowRight, X } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-properties',
-  imports: [CommonModule, FormsModule, LucideAngularModule, PropertyCard,NavbarComponent,FooterComponent],
+  imports: [CommonModule, FormsModule, LucideAngularModule, PropertyCard, NavbarComponent, FooterComponent],
   templateUrl: './properties.html',
   styleUrl: './properties.css',
 })
@@ -22,11 +22,20 @@ export class Properties implements OnInit {
   searchQuery = ''
   activeFilter = 'all'
 
+  showFilters = false;
+  filters = {
+    minPrice: 0,
+    maxPrice: 1000000000,
+    bedrooms: 0,
+    bathrooms: 0
+  };
+
   readonly Search = Search;
   readonly SlidersHorizontal = SlidersHorizontal;
   readonly ArrowRight = ArrowRight;
+  readonly X = X;
 
-  constructor(private propertyService: PropertyService,private router: Router) {
+  constructor(private propertyService: PropertyService, private router: Router) {
   }
 
   ngOnInit() {
@@ -41,11 +50,32 @@ export class Properties implements OnInit {
   }
 
   get filteredProperties() {
-    return this.properties.filter(prop =>{
+    return this.properties.filter(prop => {
       const searching = prop.title.toLowerCase().includes(this.searchQuery.toLowerCase()) || prop.location.toLowerCase().includes(this.searchQuery.toLowerCase());
       const types = this.activeFilter === 'all' || this.activeFilter === prop.type.toLowerCase();
-      return searching && types; 
+      const price = prop.price >= this.filters.minPrice && prop.price <= this.filters.maxPrice;
+      const bedrooms = prop.details.bedrooms >= this.filters.bedrooms;
+      const bathrooms = prop.details.bathrooms >= this.filters.bathrooms;
+
+      return searching && types && price && bedrooms && bathrooms;
     })
+  }
+
+  toggleFilters() {
+    this.showFilters = !this.showFilters;
+  }
+
+  applyFilters() {
+    this.showFilters = false;
+  }
+
+  resetFilters() {
+    this.filters = {
+      minPrice: 0,
+      maxPrice: 1000000000,
+      bedrooms: 0,
+      bathrooms: 0
+    };
   }
 
   calculateProperties(): string {
@@ -57,7 +87,7 @@ export class Properties implements OnInit {
       this.properties = res;
     });
   }
-  
+
   onPropertyClick(id: number) {
     this.router.navigate(['/propertyDetail', id]);
   }

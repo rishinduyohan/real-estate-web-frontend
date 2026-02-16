@@ -1,9 +1,8 @@
-<div  *ngIf="agent" class="bg-card rounded-2xl p-6 shadow-sm sticky top-24">
+<div *ngIf="agent" class="bg-card rounded-2xl p-6 shadow-sm sticky top-24">
     <h3 class="mb-4 text-lg font-semibold">Contact Agent</h3>
 
     <div class="flex items-center gap-3 mb-6">
-        <img [src]="agent.image" alt="Agent"
-            class="w-16 h-16 rounded-full object-cover" />
+        <img [src]="agent.image" alt="Agent" class="w-16 h-16 rounded-full object-cover" />
         <div>
             <p class="font-medium">{{agent.name}}</p>
             <p class="text-sm text-muted-foreground">{{agent.location}}</p>

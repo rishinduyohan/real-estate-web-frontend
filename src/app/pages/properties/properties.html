@@ -13,11 +13,70 @@
                 <input type="text" [(ngModel)]="searchQuery" placeholder="Search by location, title..."
                     class="w-full pl-12 pr-4 py-3 bg-card border border-border rounded-full focus:outline-none focus:ring-2 focus:ring-primary shadow-sm">
             </div>
-            <button
+            <button (click)="toggleFilters()"
                 class="flex items-center gap-2 px-6 py-3 bg-secondary text-foreground rounded-full font-medium hover:bg-secondary/80 transition-colors">
                 <lucide-angular [img]="SlidersHorizontal" class="w-5 h-5"></lucide-angular>
                 Filters
             </button>
+        </div>
+
+        <div *ngIf="showFilters"
+            class="mb-6 bg-card border border-border rounded-2xl p-6 transition-all duration-300 ease-in-out">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold">Filter Properties</h2>
+                <button (click)="toggleFilters()" class="text-muted-foreground hover:text-foreground">
+                    <lucide-angular [img]="X" class="w-5 h-5"></lucide-angular>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-sm font-medium mb-3">Price Range</label>
+                    <div class="flex gap-4">
+                        <div class="flex-1">
+                            <input type="number" [(ngModel)]="filters.minPrice" placeholder="Min"
+                                class="w-full p-3 bg-secondary rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                        <div class="flex-1">
+                            <input type="number" [(ngModel)]="filters.maxPrice" placeholder="Max"
+                                class="w-full p-3 bg-secondary rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-3">Bedrooms: {{filters.bedrooms}}+</label>
+                    <input type="range" [(ngModel)]="filters.bedrooms" min="0" max="10" step="1"
+                        class="w-full accent-primary h-2 bg-secondary rounded-lg appearance-none cursor-pointer">
+                    <div class="flex justify-between text-xs text-muted-foreground mt-2">
+                        <span>0</span>
+                        <span>5</span>
+                        <span>10+</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-3">Bathrooms: {{filters.bathrooms}}+</label>
+                    <input type="range" [(ngModel)]="filters.bathrooms" min="0" max="10" step="1"
+                        class="w-full accent-primary h-2 bg-secondary rounded-lg appearance-none cursor-pointer">
+                    <div class="flex justify-between text-xs text-muted-foreground mt-2">
+                        <span>0</span>
+                        <span>5</span>
+                        <span>10+</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3 mt-6 pt-6 border-t border-border">
+                <button (click)="resetFilters()"
+                    class="px-6 py-2.5 rounded-xl border border-border hover:bg-secondary font-medium transition-colors text-sm">
+                    Reset
+                </button>
+                <button (click)="applyFilters()"
+                    class="px-6 py-2.5 rounded-xl bg-primary text-white font-medium hover:bg-primary/90 transition-colors text-sm">
+                    Apply Filters
+                </button>
+            </div>
         </div>
 
         <div class=" gap-2 overflow-x-auto pb-2 hide-scrollbar space-x-2 space-y-3">

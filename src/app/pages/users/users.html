@@ -4,8 +4,6 @@
 
 <div class="min-h-screen bg-gray-50 py-8">
     <div class="container mx-auto px-4 max-w-7xl">
-
-        <!-- Header & Tabs -->
         <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
             <div>
                 <h1 class="text-3xl font-bold text-gray-900">User Management</h1>
@@ -26,7 +24,6 @@
             </div>
         </div>
 
-        <!-- Best User Card -->
         <div class="mb-8" *ngIf="bestUser">
             <div
                 class="bg-gradient-to-r from-primary to-primary-600 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
@@ -72,9 +69,7 @@
             </div>
         </div>
 
-        <!-- Main Content (List) -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            <!-- Toolbar -->
             <div class="p-4 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div class="relative w-full sm:w-96">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -92,7 +87,6 @@
                 </button>
             </div>
 
-            <!-- Table -->
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -155,7 +149,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div
-                                    class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    class="flex items-center justify-end gap-2 opacity-100 group-hover:opacity-100 transition-opacity">
                                     <button (click)="contactUser(user)"
                                         class="p-2 text-gray-400 hover:text-primary hover:bg-primary-50 rounded-lg transition-colors"
                                         title="Contact">
@@ -178,7 +172,6 @@
                 </table>
             </div>
 
-            <!-- Empty State -->
             <div *ngIf="filteredUsers.length === 0" class="p-12 text-center">
                 <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <lucide-angular [img]="Search" class="w-8 h-8 text-gray-400"></lucide-angular>
@@ -190,7 +183,6 @@
     </div>
 </div>
 
-<!-- Add/Edit Modal -->
 <div *ngIf="isModalOpen" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog"
     aria-modal="true">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" (click)="closeModal()"></div>

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { LucideAngularModule, Phone, Mail,Calendar,X } from 'lucide-angular';
+import { LucideAngularModule, Phone, Mail, Calendar, X } from 'lucide-angular';
 import { Inquiry } from '../inquiry/inquiry';
 import { BookingContact } from "../booking-contact/booking-contact";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,31 +24,31 @@ export class ContactAgent implements OnInit {
   readonly Calender = Calendar;
   readonly X = X;
 
-   agent!:Agent;
+  agent!: Agent;
 
 
   constructor(
     private route: ActivatedRoute,
-    private router:Router,
-    private propertyService:PropertyService,
-    private agentService:AgentService
-  ){}
+    private router: Router,
+    private propertyService: PropertyService,
+    private agentService: AgentService
+  ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
-        this.propertyService.getPropertyById(+id).subscribe(prop=>{
-            this.searchAgents(prop.ownerId);
+        this.propertyService.getPropertyById(+id).subscribe(prop => {
+          this.searchAgents(prop.ownerId);
         })
       }
     });
   }
 
-  searchAgents(ownerId:number):Owner | any {
-    if(this.agentService.getAgentByOwnerId(ownerId)){
-      this.agentService.getAgentByOwnerId(ownerId).subscribe(agent =>{
-        if(agent){
+  searchAgents(ownerId: number): Owner | any {
+    if (this.agentService.getAgentByOwnerId(ownerId)) {
+      this.agentService.getAgentByOwnerId(ownerId).subscribe(agent => {
+        if (agent) {
           this.agent = agent;
         }
       })
@@ -64,7 +64,7 @@ export class ContactAgent implements OnInit {
     this.showBookingForm = true;
     this.showInquiryForm = false;
   }
-    closeModals() {
+  closeModals() {
     this.showInquiryForm = false;
     this.showBookingForm = false;
   }

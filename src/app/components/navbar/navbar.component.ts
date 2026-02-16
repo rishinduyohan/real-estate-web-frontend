@@ -83,15 +83,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
     { id: 'my-inquiries', label: 'My Inquiries', link: '/my-inquiries' },
   ];
   owner = [
-    { id: 'dashboard', label: 'Dashboard', link: '/dashboard' },
+    { id: 'search', label: 'Browse Properties', link: '/properties' },
     { id: 'my-properties', label: 'My Properties', link: '/my-properties' },
     { id: 'inquiries', label: 'Inquiries', link: '/inquiries' },
+    { id: 'agents', label: 'Agents', link: '/contact-agents' },
   ];
   agent = [
-    { id: 'dashboard', label: 'Dashboard', link: '/dashboard' },
-    { id: 'properties', label: 'My Properties', link: '/properties' },
-    { id: 'add-property', label: 'Add Property', link: '/add-property' },
+    { id: 'search', label: 'Browse Properties', link: '/properties' },
+    { id: 'my-properties', label: 'My Properties', link: '/my-properties' },
     { id: 'inquiries', label: 'Inquiries', link: '/inquiries' },
+    { id: 'owners', label: 'Owners', link: '/contact-owner' },
   ];
 
   getNavItems() {

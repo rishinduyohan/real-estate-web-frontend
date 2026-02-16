@@ -63,11 +63,11 @@ export class UserService {
         return this.users;
     }
 
-    validateUser(email: string, password: string): Observable<User|undefined> {
+    validateUser(email: string, password: string): Observable<User | undefined> {
         const foundUser = this.users.find(user =>
             user.email === email && user.password === password
-        ); 
-        return of (foundUser);
+        );
+        return of(foundUser);
     }
 
 }

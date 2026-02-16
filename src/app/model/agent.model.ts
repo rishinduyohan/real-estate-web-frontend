@@ -8,7 +8,7 @@ export interface Agent {
     phone: string;
     email: string;
     details: agentDetails;
-    owner:Owner
+    owner: Owner
 }
 
 interface agentDetails {
