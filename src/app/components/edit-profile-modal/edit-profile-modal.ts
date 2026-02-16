@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LucideAngularModule, X } from 'lucide-angular';
+import { LucideAngularModule, X, Camera } from 'lucide-angular';
 import { User } from '../../model/user.model';
 import { UserService } from '../../service/user.service';
 
@@ -18,6 +18,7 @@ export class EditProfileModalComponent implements OnChanges {
     @Output() userUpdated = new EventEmitter<void>();
 
     readonly X = X;
+    readonly Camera = Camera;
 
     editData: any = {};
     isLoading = false;
@@ -41,6 +42,17 @@ export class EditProfileModalComponent implements OnChanges {
         }
     }
 
+    onFileSelected(event: any) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e: any) => {
+                this.editData.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
     closeModal() {
         this.close.emit();
     }
@@ -55,6 +67,7 @@ export class EditProfileModalComponent implements OnChanges {
         updatedUser.fullName = this.editData.fullName;
         updatedUser.email = this.editData.email;
         updatedUser.phone = this.editData.phone;
+        updatedUser.image = this.editData.image; // Update image
         // We can't save location to the User model yet as it doesn't exist, 
         // but we can simulate it or pass it back if needed.
         // For now, we just update the standard fields.

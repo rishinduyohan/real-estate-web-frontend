@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { LucideAngularModule, User, Settings, Shield, Bell, HelpCircle, LogOut } from 'lucide-angular';
 import { AuthService } from '../../service/auth.service';
-import { EditProfileModalComponent } from '../edit-profile-modal/edit-profile-modal';
 import { UserService } from '../../service/user.service';
 import { User as UserModel } from '../../model/user.model';
+import { EditProfileModalComponent } from '../edit-profile-modal/edit-profile-modal';
 
 @Component({
     selector: 'app-user-profile',
