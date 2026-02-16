@@ -1,0 +1,52 @@
+<div *ngIf="isOpen" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
+        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+            <h3 class="text-lg font-semibold text-gray-900">Edit Profile</h3>
+            <button (click)="closeModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                <lucide-angular [img]="X" class="w-5 h-5"></lucide-angular>
+            </button>
+        </div>
+
+        <div class="p-6 space-y-4">
+            <!-- Name -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Full Name</label>
+                <input type="text" [(ngModel)]="editData.fullName"
+                    class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm">
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
+                <input type="email" [(ngModel)]="editData.email"
+                    class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm">
+            </div>
+
+            <!-- Phone -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Phone Number</label>
+                <input type="tel" [(ngModel)]="editData.phone"
+                    class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm">
+            </div>
+
+            <!-- Location -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Location</label>
+                <input type="text" [(ngModel)]="editData.location"
+                    class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm">
+            </div>
+        </div>
+
+        <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3 bg-gray-50/50">
+            <button (click)="closeModal()"
+                class="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+                Cancel
+            </button>
+            <button (click)="saveSettings()" [disabled]="isLoading"
+                class="px-4 py-2 rounded-lg text-sm font-medium bg-primary text-white hover:bg-primary/90 transition-colors disabled:opacity-70 flex items-center gap-2">
+                <span *ngIf="isLoading">Saving...</span>
+                <span *ngIf="!isLoading">Save Changes</span>
+            </button>
+        </div>
+    </div>
+</div>

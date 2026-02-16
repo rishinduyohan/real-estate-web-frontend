@@ -16,8 +16,13 @@ import { UserManagementPage } from './pages/users/users';
 import { RelationshipManagementComponent } from './components/relationship-management/relationship-management.component';
 import { AgentRegistrationComponent } from './components/agent-registration/agent-registration.component';
 import { SavedProperties } from './pages/saved-properties/saved-properties';
+import { MyProfileComponent } from './pages/my-profile/my-profile';
 
 export const routes: Routes = [
+    {
+        path: 'profile',
+        component: MyProfileComponent
+    },
     {
         path: '',
         component: HomeComponent

@@ -70,4 +70,13 @@ export class UserService {
         return of(foundUser);
     }
 
+    updateUser(user: User): Observable<User> {
+        const index = this.users.findIndex(u => u.id === user.id);
+        if (index !== -1) {
+            this.users[index] = user;
+            return of(user);
+        }
+        return of(user); // or throw error
+    }
+
 }

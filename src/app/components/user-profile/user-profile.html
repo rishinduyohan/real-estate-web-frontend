@@ -1,0 +1,70 @@
+<div class="relative">
+    <button (click)="toggleMenu()"
+        class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-secondary transition-all focus:outline-none">
+        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+            <lucide-angular [img]="User" class="w-4 h-4 text-white"></lucide-angular>
+        </div>
+        <span class="hidden md:inline text-sm font-medium">Account</span>
+    </button>
+
+    <!-- Dropdown Menu -->
+    <div *ngIf="isOpen"
+        class="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-border overflow-hidden py-2 z-50">
+
+        <!-- User Info (Optional Header) -->
+        <div class="px-4 py-3 border-b border-border bg-gray-50/50">
+            <p class="text-sm font-medium text-foreground">My Account</p>
+            <p class="text-xs text-muted-foreground capitalize">{{ userRole }}</p>
+        </div>
+
+        <!-- Menu Items -->
+        <div class="py-1">
+            <button (click)="navigateTo('/profile')"
+                class="w-full text-left px-4 py-2.5 hover:bg-secondary transition-all text-sm flex items-center gap-3 text-gray-700">
+                <lucide-angular [img]="User" class="w-4 h-4 text-gray-400"></lucide-angular>
+                My Profile
+            </button>
+
+            <button (click)="openSettings()"
+                class="w-full text-left px-4 py-2.5 hover:bg-secondary transition-all text-sm flex items-center gap-3 text-gray-700">
+                <lucide-angular [img]="Settings" class="w-4 h-4 text-gray-400"></lucide-angular>
+                Account Settings
+            </button>
+
+            <button (click)="openNotifications()"
+                class="w-full text-left px-4 py-2.5 hover:bg-secondary transition-all text-sm flex items-center gap-3 text-gray-700">
+                <lucide-angular [img]="Bell" class="w-4 h-4 text-gray-400"></lucide-angular>
+                Notifications
+            </button>
+
+            <button (click)="openPrivacy()"
+                class="w-full text-left px-4 py-2.5 hover:bg-secondary transition-all text-sm flex items-center gap-3 text-gray-700">
+                <lucide-angular [img]="Shield" class="w-4 h-4 text-gray-400"></lucide-angular>
+                Privacy Policy
+            </button>
+
+            <button (click)="openHelp()"
+                class="w-full text-left px-4 py-2.5 hover:bg-secondary transition-all text-sm flex items-center gap-3 text-gray-700">
+                <lucide-angular [img]="HelpCircle" class="w-4 h-4 text-gray-400"></lucide-angular>
+                Help & Support
+            </button>
+        </div>
+
+        <!-- Logout -->
+        <div class="border-t border-border mt-1 pt-1">
+            <button (click)="onLogout()"
+                class="w-full text-left px-4 py-2.5 hover:bg-red-50 transition-all text-red-600 text-sm flex items-center gap-3">
+                <lucide-angular [img]="LogOut" class="w-4 h-4"></lucide-angular>
+                Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- Backdrop to close menu when clicking outside -->
+    <div *ngIf="isOpen" (click)="closeMenu()" class="fixed inset-0 z-40 cursor-default"></div>
+
+    <!-- Edit Profile Modal -->
+    <app-edit-profile-modal [isOpen]="isEditModalOpen" [user]="currentUser" (close)="closeEditModal()"
+        (userUpdated)="onUserUpdated()">
+    </app-edit-profile-modal>
+</div>

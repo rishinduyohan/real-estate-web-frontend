@@ -30,28 +30,7 @@
                     </button>
 
                     <div class="relative">
-                        <button (click)="toggleUserMenu()"
-                            class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-secondary transition-all">
-                            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                                <lucide-angular [img]="User" class="w-4 h-4 text-white"></lucide-angular>
-                            </div>
-                            <span class="text-sm font-medium">Account</span>
-                        </button>
-
-                        <div *ngIf="userMenuOpen"
-                            class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-border overflow-hidden py-1">
-                            <button class="w-full text-left px-4 py-3 hover:bg-secondary transition-all text-sm">
-                                My Profile
-                            </button>
-                            <button
-                                class="w-full text-left px-4 py-3 hover:bg-secondary transition-all border-t border-border text-sm">
-                                Settings
-                            </button>
-                            <button (click)="onLogout()"
-                                class="w-full text-left px-4 py-3 hover:bg-secondary transition-all border-t border-border text-destructive text-sm">
-                                Logout
-                            </button>
-                        </div>
+                        <app-user-profile [userRole]="userRole" (logout)="onLogout()"></app-user-profile>
                     </div>
                 </ng-container>
 

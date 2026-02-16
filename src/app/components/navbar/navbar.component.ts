@@ -5,10 +5,12 @@ import { LucideAngularModule, Menu, X, User, Heart, Plus } from 'lucide-angular'
 import { AuthService } from '../../service/auth.service';
 import { Subscription } from 'rxjs';
 
+import { UserProfileComponent } from '../user-profile/user-profile';
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, LucideAngularModule],
+  imports: [CommonModule, RouterModule, LucideAngularModule, UserProfileComponent],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit, OnDestroy {
@@ -16,7 +18,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isAuthenticated = false;
   userRole: string = '';
   mobileMenuOpen = false;
-  userMenuOpen = false;
   currentScreen = 'home';
 
   private subs: Subscription = new Subscription();
@@ -111,10 +112,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.mobileMenuOpen = !this.mobileMenuOpen;
   }
 
-  toggleUserMenu() {
-    this.userMenuOpen = !this.userMenuOpen;
-  }
-
   onLogin() {
     this.router.navigate(['/login']);
   }
@@ -125,7 +122,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   onLogout() {
     this.authService.logout();
-    this.userMenuOpen = false;
     this.router.navigate(['/']);
   }
 }
