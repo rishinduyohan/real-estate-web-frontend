@@ -14,17 +14,17 @@
             </button>
 
             <div class="hidden lg:flex items-center gap-1">
-                    <button *ngFor="let item of navItems" [routerLink]="[item.link]"
-                        routerLinkActive="bg-secondary text-primary" [routerLinkActiveOptions]="{exact: true}"
-                        class="px-4 py-2 rounded-lg transition-all text-foreground hover:bg-secondary/50 font-medium">
-                        {{ item.label }}
-                    </button>
+                <button *ngFor="let item of navItems" [routerLink]="[item.link]"
+                    routerLinkActive="bg-secondary text-primary" [routerLinkActiveOptions]="{exact: true}"
+                    class="px-4 py-2 rounded-lg transition-all text-foreground hover:bg-secondary/50 font-medium">
+                    {{ item.label }}
+                </button>
             </div>
 
             <div class="hidden lg:flex items-center gap-3">
                 <ng-container *ngIf="isAuthenticated; else guestControls">
 
-                    <button *ngIf="userRole === 'customer'"
+                    <button *ngIf="userRole === 'customer'" [routerLink]="['/saved-properties']"
                         class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-secondary transition-all">
                         <lucide-angular [img]="Heart" class="w-5 h-5 text-muted-foreground"></lucide-angular>
                     </button>
@@ -76,8 +76,8 @@
     </div>
     <div *ngIf="mobileMenuOpen" class="lg:hidden border-t border-border bg-white">
         <div class="px-4 py-4 space-y-2">
-            <button *ngFor="let item of publicNavItems" [routerLink]="[item.link]" (click)="mobileMenuOpen = false" [routerLinkActiveOptions]="{exact: true}"
-                routerLinkActive="bg-secondary text-primary"
+            <button *ngFor="let item of publicNavItems" [routerLink]="[item.link]" (click)="mobileMenuOpen = false"
+                [routerLinkActiveOptions]="{exact: true}" routerLinkActive="bg-secondary text-primary"
                 class="w-full text-left px-4 py-3 rounded-lg transition-all text-foreground hover:bg-secondary/50 font-medium">
                 {{ item.label }}
             </button>

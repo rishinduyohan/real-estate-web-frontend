@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { LucideAngularModule, ArrowLeft, Heart, Share2, MapPin, Bed, Bath, Maximize,ChevronLeft, ChevronRight } from 'lucide-angular';
+import { LucideAngularModule, ArrowLeft, Heart, Share2, MapPin, Bed, Bath, Maximize, ChevronLeft, ChevronRight } from 'lucide-angular';
 import { PropertyService } from '../../service/property-service.service';
 import { Property } from '../../model/property.model';
+import { AuthService } from '../../service/auth.service';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ContactAgent } from "../../components/contact-agent/contact-agent";
@@ -37,7 +38,8 @@ export class PropertyDetail implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private propertyService: PropertyService
+    private propertyService: PropertyService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -49,9 +51,17 @@ export class PropertyDetail implements OnInit {
           if (prop && prop.details) {
             this.images = prop.details.images;
           }
+          this.checkIfSaved();
         });
       }
     });
+  }
+
+  checkIfSaved() {
+    if (this.property) {
+      const userId = this.authService.getCurrentUserId();
+      this.isSaved = this.propertyService.isSaved(userId, this.property.id);
+    }
   }
 
   goBack() {
@@ -67,7 +77,11 @@ export class PropertyDetail implements OnInit {
   }
 
   toggleSave() {
-    this.isSaved = !this.isSaved;
+    if (!this.property) return;
+    const userId = this.authService.getCurrentUserId();
+    this.propertyService.toggleSaved(userId, this.property.id).subscribe(isSaved => {
+      this.isSaved = isSaved;
+    });
   }
 
 }

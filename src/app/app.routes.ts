@@ -15,6 +15,7 @@ import { MyProperties } from './pages/my-properties/my-properties';
 import { UserManagementPage } from './pages/users/users';
 import { RelationshipManagementComponent } from './components/relationship-management/relationship-management.component';
 import { AgentRegistrationComponent } from './components/agent-registration/agent-registration.component';
+import { SavedProperties } from './pages/saved-properties/saved-properties';
 
 export const routes: Routes = [
     {
@@ -84,5 +85,9 @@ export const routes: Routes = [
     {
         path: 'register-agent',
         component: AgentRegistrationComponent
+    },
+    {
+        path: 'saved-properties',
+        component: SavedProperties
     }
 ];

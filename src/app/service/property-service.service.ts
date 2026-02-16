@@ -231,4 +231,35 @@ export class PropertyService {
     this.propertyData.push(property);
     return of(void 0);
   }
+
+  // Saved Properties Logic
+  private savedProperties: Map<number, number[]> = new Map(); // userId -> propertyIds
+
+  getSavedProperties(userId: number): Observable<Property[]> {
+    const savedIds = this.savedProperties.get(userId) || [];
+    const properties = this.propertyData.filter(p => savedIds.includes(p.id));
+    return of(properties);
+  }
+
+  isSaved(userId: number, propertyId: number): boolean {
+    const savedIds = this.savedProperties.get(userId) || [];
+    return savedIds.includes(propertyId);
+  }
+
+  toggleSaved(userId: number, propertyId: number): Observable<boolean> {
+    let savedIds = this.savedProperties.get(userId) || [];
+    const index = savedIds.indexOf(propertyId);
+
+    let isSaved = false;
+    if (index === -1) {
+      savedIds.push(propertyId);
+      isSaved = true;
+    } else {
+      savedIds.splice(index, 1);
+      isSaved = false;
+    }
+
+    this.savedProperties.set(userId, savedIds);
+    return of(isSaved);
+  }
 }
