@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Inquiry } from '../model/inquiry.model';
+import { PropertyService } from './property-service.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class InquiryService {
+    constructor(private propertyService: PropertyService) { }
+
     private inquiries: Inquiry[] = [
         {
             id: 1,
@@ -53,6 +57,21 @@ export class InquiryService {
             date: new Date(Date.now() - 1000 * 60 * 60 * 24) // 1 day ago
         }
     ];
+
+    getInquiriesForUser(userId: number, role: string): Observable<Inquiry[]> {
+        if (role === 'admin') {
+            return this.getInquiries();
+        } else {
+            return this.propertyService.getProperties().pipe(
+                map(properties => {
+                    const userPropertyIds = properties
+                        .filter(p => p.ownerId === userId)
+                        .map(p => p.id);
+                    return this.inquiries.filter(i => i.propertyId !== undefined && userPropertyIds.includes(i.propertyId));
+                })
+            );
+        }
+    }
 
     getInquiries(): Observable<Inquiry[]> {
         return of(this.inquiries);

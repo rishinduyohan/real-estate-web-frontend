@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { InquiryService } from '../../service/inquiry.service';
 import { Inquiry } from '../../model/inquiry.model';
+import { AuthService } from '../../service/auth.service';
 import { LucideAngularModule, Search, MessageCircle, MoreVertical, X, Send } from 'lucide-angular';
 
 @Component({
@@ -27,14 +28,20 @@ export class InquiriesPage implements OnInit {
     readonly X = X;
     readonly Send = Send;
 
-    constructor(private inquiryService: InquiryService) { }
+    constructor(
+        private inquiryService: InquiryService,
+        private authService: AuthService
+    ) { }
 
     ngOnInit() {
         this.loadInquiries();
     }
 
     loadInquiries() {
-        this.inquiryService.getInquiries().subscribe({
+        const userId = this.authService.getCurrentUserId();
+        const role = this.authService.getCurrentRole();
+
+        this.inquiryService.getInquiriesForUser(userId, role).subscribe({
             next: (data) => {
                 this.inquiries = data;
                 this.applyFilter();
