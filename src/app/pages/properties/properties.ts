@@ -27,8 +27,11 @@ export class Properties implements OnInit {
     minPrice: 0,
     maxPrice: 1000000000,
     bedrooms: 0,
-    bathrooms: 0
-  };
+    bathrooms: 0,
+    location:null,
+    category:null,
+
+    };
 
   readonly Search = Search;
   readonly SlidersHorizontal = SlidersHorizontal;
@@ -74,7 +77,9 @@ export class Properties implements OnInit {
       minPrice: 0,
       maxPrice: 1000000000,
       bedrooms: 0,
-      bathrooms: 0
+      bathrooms: 0,
+      location:null,
+      category:null,
     };
   }
 

@@ -3,92 +3,85 @@
 </div>
 <div class="pt-8 pb-20 px-4 md:px-8 max-w-7xl mx-auto min-h-screen lg:mr-52 lg:ml-52">
     <div class="mb-8 space-y-4">
-        <h1 class="text-3xl font-semibold text-foreground">What're you looking for?</h1>
+        <h1 class="text-xl md:text-2xl font-normal text-foreground">What're you looking for?</h1>
 
-        <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex flex-row items-center gap-3 w-full">
             <div class="relative flex-1">
-                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
                     <lucide-angular [img]="Search" class="w-5 h-5"></lucide-angular>
                 </div>
                 <input type="text" [(ngModel)]="searchQuery" placeholder="Search by location, title..."
-                    class="w-full pl-12 pr-4 py-3 bg-card border border-border rounded-full focus:outline-none focus:ring-2 focus:ring-primary shadow-sm">
+                    class="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm">
             </div>
+
             <button (click)="toggleFilters()"
-                class="flex items-center gap-2 px-6 py-3 bg-secondary text-foreground rounded-full font-medium hover:bg-secondary/80 transition-colors">
+                class="flex items-center gap-2 px-5 py-3 font-medium text-sm text-gray-700 transition-colors">
                 <lucide-angular [img]="SlidersHorizontal" class="w-5 h-5"></lucide-angular>
                 Filters
             </button>
         </div>
 
+
         <div *ngIf="showFilters"
-            class="mb-6 bg-card border border-border rounded-2xl p-6 transition-all duration-300 ease-in-out">
+            class="mb-6 bg-white border border-gray-200 rounded-none p-6 shadow-sm transition-all duration-300 ease-in-out">
+
             <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-semibold">Filter Properties</h2>
-                <button (click)="toggleFilters()" class="text-muted-foreground hover:text-foreground">
+                <h2 class="text-lg font-semibold text-gray-800">Filter Properties</h2>
+                <button (click)="toggleFilters()" class="text-gray-500 hover:text-gray-700">
                     <lucide-angular [img]="X" class="w-5 h-5"></lucide-angular>
                 </button>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
                 <div>
-                    <label class="block text-sm font-medium mb-3">Price Range</label>
-                    <div class="flex gap-4">
-                        <div class="flex-1">
-                            <input type="number" [(ngModel)]="filters.minPrice" placeholder="Min"
-                                class="w-full p-3 bg-secondary rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary">
-                        </div>
-                        <div class="flex-1">
-                            <input type="number" [(ngModel)]="filters.maxPrice" placeholder="Max"
-                                class="w-full p-3 bg-secondary rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary">
-                        </div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Price Range (Rs.)</label>
+                    <div class="flex gap-3">
+                        <input type="number" [(ngModel)]="filters.minPrice" placeholder="Min Price"
+                            class="w-1/2 p-3 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 outline-none">
+                        <input type="number" [(ngModel)]="filters.maxPrice" placeholder="Max Price"
+                            class="w-1/2 p-3 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 outline-none">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium mb-3">Bedrooms: {{filters.bedrooms}}+</label>
-                    <input type="range" [(ngModel)]="filters.bedrooms" min="0" max="10" step="1"
-                        class="w-full accent-primary h-2 bg-secondary rounded-lg appearance-none cursor-pointer">
-                    <div class="flex justify-between text-xs text-muted-foreground mt-2">
-                        <span>0</span>
-                        <span>5</span>
-                        <span>10+</span>
-                    </div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Bedrooms</label>
+                    <input type="number" [(ngModel)]="filters.bedrooms" placeholder="e.g., 3"
+                        class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 outline-none">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium mb-3">Bathrooms: {{filters.bathrooms}}+</label>
-                    <input type="range" [(ngModel)]="filters.bathrooms" min="0" max="10" step="1"
-                        class="w-full accent-primary h-2 bg-secondary rounded-lg appearance-none cursor-pointer">
-                    <div class="flex justify-between text-xs text-muted-foreground mt-2">
-                        <span>0</span>
-                        <span>5</span>
-                        <span>10+</span>
-                    </div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Bathrooms</label>
+                    <input type="number" [(ngModel)]="filters.bathrooms" placeholder="e.g., 2"
+                        class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 outline-none">
                 </div>
             </div>
 
-            <div class="flex justify-end gap-3 mt-6 pt-6 border-t border-border">
+            <div class="flex justify-end gap-3 mt-6 pt-6 border-t border-gray-200">
                 <button (click)="resetFilters()"
-                    class="px-6 py-2.5 rounded-xl border border-border hover:bg-secondary font-medium transition-colors text-sm">
+                    class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 font-medium text-sm transition-colors">
                     Reset
                 </button>
                 <button (click)="applyFilters()"
-                    class="px-6 py-2.5 rounded-xl bg-primary text-white font-medium hover:bg-primary/90 transition-colors text-sm">
+                    class="px-5 py-2 rounded-lg bg-orange-500 text-white font-medium text-sm hover:bg-orange-600 transition-colors">
                     Apply Filters
                 </button>
             </div>
         </div>
 
-        <div class=" gap-2 overflow-x-auto pb-2 hide-scrollbar space-x-2 space-y-3">
-            <button *ngFor="let filter of ['All', 'House', 'Apartment', 'Land', 'Commercial']"
+
+        <div class="gap-2 overflow-x-auto pb-2 hide-scrollbar space-x-2 space-y-3">
+            <button *ngFor="let filter of ['All', 'House', 'Apartment', 'Land']"
                 (click)="activeFilter = filter.toLowerCase()" [class.bg-primary]="activeFilter === filter.toLowerCase()"
                 [class.text-white]="activeFilter === filter.toLowerCase()"
                 [class.bg-secondary]="activeFilter !== filter.toLowerCase()"
                 [class.text-foreground]="activeFilter !== filter.toLowerCase()"
-                class="px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-colors">
+                class="px-4 py-2 rounded-full whitespace-nowrap text-xs font-normal transition-colors">
                 {{ filter }}
             </button>
         </div>
+
+
     </div>
 
     <div class="flex items-center gap-1 mb-7 text-muted-foreground">
@@ -97,7 +90,7 @@
         <span>Properties</span>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6">
         <app-property-card *ngFor="let prop of filteredProperties" [id]='prop.id.toString()' [image]="prop.image"
             [title]="prop.title" [price]="prop.price" [area]="prop.location" [description]="prop.details.description"
             [status]='prop.status' [type]="prop.type" [size]="prop.size" [bedrooms]="prop.details.bedrooms"
