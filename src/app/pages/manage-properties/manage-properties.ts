@@ -6,13 +6,14 @@ import { PropertyService } from '../../service/property-service.service';
 import { Property } from '../../model/property.model';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { PropertyTable } from '../../components/property-table/property-table';
+import { AddPropertyComponent } from '../../components/add-property/add-property';
 
 @Component({
-    selector: 'app-manage-properties',
-    standalone: true,
-    imports: [CommonModule, RouterModule, FormsModule,NavbarComponent,PropertyTable],
-    templateUrl: './manage-properties.html',
-    styleUrls: [] 
+  selector: 'app-manage-properties',
+  standalone: true,
+  imports: [CommonModule, RouterModule, FormsModule, NavbarComponent, PropertyTable, AddPropertyComponent],
+  templateUrl: './manage-properties.html',
+  styleUrls: []
 })
 export class ManageProperties implements OnInit {
   properties: Property[] = [];
@@ -28,7 +29,7 @@ export class ManageProperties implements OnInit {
   loadAll(): void {
     this.propertyService.getProperties().subscribe(res => {
       this.properties = res;
-      this.applyFilter(); 
+      this.applyFilter();
     });
   }
 

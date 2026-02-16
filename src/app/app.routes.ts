@@ -11,6 +11,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard';
 import { ManageProperties } from './pages/manage-properties/manage-properties';
 import { EditProperty } from './components/edit-property/edit-property';
 import { InquiriesPage } from './pages/inquiries/inquiries';
+import { MyProperties } from './pages/my-properties/my-properties';
 import { UserManagementPage } from './pages/users/users';
 
 export const routes: Routes = [
@@ -53,6 +54,10 @@ export const routes: Routes = [
     {
         path: 'manage-properties',
         component: ManageProperties
+    },
+    {
+        path: 'my-properties',
+        component: MyProperties
     },
     {
         path: 'edit-property',

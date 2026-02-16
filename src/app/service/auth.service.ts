@@ -9,18 +9,22 @@ export class AuthService {
 
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
-  
+
   private userRoleSubject = new BehaviorSubject<string>('customer');
   userRole$ = this.userRoleSubject.asObservable();
 
   private userNameSubject = new BehaviorSubject<string>('Rishindu Yohan');
   userName$ = this.userNameSubject.asObservable();
 
+  private userIdSubject = new BehaviorSubject<number>(0);
+  userId$ = this.userIdSubject.asObservable();
+
   constructor() { }
 
-  login(user:User) {
-  this.isAuthenticatedSubject.next(true);
-  this.userRoleSubject.next(user.role);
+  login(user: User) {
+    this.isAuthenticatedSubject.next(true);
+    this.userRoleSubject.next(user.role);
+    this.userIdSubject.next(user.id);
     if (user.role === 'admin') {
       this.userNameSubject.next(user.fullName);
     } else {
@@ -32,6 +36,7 @@ export class AuthService {
     this.isAuthenticatedSubject.next(false);
     this.userRoleSubject.next('customer');
     this.userNameSubject.next('Guest');
+    this.userIdSubject.next(0);
   }
 
   getCurrentRole() {
@@ -40,5 +45,9 @@ export class AuthService {
 
   getIsAuthenticated(): boolean {
     return this.isAuthenticatedSubject.value;
+  }
+
+  getCurrentUserId(): number {
+    return this.userIdSubject.value;
   }
 }

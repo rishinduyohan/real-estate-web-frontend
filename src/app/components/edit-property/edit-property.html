@@ -17,7 +17,7 @@
 
             <h2 class="text-center text-3xl font-extrabold text-gray-900"
                 [ngClass]="{'text-xl mt-0': isModal, 'mt-6': !isModal}">
-                Edit Property
+                {{ property && property.id === 0 ? 'Add Property' : 'Edit Property' }}
             </h2>
 
             <button *ngIf="isModal" (click)="cancel()" class="text-gray-400 hover:text-gray-500 focus:outline-none">
@@ -36,7 +36,7 @@
                     <label for="title" class="block text-sm font-medium text-gray-700">Property Title</label>
                     <div class="mt-1">
                         <input type="text" name="title" id="title" required [(ngModel)]="property.title"
-                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
                     </div>
                 </div>
 
@@ -44,7 +44,7 @@
                     <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
                     <div class="mt-1">
                         <input type="text" name="location" id="location" required [(ngModel)]="property.location"
-                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
                     </div>
                 </div>
                 <div>
@@ -54,7 +54,7 @@
                             <span class="text-gray-500 sm:text-sm">Rs.</span>
                         </div>
                         <input type="text" name="price" id="price" required [(ngModel)]="property.price"
-                            class="focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                            class="focus:ring-primary focus:border-primary block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
                             placeholder="0.00">
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                         <label for="type" class="block text-sm font-medium text-gray-700">Type</label>
                         <div class="mt-1">
                             <select id="type" name="type" [(ngModel)]="property.type"
-                                class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                                class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
                                 <option>House</option>
                                 <option>Apartment</option>
                                 <option>Land</option>
@@ -77,9 +77,10 @@
                         <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
                         <div class="mt-1">
                             <select id="status" name="status" [(ngModel)]="property.status"
-                                class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
-                                <option>For Sale</option>
-                                <option>For Rent</option>
+                                class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                                <option>Available</option>
+                                <option>Sold</option>
+                                <option>Rented</option>
                             </select>
                         </div>
                     </div>
@@ -91,7 +92,7 @@
                         <div class="mt-1">
                             <input type="number" name="bedrooms" id="bedrooms" required
                                 [(ngModel)]="property.details.bedrooms"
-                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
                         </div>
                     </div>
                     <div>
@@ -99,35 +100,65 @@
                         <div class="mt-1">
                             <input type="number" name="bathrooms" id="bathrooms" required
                                 [(ngModel)]="property.details.bathrooms"
-                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
                         </div>
                     </div>
                     <div>
                         <label for="area" class="block text-sm font-medium text-gray-700">Area</label>
                         <div class="mt-1">
                             <input type="text" name="area" id="area" required [(ngModel)]="property.size"
-                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <label for="image" class="block text-sm font-medium text-gray-700">Image URL</label>
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                    <div class="mt-1">
+                        <textarea id="description" name="description" rows="3"
+                            [(ngModel)]="property.details.description"
+                            class="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="image" class="block text-sm font-medium text-gray-700">Main Image URL</label>
                     <div class="mt-1">
                         <input type="text" name="image" id="image" required [(ngModel)]="property.image"
-                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Additional Images</label>
+                    <div class="space-y-2">
+                        <div *ngFor="let img of property.details.images; let i = index; trackBy: customTrackBy"
+                            class="flex gap-2">
+                            <input type="text" [name]="'detailImage' + i" [(ngModel)]="property.details.images[i]"
+                                class="flex-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                                placeholder="Image URL">
+                            <button type="button" (click)="removeImageUrl(i)"
+                                class="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition-colors">
+                                <lucide-angular [img]="Trash2" class="w-5 h-5"></lucide-angular>
+                            </button>
+                        </div>
+                        <button type="button" (click)="addImageUrl()"
+                            class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            <lucide-angular [img]="Plus" class="w-4 h-4 mr-2"></lucide-angular>
+                            Add Image
+                        </button>
                     </div>
                 </div>
 
 
                 <div class="flex items-center justify-end space-x-3 pt-4">
                     <button type="button" (click)="cancel()"
-                        class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                        class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                         Cancel
                     </button>
                     <button type="submit"
                         class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                        Save Changes
+                        {{ property.id === 0 ? 'Add Property' : 'Save Changes' }}
                     </button>
                 </div>
 

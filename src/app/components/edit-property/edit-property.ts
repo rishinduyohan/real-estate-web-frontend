@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { LucideAngularModule, Save, X, ArrowLeft } from 'lucide-angular';
+import { LucideAngularModule, Save, X, ArrowLeft, Plus, Trash2 } from 'lucide-angular';
 import { PropertyService } from '../../service/property-service.service';
 import { Property } from '../../model/property.model';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
     selector: 'app-edit-property',
@@ -22,14 +23,21 @@ export class EditProperty implements OnInit {
     readonly Save = Save;
     readonly X = X;
     readonly ArrowLeft = ArrowLeft;
+    readonly Plus = Plus;
+    readonly Trash2 = Trash2;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private propertyService: PropertyService
+        private propertyService: PropertyService,
+        private authService: AuthService
     ) { }
 
     ngOnInit() {
+        if (!this.property) {
+            this.initNewProperty();
+        }
+
         this.route.paramMap.subscribe(params => {
             const id = params.get('id');
             if (id) {
@@ -44,8 +52,45 @@ export class EditProperty implements OnInit {
         });
     }
 
+    initNewProperty() {
+        this.property = {
+            id: 0,
+            title: '',
+            location: '',
+            type: 'House',
+            price: 0,
+            size: '',
+            status: 'Available',
+            image: '',
+            ownerId: this.authService.getCurrentUserId(),
+            details: {
+                bedrooms: 0,
+                bathrooms: 0,
+                description: '',
+                images: []
+            }
+        };
+    }
+
+    addImageUrl() {
+        this.property.details.images.push('');
+    }
+
+    removeImageUrl(index: number) {
+        this.property.details.images.splice(index, 1);
+    }
+
+    customTrackBy(index: number, obj: any): any {
+        return index;
+    }
+
     onSubmit() {
-        if (this.property) {
+        if (this.property.id === 0) {
+            this.propertyService.addProperty(this.property).subscribe(() => {
+                alert('Property added successfully!');
+                this.saved.emit();
+            });
+        } else {
             this.propertyService.updateProperty(this.property).subscribe(() => {
                 alert('Property updated successfully!');
                 this.saved.emit();

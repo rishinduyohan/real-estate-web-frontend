@@ -1,0 +1,162 @@
+<button (click)="openAddPropertyModal()"
+    class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
+    Add New Property
+</button>
+
+<!-- Add Property Modal -->
+<div *ngIf="isAddModalOpen" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+    aria-modal="true">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
+            (click)="closeAddModal()"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+        <div
+            class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
+
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                        Add New Property
+                    </h3>
+                    <button (click)="closeAddModal()" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+                        <span class="sr-only">Close</span>
+                        <lucide-angular [img]="X" class="w-6 h-6"></lucide-angular>
+                    </button>
+                </div>
+
+                <form class="space-y-6" (ngSubmit)="onSubmit()" *ngIf="property">
+                    <div>
+                        <label for="title" class="block text-sm font-medium text-gray-700">Property Title</label>
+                        <div class="mt-1">
+                            <input type="text" name="title" id="title" required [(ngModel)]="property.title"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                        <div class="mt-1">
+                            <input type="text" name="location" id="location" required [(ngModel)]="property.location"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span class="text-gray-500 sm:text-sm">Rs.</span>
+                            </div>
+                            <input type="text" name="price" id="price" required [(ngModel)]="property.price"
+                                class="focus:ring-primary focus:border-primary block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                                placeholder="0.00">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+                        <div>
+                            <label for="type" class="block text-sm font-medium text-gray-700">Type</label>
+                            <div class="mt-1">
+                                <select id="type" name="type" [(ngModel)]="property.type"
+                                    class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                                    <option>House</option>
+                                    <option>Apartment</option>
+                                    <option>Land</option>
+                                    <option>Commercial</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                            <div class="mt-1">
+                                <select id="status" name="status" [(ngModel)]="property.status"
+                                    class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                                    <option>Available</option>
+                                    <option>Sold</option>
+                                    <option>Rented</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-3">
+                        <div>
+                            <label for="bedrooms" class="block text-sm font-medium text-gray-700">Bedrooms</label>
+                            <div class="mt-1">
+                                <input type="number" name="bedrooms" id="bedrooms" required
+                                    [(ngModel)]="property.details.bedrooms"
+                                    class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="bathrooms" class="block text-sm font-medium text-gray-700">Bathrooms</label>
+                            <div class="mt-1">
+                                <input type="number" name="bathrooms" id="bathrooms" required
+                                    [(ngModel)]="property.details.bathrooms"
+                                    class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="area" class="block text-sm font-medium text-gray-700">Area</label>
+                            <div class="mt-1">
+                                <input type="text" name="area" id="area" required [(ngModel)]="property.size"
+                                    class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <div class="mt-1">
+                            <textarea id="description" name="description" rows="3"
+                                [(ngModel)]="property.details.description"
+                                class="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="image" class="block text-sm font-medium text-gray-700">Main Image URL</label>
+                        <div class="mt-1">
+                            <input type="text" name="image" id="image" required [(ngModel)]="property.image"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Additional Images</label>
+                        <div class="space-y-2">
+                            <div *ngFor="let img of property.details.images; let i = index; trackBy: customTrackBy"
+                                class="flex gap-2">
+                                <input type="text" [name]="'detailImage' + i" [(ngModel)]="property.details.images[i]"
+                                    class="flex-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                                    placeholder="Image URL">
+                                <button type="button" (click)="removeImageUrl(i)"
+                                    class="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition-colors">
+                                    <lucide-angular [img]="Trash2" class="w-5 h-5"></lucide-angular>
+                                </button>
+                            </div>
+                            <button type="button" (click)="addImageUrl()"
+                                class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                <lucide-angular [img]="Plus" class="w-4 h-4 mr-2"></lucide-angular>
+                                Add Image
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
+                        <button type="button" (click)="closeAddModal()"
+                            class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            Add Property
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
