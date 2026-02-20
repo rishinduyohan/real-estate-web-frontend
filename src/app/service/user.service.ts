@@ -70,4 +70,14 @@ export class UserService {
         return of(user); // or throw error
     }
 
+    addUser(user: User): Observable<User> {
+        this.users.push(user);
+        return of(user);
+    }
+
+    deleteUser(id: number): Observable<void> {
+        this.users = this.users.filter(u => u.id !== id);
+        return of(undefined);
+    }
+
 }
