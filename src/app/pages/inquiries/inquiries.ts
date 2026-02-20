@@ -5,10 +5,8 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { InquiryService } from '../../service/inquiry.service';
 import { Inquiry } from '../../model/inquiry.model';
 import { AuthService } from '../../service/auth.service';
-import { AgentService } from '../../service/agent.service';
 import { UserService } from '../../service/user.service';
 import { LucideAngularModule, Search, MessageCircle, MoreVertical, X, Send, Trash2 } from 'lucide-angular';
-import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-inquiries',
@@ -35,7 +33,6 @@ export class InquiriesPage implements OnInit {
     constructor(
         private inquiryService: InquiryService,
         private authService: AuthService,
-        private agentService: AgentService,
         private userService: UserService
     ) { }
 
@@ -53,56 +50,22 @@ export class InquiriesPage implements OnInit {
             email = user ? user.email : '';
         }
 
-        const inquiries$ = this.inquiryService.getInquiriesForUser(userId, role, email);
-
-        if (role === 'customer') {
-            const requests$ = this.agentService.getRequestsByUser(userId);
-
-            forkJoin([inquiries$, requests$]).subscribe({
-                next: ([inquiries, requests]) => {
-                    const requestInquiries: any[] = requests.map(req => ({
-                        id: req.id + 10000, // Offset ID to avoid collision
-                        name: req.userName,
-                        email: req.userEmail,
-                        phone: 'N/A',
-                        message: `Agent Application for Owner ID: ${req.ownerId}`,
-                        propertyTitle: 'Agent Application',
-                        status: req.status === 'pending' ? 'In Progress' : 'Responded',
-                        date: req.date,
-                        reply: req.status === 'approved' ? 'Congratulations! Your application has been approved.' : (req.status === 'rejected' ? 'Your application was not successful.' : '')
-                    }));
-
-                    this.inquiries = [...inquiries, ...requestInquiries].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-                    this.applyFilter();
-                },
-                error: (err) => console.error('Failed to load data', err)
-            });
-        } else {
-            inquiries$.subscribe({
-                next: (data) => {
-                    this.inquiries = data;
-                    this.applyFilter();
-                },
-                error: (err) => console.error('Failed to load inquiries', err)
-            });
-        }
+        this.inquiryService.getInquiriesForUser(userId, role, email).subscribe({
+            next: (data) => {
+                this.inquiries = data;
+                this.applyFilter();
+            },
+            error: (err) => console.error('Failed to load inquiries', err)
+        });
     }
 
     deleteInquiry(inquiry: Inquiry) {
         if (!confirm('Are you sure you want to remove this inquiry?')) return;
 
-        if (inquiry.id >= 10000) {
-            // It's an agent request
-            const requestId = inquiry.id - 10000;
-            this.agentService.cancelRequest(requestId).subscribe(() => {
-                this.loadInquiries();
-            });
-        } else {
-            // Standard inquiry
-            this.inquiryService.deleteInquiry(inquiry.id).subscribe(() => {
-                this.loadInquiries();
-            });
-        }
+        // Standard inquiry
+        this.inquiryService.deleteInquiry(inquiry.id).subscribe(() => {
+            this.loadInquiries();
+        });
     }
 
     applyFilter() {

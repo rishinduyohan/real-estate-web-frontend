@@ -5,6 +5,6 @@ export interface User {
     email: string;
     password: string;
     phone: string;
-    role: 'customer' | 'owner' | 'agent' | 'admin';
+    role: 'customer' | 'owner' | 'admin';
     createdDate: Date
 }

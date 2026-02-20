@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 @Component({
     selector: 'app-why-choose-us',
     standalone: true,
-    imports: [CommonModule, ],
+    imports: [CommonModule,],
     styleUrl: './why-choose-us.component.css',
     templateUrl: './why-choose-us.component.html',
 })
@@ -18,7 +18,7 @@ export class WhyChooseUsComponent {
         },
         {
             icon: "https://res.cloudinary.com/dbndqriih/image/upload/136528126_77a00bd6-65f1-421c-8ae5-a2251b7b3802_iz7nie",
-            title: 'Trusted Agents',
+            title: 'Trusted Owners',
             description: 'Connect with experienced and certified real estate professionals'
         },
         {

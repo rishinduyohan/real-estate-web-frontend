@@ -1,6 +1,6 @@
-  <div class="sticky top-0 z-50">
+<div class="sticky top-0 z-50">
     <app-navbar></app-navbar>
-  </div>
+</div>
 <div *ngIf="property" class="min-h-screen bg-background pb-24 md:pb-8 lg:mr-40 lg:ml-40 relative">
     <div class="relative h-80 md:h-96 bg-muted group">
         <img [src]="images[currentImageIndex]" [alt]="property.title" class="w-full h-full object-cover" />
@@ -109,10 +109,10 @@
                         with easy access to schools, shopping centers, and public transportation.
                     </p>
                 </div>
-                
+
             </div>
             <div class="space-y-6">
-                <app-contact-agent></app-contact-agent>
+                <app-contact-owner></app-contact-owner>
             </div>
         </div>
     </div>

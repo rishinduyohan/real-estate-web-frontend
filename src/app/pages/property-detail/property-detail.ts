@@ -8,12 +8,12 @@ import { Property } from '../../model/property.model';
 import { AuthService } from '../../service/auth.service';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { ContactAgent } from "../../components/contact-agent/contact-agent";
+import { ContactOwner } from "../../components/contact-owner/contact-owner";
 
 @Component({
   selector: 'app-property-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, LucideAngularModule, NavbarComponent, FooterComponent, ContactAgent],
+  imports: [CommonModule, FormsModule, RouterModule, LucideAngularModule, NavbarComponent, FooterComponent, ContactOwner],
   templateUrl: './property-detail.html',
   styleUrl: './property-detail.css'
 })

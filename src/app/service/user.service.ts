@@ -27,16 +27,7 @@ export class UserService {
             role: 'owner',
             createdDate: new Date('2026-02-10')
         },
-        {
-            id: 201,
-            fullName: 'Nimal Perera',
-            image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400',
-            email: 'nimal@lkestate.lk',
-            password: '1234',
-            phone: '+94 77 123 4567',
-            role: 'agent',
-            createdDate: new Date('2026-02-11')
-        },
+
         {
             id: 301,
             fullName: 'Kumara Silva',

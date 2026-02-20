@@ -19,7 +19,7 @@ export class ReviewsComponent {
         {
             name: 'Rajesh Kumar',
             role: 'Property Buyer',
-            review: 'LK Estate helped me find my dream home in Colombo. The process was smooth and the agents were very professional.'
+            review: 'LK Estate helped me find my dream home in Colombo. The process was smooth and the owners were very professional.'
         },
         {
             name: 'Ayesha Fernando',
@@ -29,7 +29,7 @@ export class ReviewsComponent {
         {
             name: 'Nimal Perera',
             role: 'Renter',
-            review: 'Found the perfect apartment for my family. Great selection and responsive agents.'
+            review: 'Found the perfect apartment for my family. Great selection and responsive owners.'
         }
     ];
 

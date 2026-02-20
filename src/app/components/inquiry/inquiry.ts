@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-inquiry',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './inquiry.html',
   styleUrl: './inquiry.css',
 })
@@ -13,7 +13,7 @@ export class Inquiry {
   inquiryData = { name: '', email: '', phone: '', message: '' };
 
   handleInquirySubmit() {
-    alert('Inquiry sent! The agent will contact you soon.');
+    alert('Inquiry sent! The owner will contact you soon.');
     this.inquiryData = { name: '', email: '', phone: '', message: '' };
   }
 
