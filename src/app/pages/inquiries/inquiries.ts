@@ -22,6 +22,7 @@ export class InquiriesPage implements OnInit {
     selectedInquiry: Inquiry | null = null;
     isReplyModalOpen = false;
     replyMessage = '';
+    isAdmin = false;
 
     readonly Search = Search;
     readonly MessageCircle = MessageCircle;
@@ -44,25 +45,24 @@ export class InquiriesPage implements OnInit {
         const userId = this.authService.getCurrentUserId();
         const role = this.authService.getCurrentRole();
 
-        let email = '';
-        if (role === 'customer') {
-            const user = this.userService.getUsers().find(u => u.id === userId);
-            email = user ? user.email : '';
-        }
+        this.userService.getUsers().subscribe(users => {
+            const user = users.find(u => u.id === userId);
+            this.isAdmin = user?.role === 'admin';
+            const email = user ? user.email : '';
 
-        this.inquiryService.getInquiriesForUser(userId, role, email).subscribe({
-            next: (data) => {
-                this.inquiries = data;
-                this.applyFilter();
-            },
-            error: (err) => console.error('Failed to load inquiries', err)
+            this.inquiryService.getInquiriesForUser(userId, role, email).subscribe({
+                next: (data) => {
+                    this.inquiries = data;
+                    this.applyFilter();
+                },
+                error: (err) => console.error('Failed to load inquiries', err)
+            });
         });
     }
 
     deleteInquiry(inquiry: Inquiry) {
         if (!confirm('Are you sure you want to remove this inquiry?')) return;
 
-        // Standard inquiry
         this.inquiryService.deleteInquiry(inquiry.id).subscribe(() => {
             this.loadInquiries();
         });

@@ -54,7 +54,9 @@ export class UserProfileComponent {
 
     openSettings() {
         const userId = this.authService.getCurrentUserId();
-        this.currentUser = this.userService.getUsers().find(u => u.id === userId);
+        this.userService.getUsers().subscribe(users => {
+            this.currentUser = users.find(u => u.id === userId);
+        });
 
         this.isEditModalOpen = true;
         this.closeMenu();
@@ -67,7 +69,9 @@ export class UserProfileComponent {
     onUserUpdated() {
         // Refresh user data if needed, or just close
         const userId = this.authService.getCurrentUserId();
-        this.currentUser = this.userService.getUsers().find(u => u.id === userId);
+        this.userService.getUsers().subscribe(users => {
+            this.currentUser = users.find(u => u.id === userId);
+        });
     }
 
     openPrivacy() {

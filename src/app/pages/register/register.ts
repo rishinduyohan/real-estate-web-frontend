@@ -61,8 +61,6 @@ export class Register {
 
     this.authService.register(this.user).subscribe({
       next: (response) => {
-        // Some backends might automatically log in the user, or return a token on register
-        // For now, assume we just redirect to login so they can log in
         alert('Registration successful! Please log in.');
         this.router.navigate(['/login']);
       },
@@ -74,15 +72,14 @@ export class Register {
   }
 
   setUserDetails() {
-    this.user = {
-      id: Math.floor(Math.random() * 1000),
-      fullName: this.name,
+    this.user =  {
+      id: Date.now(),
+      username: this.name,
       email: this.email,
-      image: '',
       password: this.password,
-      phone: this.phone,
-      role: this.role as 'customer' | 'owner',
-      createdDate: new Date()
+      role: this.role as 'customer' | 'owner' | 'admin',
+      phone: this.role === 'owner' ? '123-456-7890' : undefined,
+      imageUrl: 'https://via.placeholder.com/150',
     };
   }
 }

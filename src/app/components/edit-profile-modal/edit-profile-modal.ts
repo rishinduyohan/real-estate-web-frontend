@@ -22,7 +22,6 @@ export class EditProfileModalComponent implements OnChanges {
 
     editData: any = {};
     isLoading = false;
-    // Hardcoded default location since it's not in the User model yet
     defaultLocation = 'Colombo, Sri Lanka';
 
     constructor(private userService: UserService) { }
@@ -47,7 +46,7 @@ export class EditProfileModalComponent implements OnChanges {
         if (file) {
             const reader = new FileReader();
             reader.onload = (e: any) => {
-                this.editData.image = e.target.result;
+                this.editData.imageUrl = e.target.result;
             };
             reader.readAsDataURL(file);
         }
@@ -62,15 +61,11 @@ export class EditProfileModalComponent implements OnChanges {
 
         this.isLoading = true;
 
-        // Update local user object (mock update)
         const updatedUser = { ...this.user };
-        updatedUser.fullName = this.editData.fullName;
+        updatedUser.username = this.editData.username;
         updatedUser.email = this.editData.email;
         updatedUser.phone = this.editData.phone;
-        updatedUser.image = this.editData.image; // Update image
-        // We can't save location to the User model yet as it doesn't exist, 
-        // but we can simulate it or pass it back if needed.
-        // For now, we just update the standard fields.
+        updatedUser.imageUrl = this.editData.imageUrl;
 
         this.userService.updateUser(updatedUser).subscribe({
             next: () => {

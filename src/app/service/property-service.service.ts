@@ -10,10 +10,6 @@ export class PropertyService {
 
   private url = "http://localhost:8080/api/properties"
 
-  private propertyData: Property[] = [
-
-  ];
-
   properties = signal<any[]>([]);
 
   constructor(private http: HttpClient) { }
@@ -56,13 +52,9 @@ export class PropertyService {
     );
   }
 
-  // Saved Properties Logic
-  private savedProperties: Map<number, number[]> = new Map(); // userId -> propertyIds
+  private savedProperties: Map<number, number[]> = new Map();
 
   getSavedProperties(userId: number): Observable<Property[]> {
-    // Ideally this should come from a backend endpoint like /api/users/{userId}/saved-properties
-    // For now, if no backend endpoint exists, we'll keep the local Map logic to not break the frontend completely,
-    // but return properties from the signal.
     const savedIds = this.savedProperties.get(userId) || [];
     const properties = this.properties().filter(p => savedIds.includes(p.id));
     return of(properties);

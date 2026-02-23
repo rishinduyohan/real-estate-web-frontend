@@ -8,33 +8,25 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-hero',
-  imports: [CommonModule,LucideAngularModule],
+  imports: [CommonModule, LucideAngularModule],
   templateUrl: './user-hero.html',
 })
-export class UserHero implements OnInit{
-   private subs: Subscription = new Subscription();
+export class UserHero implements OnInit {
+  private subs: Subscription = new Subscription();
 
-  constructor(private authService: AuthService){}
+  constructor(private authService: AuthService) { }
 
-  user:User = {
-    id:1,
-    fullName:"User Name",
-    image:"jebnheoiujndfiem",
-    email:"example@gmail.com",
-    password:"123455",
-    phone:"1234567890",
-    role:"customer",
-    createdDate:new Date()
-  };
+  user!: User;
 
-  ngOnInit(){
-     this.subs.add(
+  ngOnInit() {
+    this.subs.add(
       this.authService.userName$.subscribe(name => {
-       this.user.fullName = name;
+        this.user = { ...this.user };
+        this.user.username = name;
       })
     );
   }
-  
+
   readonly Search = Search;
   readonly SlidersHorizontal = SlidersHorizontal;
   readonly MapPin = MapPin;
@@ -49,7 +41,7 @@ export class UserHero implements OnInit{
 
 
 
-onSearchClick() {
+  onSearchClick() {
     console.log('Search clicked');
   }
 

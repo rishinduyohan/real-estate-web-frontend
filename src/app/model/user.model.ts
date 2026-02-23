@@ -1,10 +1,13 @@
+import { Property } from "./property.model";
+
 export interface User {
-    id: number;
-    image: string;
-    fullName: string;
+    id?: number;
+    username: string;
     email: string;
-    password: string;
-    phone: string;
-    role: 'customer' | 'owner' | 'admin';
-    createdDate: Date
+    password?: string;
+    phone?: string;
+    imageUrl?: string;
+    role?: string;
+
+    properties?: Property[];
 }

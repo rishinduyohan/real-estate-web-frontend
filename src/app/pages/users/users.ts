@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { OwnerService } from '../../service/owner.service';
-import { Owner } from '../../model/owner.model';
 import { UserService } from '../../service/user.service';
 import { User } from '../../model/user.model';
 import { LucideAngularModule, Search, Plus, Trash2, Edit, Mail, Trophy, MapPin, Star, Home, X, Camera } from 'lucide-angular';
@@ -18,7 +16,7 @@ import { LucideAngularModule, Search, Plus, Trash2, Edit, Mail, Trophy, MapPin, 
 export class UserManagementPage implements OnInit {
     activeTab: 'owners' | 'customers' = 'owners';
 
-    owners: Owner[] = [];
+    owners: User[] = [];
     customers: User[] = [];
     filteredUsers: any[] = [];
 
@@ -42,7 +40,6 @@ export class UserManagementPage implements OnInit {
     readonly Camera = Camera;
 
     constructor(
-        private ownerService: OwnerService,
         private userService: UserService
     ) { }
 
@@ -51,14 +48,11 @@ export class UserManagementPage implements OnInit {
     }
 
     loadData() {
-        this.ownerService.getOwners().subscribe(data => {
-            this.owners = data;
+        this.userService.getUsers().subscribe(users => {
+            this.owners = users.filter(u => u.role === 'admin' || u.role === 'owner');
+            this.customers = users.filter(u => u.role === 'customer');
             this.filterUsers();
         });
-
-        const allUsers = this.userService.getUsers();
-        this.customers = allUsers.filter(u => u.role === 'customer');
-        this.filterUsers();
     }
 
     get currentData() {
@@ -79,10 +73,9 @@ export class UserManagementPage implements OnInit {
         } else {
             const query = this.searchQuery.toLowerCase();
             this.filteredUsers = data.filter((u: any) =>
-                (u.name && u.name.toLowerCase().includes(query)) ||
-                (u.fullName && u.fullName.toLowerCase().includes(query)) ||
+                (u.username && u.username.toLowerCase().includes(query)) ||
                 u.email.toLowerCase().includes(query) ||
-                (u.location && u.location.toLowerCase().includes(query))
+                (u.phone && u.phone.toLowerCase().includes(query))
             );
         }
     }
@@ -93,7 +86,7 @@ export class UserManagementPage implements OnInit {
         this.filterUsers();
     }
 
-    findBestUser(users: Owner[]) {
+    findBestUser(users: User[]) {
         if (!users || !users.length) {
             this.bestUser = null;
             return;
@@ -112,11 +105,7 @@ export class UserManagementPage implements OnInit {
 
     deleteUser(id: number) {
         if (confirm('Are you sure you want to delete this user?')) {
-            if (this.activeTab === 'owners') {
-                this.ownerService.deleteOwner(id).subscribe(() => this.loadData());
-            } else {
-                this.userService.deleteUser(id).subscribe(() => this.loadData());
-            }
+            this.userService.deleteUser(id).subscribe(() => this.loadData());
         }
     }
 
@@ -129,9 +118,9 @@ export class UserManagementPage implements OnInit {
             let baseImg = 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=400';
 
             if (this.activeTab === 'owners') {
-                this.formData = { id: baseId, name: '', email: '', phone: '', location: '', image: baseImg, properties: [] };
+                this.formData = { id: baseId, username: '', email: '', phone: '', imageUrl: baseImg, role: 'owner', properties: [] };
             } else {
-                this.formData = { id: baseId, fullName: '', email: '', phone: '', role: 'customer', image: baseImg, password: 'password123', createdDate: new Date() };
+                this.formData = { id: baseId, username: '', email: '', phone: '', role: 'customer', imageUrl: baseImg, password: 'password123' };
             }
         }
         this.isModalOpen = true;
@@ -142,7 +131,7 @@ export class UserManagementPage implements OnInit {
         if (file) {
             const reader = new FileReader();
             reader.onload = (e: any) => {
-                this.formData.image = e.target.result;
+                this.formData.imageUrl = e.target.result;
             };
             reader.readAsDataURL(file);
         }
@@ -156,21 +145,12 @@ export class UserManagementPage implements OnInit {
 
     saveUser() {
         const user = this.formData;
+        if (!user.properties) user.properties = [];
 
-        if (this.activeTab === 'owners') {
-            if (!user.properties) user.properties = [];
-
-            if (this.editingUser) {
-                this.ownerService.updateOwner(user).subscribe(() => { this.closeAndRefresh(); });
-            } else {
-                this.ownerService.addOwner(user).subscribe(() => { this.closeAndRefresh(); });
-            }
+        if (this.editingUser) {
+            this.userService.updateUser(user).subscribe(() => { this.closeAndRefresh(); });
         } else {
-            if (this.editingUser) {
-                this.userService.updateUser(user).subscribe(() => { this.closeAndRefresh(); });
-            } else {
-                this.userService.addUser(user).subscribe(() => { this.closeAndRefresh(); });
-            }
+            this.userService.addUser(user).subscribe(() => { this.closeAndRefresh(); });
         }
     }
 

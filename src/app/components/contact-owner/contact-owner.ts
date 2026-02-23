@@ -5,8 +5,8 @@ import { Inquiry } from '../inquiry/inquiry';
 import { BookingContact } from "../booking-contact/booking-contact";
 import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyService } from '../../service/property-service.service';
-import { OwnerService } from '../../service/owner.service';
-import { Owner } from '../../model/owner.model';
+import { UserService } from '../../service/user.service';
+import { User } from '../../model/user.model';
 
 @Component({
     selector: 'app-contact-owner',
@@ -21,14 +21,14 @@ export class ContactOwner implements OnInit {
     readonly Calender = Calendar;
     readonly X = X;
 
-    owner!: Owner;
+    user!: User;
 
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private propertyService: PropertyService,
-        private ownerService: OwnerService
+        private userService: UserService
     ) { }
 
     ngOnInit() {
@@ -45,9 +45,9 @@ export class ContactOwner implements OnInit {
     }
 
     searchOwner(ownerId: number) {
-        this.ownerService.getOwnerById(ownerId).subscribe(owner => {
-            if (owner) {
-                this.owner = owner;
+        this.userService.searchUser(ownerId).subscribe(user => {
+            if (user) {
+                this.user = user;
             }
         });
     }

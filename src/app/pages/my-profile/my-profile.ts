@@ -54,7 +54,9 @@ export class MyProfileComponent implements OnInit {
 
     loadUser() {
         const userId = this.authService.getCurrentUserId();
-        this.user = this.userService.getUsers().find(u => u.id === userId);
+        this.userService.getUsers().subscribe(users => {
+            this.user = users.find(u => u.id === userId);
+        });
     }
 
     onLogout() {
