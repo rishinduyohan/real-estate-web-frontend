@@ -39,7 +39,8 @@
 
                 <div class="space-y-4">
                     <div *ngFor="let property of topProperties" class="flex gap-3">
-                        <img [src]="property.image" [alt]="property.title" class="w-16 h-16 rounded-xl object-cover" />
+                        <img [src]="property.images && property.images.length > 0 ? property.images[0] : ''"
+                            [alt]="property.title" class="w-16 h-16 rounded-xl object-cover" />
                         <div class="flex-1 min-w-0">
                             <p class="font-medium line-clamp-1 mb-1">{{ property.title }}</p>
                             <div class="flex items-center gap-3 text-xs text-muted-foreground">
@@ -65,10 +66,7 @@
             <div class="p-6 border-b border-border">
                 <h3 class="font-semibold text-lg">Recent Properties</h3>
             </div>
-           <app-property-table
-           [allProperties]="recentProperties"
-           (deleted)="onDelete($event)"
-           ></app-property-table>
+            <app-property-table [allProperties]="recentProperties" (deleted)="onDelete($event)"></app-property-table>
         </div>
     </div>
 </div>

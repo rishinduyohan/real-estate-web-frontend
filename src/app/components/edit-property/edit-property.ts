@@ -44,6 +44,9 @@ export class EditProperty implements OnInit {
                 this.propertyService.getPropertyById(+id).subscribe(prop => {
                     if (prop) {
                         this.property = { ...prop };
+                        if (!this.property.images || this.property.images.length === 0) {
+                            this.property.images = [''];
+                        }
                     } else {
                         this.router.navigate(['/manage-properties']);
                     }
@@ -61,23 +64,22 @@ export class EditProperty implements OnInit {
             price: 0,
             size: '',
             status: 'Available',
-            image: '',
+            images: [''],
             ownerId: this.authService.getCurrentUserId(),
             details: {
                 bedrooms: 0,
                 bathrooms: 0,
-                description: '',
-                images: []
+                description: ''
             }
         };
     }
 
     addImageUrl() {
-        this.property.details.images.push('');
+        this.property.images.push('');
     }
 
     removeImageUrl(index: number) {
-        this.property.details.images.splice(index, 1);
+        this.property.images.splice(index + 1, 1);
     }
 
     customTrackBy(index: number, obj: any): any {

@@ -32,10 +32,12 @@
 
         <div *ngIf="!loading && savedProperties.length > 0"
             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <app-property-card *ngFor="let property of savedProperties" [id]="property.id.toString()"
-                [image]="property.image" [title]="property.title" [price]="property.price" [area]="property.location"
-                [status]="property.status" [type]="property.type" [bedrooms]="property.details.bedrooms"
-                [bathrooms]="property.details.bathrooms" [size]="property.size" (cardClick)="onPropertyClick($event)">
+            <app-property-card *ngFor="let property of savedProperties" [id]="property.id ? property.id.toString() : ''"
+                [image]="property.images && property.images.length > 0 ? property.images[0] : ''"
+                [title]="property.title" [price]="property.price" [area]="property.location" [status]="property.status"
+                [type]="property.type" [bedrooms]="property.details.bedrooms || 0"
+                [bathrooms]="property.details.bathrooms || 0" [size]="property.size"
+                (cardClick)="onPropertyClick($event)">
             </app-property-card>
         </div>
     </div>

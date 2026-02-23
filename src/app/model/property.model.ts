@@ -1,19 +1,19 @@
-export interface Property{
-    id:number;
-    image:string;
-    title:string;
-    type:'House'|'Apartment'|'Land';
-    location:string;
-    price:number;
-    size:string;
-    status:'Available'|'Sold'|'Rented';
-    details:PropertyDetails;
-    ownerId:number;
+export interface Property {
+    id?: number;
+    title: string;
+    type: 'House' | 'Apartment' | 'Land';
+    location: string;
+    price: number;
+    size: string;
+    status: 'Available' | 'Sold' | 'Rented';
+    images: string[]; 
+    ownerId: number;
+    ownerName?: string; 
+    details: PropertyDetails;
 }
 
-export interface PropertyDetails{
-    bedrooms:number;
-    bathrooms:number;
-    description:string;
-    images:string[];
+export interface PropertyDetails {
+    bedrooms: number;
+    bathrooms: number;
+    description: string;
 }

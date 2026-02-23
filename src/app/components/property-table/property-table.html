@@ -25,7 +25,8 @@
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
                             <div class="h-16 w-24 flex-shrink-0">
-                                <img class="h-16 w-24 rounded-lg object-cover" [src]="property.image"
+                                <img class="h-16 w-24 rounded-lg object-cover"
+                                    [src]="property.images && property.images.length > 0 ? property.images[0] : ''"
                                     [alt]="property.title">
                             </div>
                             <div class="ml-4">
@@ -68,7 +69,7 @@
                                         d="M11 5H6a2 2 0 00-2 2v11a2 2 0 00 2 2h11a2 2 0 00 2-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>
                             </button>
-                            <button (click)="deleteProperty(property.id)"
+                            <button (click)="deleteProperty(property.id || 0)"
                                 class="text-gray-400 hover:text-red-600 transition-colors" title="Delete">
                                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -48,8 +48,8 @@ export class PropertyDetail implements OnInit {
       if (id) {
         this.propertyService.getPropertyById(+id).subscribe(prop => {
           this.property = prop;
-          if (prop && prop.details) {
-            this.images = prop.details.images;
+          if (prop && prop.images) {
+            this.images = prop.images;
           }
           this.checkIfSaved();
         });

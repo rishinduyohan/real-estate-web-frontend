@@ -45,23 +45,23 @@ export class AddPropertyComponent {
             price: 0,
             size: '',
             status: 'Available',
-            image: '',
+            images: [''], // Initialize with main image string at index 0
             ownerId: this.authService.getCurrentUserId(),
             details: {
                 bedrooms: 0,
                 bathrooms: 0,
-                description: '',
-                images: []
+                description: ''
             }
         };
     }
 
     addImageUrl() {
-        this.property.details.images.push('');
+        this.property.images.push('');
     }
 
     removeImageUrl(index: number) {
-        this.property.details.images.splice(index, 1);
+        // We add +1 because index represents the index in the *ngFor of additional images
+        this.property.images.splice(index + 1, 1);
     }
 
     customTrackBy(index: number, obj: any): any {

@@ -42,7 +42,7 @@
     <div class="px-6 py-6 max-w-6xl mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div class="lg:col-span-2 space-y-6">
-                <div class="bg-card rounded-2xl p-6 shadow-sm">
+                <div class="bg-card rounded-none p-6 shadow-sm">
                     <div class="flex items-start justify-between mb-4">
                         <div>
                             <div class="flex items-center gap-2 mb-2">
@@ -55,7 +55,7 @@
                                     {{ property.type }}
                                 </span>
                             </div>
-                            <h1 class="text-2xl mb-2 font-bold">{{ property.title }}</h1>
+                            <h1 class="text-xl md:text-2xl mb-2 font-semibold">{{ property.title }}</h1>
                             <div class="flex items-center gap-2 text-muted-foreground">
                                 <lucide-angular [img]="MapPin" class="w-4 h-4"></lucide-angular>
                                 <span>{{ property.location }}</span>
@@ -90,15 +90,15 @@
                             <lucide-angular [img]="Maximize" class="w-5 h-5 text-primary"></lucide-angular>
                             <div>
                                 <p class="text-sm text-muted-foreground">Area</p>
-                                <p class="font-medium">{{ property.size }}</p>
+                                <p class="font-normal">{{ property.size }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Description -->
-                <div class="bg-card rounded-2xl p-6 shadow-sm">
-                    <h3 class="mb-3 text-lg font-semibold">Description</h3>
+                <div class="bg-card rounded-none p-6 shadow-sm">
+                    <h3 class="mb-3 text-balance font-semibold">Description</h3>
                     <p class="text-muted-foreground leading-relaxed">
                         This stunning property offers modern living at its finest. Located in the heart of {{
                         property.location.split(',')[0] }},

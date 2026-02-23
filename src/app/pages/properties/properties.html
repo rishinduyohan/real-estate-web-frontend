@@ -91,10 +91,11 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6">
-        <app-property-card *ngFor="let prop of filteredProperties" [id]='prop.id.toString()' [image]="prop.image"
-            [title]="prop.title" [price]="prop.price" [area]="prop.location" [description]="prop.details.description"
-            [status]='prop.status' [type]="prop.type" [size]="prop.size" [bedrooms]="prop.details.bedrooms"
-            [bathrooms]="prop.details.bathrooms" (cardClick)="onPropertyClick(prop.id)"></app-property-card>
+        <app-property-card *ngFor="let prop of filteredProperties" [id]='prop.id ? prop.id.toString() : ""'
+            [image]="prop.images && prop.images.length > 0 ? prop.images[0] : ''" [title]="prop.title"
+            [price]="prop.price" [area]="prop.location" [description]="prop.details.description || ''"
+            [status]='prop.status' [type]="prop.type" [size]="prop.size" [bedrooms]="prop.details.bedrooms || 0"
+            [bathrooms]="prop.details.bathrooms || 0" (cardClick)="onPropertyClick(prop.id || 0)"></app-property-card>
     </div>
 
     <div *ngIf="filteredProperties.length === 0" class="text-center py-20">
