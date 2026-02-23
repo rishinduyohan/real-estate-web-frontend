@@ -57,11 +57,20 @@ export class Register {
 
     this.setUserDetails();
 
-    console.log('Registered User:', this.user);
+    console.log('Registering User:', this.user);
 
-    this.authService.login(this.user);
-
-    this.router.navigate(['/']);
+    this.authService.register(this.user).subscribe({
+      next: (response) => {
+        // Some backends might automatically log in the user, or return a token on register
+        // For now, assume we just redirect to login so they can log in
+        alert('Registration successful! Please log in.');
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Registration error', err);
+        alert('Failed to register. Please try again.');
+      }
+    });
   }
 
   setUserDetails() {

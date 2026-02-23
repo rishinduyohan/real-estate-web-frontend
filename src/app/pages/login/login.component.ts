@@ -25,30 +25,31 @@ export class LoginComponent {
   readonly Eye = Eye;
   readonly EyeOff = EyeOff;
 
-  constructor(private authService: AuthService, private router: Router,private userService:UserService) { }
+  constructor(private authService: AuthService, private router: Router, private userService: UserService) { }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
   onSubmit() {
-  this.userService.validateUser(this.email, this.password).subscribe(user => {
-    if (user) {
-      this.authService.login(user); 
-
-      if (user.role === 'admin') {
-        this.router.navigate(['/dashboard']);
-      } else {
-        this.router.navigate(['/']);
+    this.authService.login({ email: this.email, password: this.password }).subscribe({
+      next: (response) => {
+        const userRole = this.authService.getCurrentRole();
+        if (userRole === 'admin') {
+          this.router.navigate(['/dashboard']);
+        } else{
+          this.router.navigate(['/']);
+        }
+      },
+      error: (err) => {
+        console.error('Login failed', err);
+        alert('Invalid email or password. Please try again.');
       }
-    } else {
-      alert('Invalid email or password. Please try again.');
-    }
-  });
-}
+    });
+  }
 
-fillDemoAdmin() {
-  this.email = 'admin@lkestate.lk';
-  this.password = '1234';
-}
+  fillDemoAdmin() {
+    this.email = 'admin@lkestate.lk';
+    this.password = '1234';
+  }
 }
