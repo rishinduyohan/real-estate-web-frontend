@@ -4,8 +4,6 @@
 
 <div class="min-h-screen bg-gray-50 pb-20 pt-6">
     <div class="container mx-auto px-4 max-w-md">
-
-        <!-- Profile Header -->
         <div *ngIf="user" class="flex flex-col items-center mb-8">
             <div class="w-24 h-24 rounded-full border-4 border-white shadow-md overflow-hidden mb-3">
                 <img [src]="user.imageUrl || 'https://via.placeholder.com/150'" alt="Profile"
@@ -14,8 +12,6 @@
             <h1 class="text-xl font-bold text-gray-900">{{ user.username }}</h1>
             <p class="text-sm text-gray-500 capitalize">{{ user.role }}</p>
         </div>
-
-        <!-- Contact Information Card -->
         <div *ngIf="user" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6">
             <h2 class="text-sm font-semibold text-gray-900 mb-4">Contact Information</h2>
 
@@ -64,8 +60,6 @@
                 <lucide-angular [img]="ChevronRight" class="w-4 h-4 text-gray-300"></lucide-angular>
             </button>
         </div>
-
-        <!-- Logout Button -->
         <button (click)="onLogout()"
             class="w-full py-3.5 rounded-xl border border-orange-500 text-orange-500 font-medium text-sm flex items-center justify-center gap-2 hover:bg-orange-50 transition-all active:scale-[0.98]">
             <lucide-angular [img]="LogOut" class="w-4 h-4"></lucide-angular>
@@ -73,8 +67,6 @@
         </button>
 
     </div>
-
-    <!-- Edit Profile Modal -->
     <app-edit-profile-modal [isOpen]="isEditModalOpen" [user]="user" (close)="closeSettings()"
         (userUpdated)="onUserUpdated()">
     </app-edit-profile-modal>

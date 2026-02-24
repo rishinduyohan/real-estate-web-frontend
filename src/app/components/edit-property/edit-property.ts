@@ -57,13 +57,12 @@ export class EditProperty implements OnInit {
 
     initNewProperty() {
         this.property = {
-            id: 0,
             title: '',
             location: '',
-            type: 'House',
+            type: 'HOUSE',
             price: 0,
             size: '',
-            status: 'Available',
+            status: 'AVAILABLE',
             images: [''],
             ownerId: this.authService.getCurrentUserId(),
             details: {

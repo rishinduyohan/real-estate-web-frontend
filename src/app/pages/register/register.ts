@@ -61,6 +61,8 @@ export class Register {
 
     this.authService.register(this.user).subscribe({
       next: (response) => {
+        console.log(response);
+        
         alert('Registration successful! Please log in.');
         this.router.navigate(['/login']);
       },
@@ -73,12 +75,11 @@ export class Register {
 
   setUserDetails() {
     this.user =  {
-      id: Date.now(),
       username: this.name,
       email: this.email,
       password: this.password,
       role: this.role as 'customer' | 'owner' | 'admin',
-      phone: this.role === 'owner' ? '123-456-7890' : undefined,
+      phone: this.phone,
       imageUrl: 'https://via.placeholder.com/150',
     };
   }

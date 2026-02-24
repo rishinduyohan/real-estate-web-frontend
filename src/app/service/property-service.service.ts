@@ -45,7 +45,7 @@ export class PropertyService {
   }
 
   addProperty(property: Property): Observable<Property> {
-    return this.http.post<Property>(this.url, property).pipe(
+    return this.http.post<Property>(`${this.url}/add`, property).pipe(
       tap(newProperty => {
         this.properties.set([...this.properties(), newProperty]);
       })

@@ -60,23 +60,19 @@
                             <div class="mt-1">
                                 <select id="type" name="type" [(ngModel)]="property.type"
                                     class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                                    <option>House</option>
-                                    <option>Apartment</option>
-                                    <option>Land</option>
-                                    <option>Commercial</option>
+                                    <option value="" disabled selected>Select Property Type</option>
+                                    <option>HOUSE</option>
+                                    <option>APARTMENT</option>
+                                    <option>LAND</option>
                                 </select>
                             </div>
                         </div>
 
                         <div>
-                            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                            <label class="block text-sm font-medium text-gray-700">Status</label>
                             <div class="mt-1">
-                                <select id="status" name="status" [(ngModel)]="property.status"
-                                    class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                                    <option>Available</option>
-                                    <option>Sold</option>
-                                    <option>Rented</option>
-                                </select>
+                                <input type="text" [value]="'AVAILABLE'" readonly
+                                    class="block w-full py-2 px-3 border border-gray-300 bg-green-600 text-white rounded-md shadow-sm sm:text-sm cursor-not-allowed">
                             </div>
                         </div>
                     </div>

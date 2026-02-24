@@ -16,7 +16,7 @@ import { EditProfileModalComponent } from '../../components/edit-profile-modal/e
     templateUrl: './my-profile.html',
 })
 export class MyProfileComponent implements OnInit {
-    user: User | undefined;
+    user!: User | any;
 
     // Hardcoded location for now as it's not in the User model
     userLocation = 'Colombo, Sri Lanka';
@@ -54,8 +54,8 @@ export class MyProfileComponent implements OnInit {
 
     loadUser() {
         const userId = this.authService.getCurrentUserId();
-        this.userService.getUsers().subscribe(users => {
-            this.user = users.find(u => u.id === userId);
+        this.userService.searchUser(userId).subscribe(res=>{
+            this.user = res;
         });
     }
 

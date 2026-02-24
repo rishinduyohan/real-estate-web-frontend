@@ -80,7 +80,7 @@ export class UserProfileComponent {
     }
 
     openNotifications() {
-        alert('Notifications clicked');
+        this.router.navigate(['/inquiries']);
         this.closeMenu();
     }
 

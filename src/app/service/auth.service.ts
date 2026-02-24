@@ -23,6 +23,8 @@ export class AuthService {
   private userIdSubject = new BehaviorSubject<number>(Number(localStorage.getItem('userId')) || 0);
   userId$ = this.userIdSubject.asObservable();
 
+  private user!:User;
+
   constructor(private http: HttpClient, private router: Router) { }
 
   private hasToken(): boolean {
@@ -34,21 +36,21 @@ export class AuthService {
       tap((response: any) => {
         const token = response.token || response.jwt;
         const user = response.user || response;
-        console.log(response);
+        this.user = user;
         
         if (token) {
           localStorage.setItem('token', token);
           console.log(token);
           
         }
-        localStorage.setItem('userRole', user.role || 'customer');
-        localStorage.setItem('userName', user.fullName || user.name || 'User');
+        localStorage.setItem('userRole', user.role);
+        localStorage.setItem('userName', user.username );
         if (user.id) localStorage.setItem('userId', user.id.toString());
 
         this.isAuthenticatedSubject.next(true);
-        this.userRoleSubject.next(user.role || 'customer');
-        this.userIdSubject.next(user.id || 0);
-        this.userNameSubject.next(user.fullName || user.name || 'User');
+        this.userRoleSubject.next(user.role);
+        this.userIdSubject.next(user.id );
+        this.userNameSubject.next(user.username);
       })
     );
   }
@@ -68,6 +70,10 @@ export class AuthService {
     this.userNameSubject.next('Guest');
     this.userIdSubject.next(0);
     this.router.navigate(['/login']);
+  }
+
+  getCurrentUser():User{
+    return this.user;
   }
 
   getCurrentRole() {

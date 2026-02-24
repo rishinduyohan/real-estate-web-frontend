@@ -38,14 +38,13 @@ export class AddPropertyComponent {
 
     initNewProperty() {
         this.property = {
-            id: 0,
             title: '',
             location: '',
-            type: 'House',
+            type: 'HOUSE',
             price: 0,
             size: '',
-            status: 'Available',
-            images: [''], // Initialize with main image string at index 0
+            status: 'AVAILABLE',
+            images: [''], 
             ownerId: this.authService.getCurrentUserId(),
             details: {
                 bedrooms: 0,
@@ -60,7 +59,6 @@ export class AddPropertyComponent {
     }
 
     removeImageUrl(index: number) {
-        // We add +1 because index represents the index in the *ngFor of additional images
         this.property.images.splice(index + 1, 1);
     }
 
