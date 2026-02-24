@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { LucideAngularModule, User, Settings, Shield, Bell, HelpCircle, LogOut } from 'lucide-angular';
@@ -13,7 +13,7 @@ import { EditProfileModalComponent } from '../edit-profile-modal/edit-profile-mo
     imports: [CommonModule, RouterModule, LucideAngularModule, EditProfileModalComponent],
     templateUrl: './user-profile.html',
 })
-export class UserProfileComponent {
+export class UserProfileComponent implements OnInit {
     @Input() userRole: string = '';
     @Output() logout = new EventEmitter<void>();
 
@@ -34,6 +34,24 @@ export class UserProfileComponent {
         private userService: UserService
     ) { }
 
+    ngOnInit() {
+        this.loadUser();
+    }
+
+    loadUser() {
+        const userId = this.authService.getCurrentUserId();
+        if (userId) {
+            this.userService.searchUser(userId).subscribe({
+                next: (user) => {
+                    this.currentUser = user;
+                },
+                error: (err) => {
+                    console.error('Failed to load user profile in navbar', err);
+                }
+            });
+        }
+    }
+
     toggleMenu() {
         this.isOpen = !this.isOpen;
     }
@@ -53,11 +71,6 @@ export class UserProfileComponent {
     }
 
     openSettings() {
-        const userId = this.authService.getCurrentUserId();
-        this.userService.getUsers().subscribe(users => {
-            this.currentUser = users.find(u => u.id === userId);
-        });
-
         this.isEditModalOpen = true;
         this.closeMenu();
     }
@@ -67,11 +80,7 @@ export class UserProfileComponent {
     }
 
     onUserUpdated() {
-        // Refresh user data if needed, or just close
-        const userId = this.authService.getCurrentUserId();
-        this.userService.getUsers().subscribe(users => {
-            this.currentUser = users.find(u => u.id === userId);
-        });
+        this.loadUser();
     }
 
     openPrivacy() {

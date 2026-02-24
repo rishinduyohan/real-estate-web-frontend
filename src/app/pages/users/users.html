@@ -287,13 +287,16 @@
 
         <!-- Modal Footer -->
         <div class="px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex justify-end gap-3">
-            <button type="button" (click)="closeModal()"
-                class="px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-200 bg-gray-100 rounded-xl transition-colors">
+            <button type="button" (click)="closeModal()" [disabled]="isUploading"
+                class="px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-200 bg-gray-100 rounded-xl transition-colors disabled:opacity-50">
                 Cancel
             </button>
-            <button type="button" (click)="saveUser()" [disabled]="(!formData.username || !formData.email)"
-                class="px-5 py-2.5 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-xl transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
-                Save Changes
+            <button type="button" (click)="saveUser()"
+                [disabled]="(!formData.username || !formData.email) || isUploading"
+                class="px-5 py-2.5 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-xl transition-colors shadow-sm disabled:opacity-50 flex items-center gap-2">
+                <span *ngIf="isUploading"
+                    class="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
+                {{ isUploading ? 'Saving...' : 'Save Changes' }}
             </button>
         </div>
     </div>

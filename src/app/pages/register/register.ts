@@ -2,8 +2,9 @@ import { Component, Input } from '@angular/core';
 import { CommonModule, getLocaleDateFormat } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { LucideAngularModule, Mail, UserCheck, Lock, Eye, EyeOff, Phone } from 'lucide-angular';
+import { LucideAngularModule, Mail, UserCheck, Lock, Eye, EyeOff, Phone, Camera } from 'lucide-angular';
 import { AuthService } from '../../service/auth.service';
+import { CloudinaryService } from '../../service/CloudinaryService.service';
 import { User } from '../../model/user.model';
 
 @Component({
@@ -23,6 +24,10 @@ export class Register {
   agreedToTerms = false;
   @Input() role !: 'customer' | 'owner';
 
+  isUploading = false;
+  selectedFile: File | null = null;
+  avatarPreview: string | null = null;
+
   user !: User;
 
   readonly User2 = UserCheck;
@@ -31,8 +36,13 @@ export class Register {
   readonly Eye = Eye;
   readonly EyeOff = EyeOff;
   readonly Phone = Phone;
+  readonly Camera = Camera;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private cloudinaryService: CloudinaryService,
+    private router: Router
+  ) { }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
@@ -40,6 +50,18 @@ export class Register {
 
   setUserType(type: 'buyer' | 'seller') {
     this.userType = type;
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.avatarPreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   onSubmit() {
@@ -55,32 +77,52 @@ export class Register {
 
     this.role = this.userType === 'buyer' ? 'customer' : 'owner';
 
-    this.setUserDetails();
+    this.isUploading = true;
 
+    // First upload the profile picture, if it exists
+    if (this.selectedFile) {
+      this.cloudinaryService.uploadImages([this.selectedFile]).subscribe({
+        next: (urls) => {
+          this.setUserDetails(urls[0]); // Pass Cloudinary link
+          this.executeRegistration();
+        },
+        error: (err) => {
+          console.error('Registration Avatar upload error', err);
+          alert('Failed to upload profile photo. Please try again.');
+          this.isUploading = false;
+        }
+      });
+    } else {
+      // Run with default placeholder mapping
+      this.setUserDetails();
+      this.executeRegistration();
+    }
+  }
+
+  private executeRegistration() {
     console.log('Registering User:', this.user);
-
     this.authService.register(this.user).subscribe({
       next: (response) => {
-        console.log(response);
-        
+        this.isUploading = false;
         alert('Registration successful! Please log in.');
         this.router.navigate(['/login']);
       },
       error: (err) => {
         console.error('Registration error', err);
+        this.isUploading = false;
         alert('Failed to register. Please try again.');
       }
     });
   }
 
-  setUserDetails() {
-    this.user =  {
+  setUserDetails(uploadedUrl?: string) {
+    this.user = {
       username: this.name,
       email: this.email,
       password: this.password,
       role: this.role as 'customer' | 'owner' | 'admin',
       phone: this.phone,
-      imageUrl: 'https://via.placeholder.com/150',
+      imageUrl: uploadedUrl || 'https://via.placeholder.com/150',
     };
   }
 }

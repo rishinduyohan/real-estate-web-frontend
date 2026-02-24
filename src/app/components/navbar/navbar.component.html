@@ -24,7 +24,7 @@
             <div class="hidden lg:flex items-center gap-3">
                 <ng-container *ngIf="isAuthenticated; else guestControls">
 
-                    <button *ngIf="userRole === 'customer'" [routerLink]="['/saved-properties']"
+                    <button *ngIf="userRole === 'CUSTOMER' || userRole === 'OWNER'" [routerLink]="['/saved-properties']"
                         class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-secondary transition-all">
                         <lucide-angular [img]="Heart" class="w-5 h-5 text-muted-foreground"></lucide-angular>
                     </button>

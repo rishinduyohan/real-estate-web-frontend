@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { UserService } from '../../service/user.service';
+import { CloudinaryService } from '../../service/CloudinaryService.service';
 import { User } from '../../model/user.model';
 import { LucideAngularModule, Search, Plus, Trash2, Edit, Mail, Trophy, MapPin, Star, Home, X, Camera } from 'lucide-angular';
 
@@ -27,6 +28,9 @@ export class UserManagementPage implements OnInit {
     editingUser: any = null;
     formData: any = {};
 
+    selectedFile: File | null = null;
+    isUploading = false;
+
     readonly Search = Search;
     readonly Plus = Plus;
     readonly Trash2 = Trash2;
@@ -40,7 +44,8 @@ export class UserManagementPage implements OnInit {
     readonly Camera = Camera;
 
     constructor(
-        private userService: UserService
+        private userService: UserService,
+        private cloudinaryService: CloudinaryService
     ) { }
 
     ngOnInit() {
@@ -129,9 +134,10 @@ export class UserManagementPage implements OnInit {
     onFileSelected(event: any) {
         const file = event.target.files[0];
         if (file) {
+            this.selectedFile = file; // Persist internal blob cache
             const reader = new FileReader();
             reader.onload = (e: any) => {
-                this.formData.imageUrl = e.target.result;
+                this.formData.imageUrl = e.target.result; // Pre-cache UI thumbnail preview
             };
             reader.readAsDataURL(file);
         }
@@ -140,6 +146,7 @@ export class UserManagementPage implements OnInit {
     closeModal() {
         this.isModalOpen = false;
         this.editingUser = null;
+        this.selectedFile = null; // Clear out pending blobs unconditionally
         this.formData = {};
     }
 
@@ -147,6 +154,26 @@ export class UserManagementPage implements OnInit {
         const user = this.formData;
         if (!user.properties) user.properties = [];
 
+        this.isUploading = true;
+
+        if (this.selectedFile) {
+            this.cloudinaryService.uploadImages([this.selectedFile]).subscribe({
+                next: (urls) => {
+                    user.imageUrl = urls[0];
+                    this.executeUserSave(user);
+                },
+                error: (err) => {
+                    console.error('Failed to upload profile picture via admin panel', err);
+                    alert('Image upload failed. Please try again.');
+                    this.isUploading = false;
+                }
+            });
+        } else {
+            this.executeUserSave(user);
+        }
+    }
+
+    private executeUserSave(user: any) {
         if (this.editingUser) {
             this.userService.updateUser(user).subscribe(() => { this.closeAndRefresh(); });
         } else {
