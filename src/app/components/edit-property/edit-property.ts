@@ -6,6 +6,8 @@ import { LucideAngularModule, Save, X, ArrowLeft, Plus, Trash2 } from 'lucide-an
 import { PropertyService } from '../../service/property-service.service';
 import { Property } from '../../model/property.model';
 import { AuthService } from '../../service/auth.service';
+import { CloudinaryService } from '../../service/CloudinaryService.service';
+import { forkJoin, of } from 'rxjs';
 
 @Component({
     selector: 'app-edit-property',
@@ -20,6 +22,9 @@ export class EditProperty implements OnInit {
     @Output() saved = new EventEmitter();
     @Output() closed = new EventEmitter();
 
+    selectedFiles: { file: File, preview: string }[] = [];
+    isUploading = false;
+
     readonly Save = Save;
     readonly X = X;
     readonly ArrowLeft = ArrowLeft;
@@ -30,7 +35,8 @@ export class EditProperty implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private propertyService: PropertyService,
-        private authService: AuthService
+        private authService: AuthService,
+        private cloudinaryService: CloudinaryService
     ) { }
 
     ngOnInit() {
@@ -44,8 +50,8 @@ export class EditProperty implements OnInit {
                 this.propertyService.getPropertyById(+id).subscribe(prop => {
                     if (prop) {
                         this.property = { ...prop };
-                        if (!this.property.images || this.property.images.length === 0) {
-                            this.property.images = [''];
+                        if (!this.property.images) {
+                            this.property.images = [];
                         }
                     } else {
                         this.router.navigate(['/manage-properties']);
@@ -63,7 +69,7 @@ export class EditProperty implements OnInit {
             price: 0,
             size: '',
             status: 'AVAILABLE',
-            images: [''],
+            images: [],
             ownerId: this.authService.getCurrentUserId(),
             details: {
                 bedrooms: 0,
@@ -73,30 +79,60 @@ export class EditProperty implements OnInit {
         };
     }
 
-    addImageUrl() {
-        this.property.images.push('');
+    onFilesSelected(event: any) {
+        const files: FileList = event.target.files;
+        if (files && files.length > 0) {
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e: any) => {
+                    this.selectedFiles.push({ file, preview: e.target.result });
+                };
+                reader.readAsDataURL(file);
+            });
+        }
     }
 
-    removeImageUrl(index: number) {
-        this.property.images.splice(index + 1, 1);
+    removeExistingImage(index: number) {
+        this.property.images.splice(index, 1);
     }
 
-    customTrackBy(index: number, obj: any): any {
-        return index;
+    removeNewFile(index: number) {
+        this.selectedFiles.splice(index, 1);
     }
 
     onSubmit() {
-        if (this.property.id === 0) {
-            this.propertyService.addProperty(this.property).subscribe(() => {
-                alert('Property added successfully!');
-                this.saved.emit();
+        if (this.property.images.length === 0 && this.selectedFiles.length === 0) {
+            alert('Please select at least one image for the property.');
+            return;
+        }
+
+        this.isUploading = true;
+
+        if (this.selectedFiles.length > 0) {
+            const filesToUpload = this.selectedFiles.map(f => f.file);
+            this.cloudinaryService.uploadImages(filesToUpload).subscribe({
+                next: (urls) => {
+                    this.property.images = [...this.property.images, ...urls];
+                    this.savePropertyChanges();
+                },
+                error: (err) => {
+                    console.error("Cloudinary upload failed", err);
+                    alert('Failed to upload images. Please try again.');
+                    this.isUploading = false;
+                }
             });
         } else {
-            this.propertyService.updateProperty(this.property).subscribe(() => {
-                alert('Property updated successfully!');
-                this.saved.emit();
-            });
+            this.savePropertyChanges();
         }
+    }
+
+    private savePropertyChanges() {
+        this.propertyService.updateProperty(this.property).subscribe(() => {
+            alert('Property updated successfully!');
+            this.isUploading = false;
+            this.selectedFiles = []; 
+            this.saved.emit();
+        });
     }
 
     cancel(): void {

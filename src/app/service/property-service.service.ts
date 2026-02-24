@@ -31,7 +31,7 @@ export class PropertyService {
     );
   }
   updateProperty(property: Property): Observable<Property> {
-    return this.http.put<Property>(`${this.url}/${property.id}`, property).pipe(
+    return this.http.put<Property>(`${this.url}/update`, property).pipe(
       tap(updatedProperty => {
         const currentProperties = this.properties();
         const index = currentProperties.findIndex(p => p.id === updatedProperty.id);

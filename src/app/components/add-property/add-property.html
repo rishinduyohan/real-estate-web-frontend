@@ -113,43 +113,58 @@
                     </div>
 
                     <div>
-                        <label for="image" class="block text-sm font-medium text-gray-700">Main Image URL</label>
-                        <div class="mt-1">
-                            <input type="text" name="image" id="image" required [(ngModel)]="property.images[0]"
-                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                        </div>
-                    </div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Property Images</label>
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Additional Images</label>
-                        <div class="space-y-2">
-                            <ng-container *ngFor="let img of property.images; let i = index; trackBy: customTrackBy">
-                                <div *ngIf="i > 0" class="flex gap-2 mb-2">
-                                    <input type="text" [name]="'detailImage' + i" [(ngModel)]="property.images[i]"
-                                        class="flex-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                                        placeholder="Image URL">
-                                    <button type="button" (click)="removeImageUrl(i - 1)"
-                                        class="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition-colors">
-                                        <lucide-angular [img]="Trash2" class="w-5 h-5"></lucide-angular>
+                        <!-- Image Upload Container -->
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-primary hover:bg-gray-50 transition-colors cursor-pointer"
+                            (click)="fileInput.click()">
+                            <div class="space-y-1 text-center">
+                                <lucide-angular [img]="Plus" class="mx-auto h-12 w-12 text-gray-400"></lucide-angular>
+                                <div class="flex text-sm text-gray-600 justify-center">
+                                    <label for="file-upload"
+                                        class="relative cursor-pointer bg-white rounded-md font-medium text-primary hover:text-orange-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary">
+                                        <span>Upload files</span>
+                                        <input id="file-upload" name="file-upload" type="file" multiple accept="image/*"
+                                            class="sr-only" #fileInput (change)="onFilesSelected($event)">
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                            </div>
+                        </div>
+
+                        <!-- Image Preview Grid -->
+                        <div *ngIf="imagePreviews.length > 0"
+                            class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+                            <div *ngFor="let preview of imagePreviews; let i = index"
+                                class="relative group aspect-w-1 aspect-h-1 rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+                                <img [src]="preview" alt="Property Preview" class="object-cover w-full h-24">
+                                <div
+                                    class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button type="button" (click)="removeImage(i)"
+                                        class="p-2 bg-white text-red-600 rounded-full hover:bg-red-50 focus:outline-none shadow-sm">
+                                        <lucide-angular [img]="Trash2" class="w-4 h-4"></lucide-angular>
                                     </button>
                                 </div>
-                            </ng-container>
-                            <button type="button" (click)="addImageUrl()"
-                                class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                <lucide-angular [img]="Plus" class="w-4 h-4 mr-2"></lucide-angular>
-                                Add Image
-                            </button>
+                                <!-- Badge for Main Image -->
+                                <div *ngIf="i === 0"
+                                    class="absolute top-0 left-0 bg-primary font-medium text-white text-[10px] px-2 py-0.5 m-1 rounded-sm shadow-sm">
+                                    Main Cover
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
-                        <button type="button" (click)="closeAddModal()"
-                            class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        <button type="button" (click)="closeAddModal()" [disabled]="isUploading"
+                            class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed">
                             Cancel
                         </button>
-                        <button type="submit"
-                            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                            Add Property
+                        <button type="submit" [disabled]="isUploading || selectedFiles.length === 0"
+                            class="inline-flex justify-center items-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed">
+                            <span *ngIf="isUploading"
+                                class="mr-2 h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
+                            {{ isUploading ? 'Uploading...' : 'Add Property' }}
                         </button>
                     </div>
                 </form>

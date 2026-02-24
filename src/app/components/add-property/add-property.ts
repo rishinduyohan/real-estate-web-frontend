@@ -5,6 +5,7 @@ import { LucideAngularModule, X, Plus, Trash2 } from 'lucide-angular';
 import { Property } from '../../model/property.model';
 import { PropertyService } from '../../service/property-service.service';
 import { AuthService } from '../../service/auth.service';
+import { CloudinaryService } from '../../service/CloudinaryService.service';
 
 @Component({
     selector: 'app-add-property',
@@ -18,13 +19,19 @@ export class AddPropertyComponent {
     isAddModalOpen = false;
     property!: Property;
 
+    // File upload state array
+    selectedFiles: File[] = [];
+    imagePreviews: string[] = [];
+    isUploading = false;
+
     readonly X = X;
     readonly Plus = Plus;
     readonly Trash2 = Trash2;
 
     constructor(
         private propertyService: PropertyService,
-        private authService: AuthService
+        private authService: AuthService,
+        private cloudinaryService: CloudinaryService
     ) { }
 
     openAddPropertyModal() {
@@ -44,7 +51,7 @@ export class AddPropertyComponent {
             price: 0,
             size: '',
             status: 'AVAILABLE',
-            images: [''], 
+            images: [],
             ownerId: this.authService.getCurrentUserId(),
             details: {
                 bedrooms: 0,
@@ -54,23 +61,50 @@ export class AddPropertyComponent {
         };
     }
 
-    addImageUrl() {
-        this.property.images.push('');
+    onFilesSelected(event: any) {
+        const files: FileList = event.target.files;
+        if (files && files.length > 0) {
+            Array.from(files).forEach(file => {
+                this.selectedFiles.push(file);
+
+                // Create preview URL
+                const reader = new FileReader();
+                reader.onload = (e: any) => {
+                    this.imagePreviews.push(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
     }
 
-    removeImageUrl(index: number) {
-        this.property.images.splice(index + 1, 1);
-    }
-
-    customTrackBy(index: number, obj: any): any {
-        return index;
+    removeImage(index: number) {
+        this.selectedFiles.splice(index, 1);
+        this.imagePreviews.splice(index, 1);
     }
 
     onSubmit() {
-        this.propertyService.addProperty(this.property).subscribe(() => {
-            alert('Property added successfully!');
-            this.saved.emit();
-            this.closeAddModal();
+        if (this.selectedFiles.length === 0) {
+            alert('Please select at least one image for the property.');
+            return;
+        }
+
+        this.isUploading = true;
+
+        this.cloudinaryService.uploadImages(this.selectedFiles).subscribe({
+            next: (urls) => {
+                this.property.images = urls;
+                this.propertyService.addProperty(this.property).subscribe(() => {
+                    alert('Property added successfully!');
+                    this.saved.emit();
+                    this.isUploading = false;
+                    this.closeAddModal();
+                });
+            },
+            error: (err) => {
+                console.error("Cloudinary upload failed", err);
+                alert('Failed to upload images. Please try again.');
+                this.isUploading = false;
+            }
         });
     }
 }
