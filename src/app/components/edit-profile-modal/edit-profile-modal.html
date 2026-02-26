@@ -8,7 +8,6 @@
         </div>
 
         <div class="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
-            <!-- Profile Image -->
             <div class="flex flex-col items-center mb-6">
                 <div class="relative group cursor-pointer" (click)="fileInput.click()">
                     <div class="w-24 h-24 rounded-full border-2 border-gray-100 p-1">
@@ -28,29 +27,21 @@
                     Photo</button>
                 <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" class="hidden">
             </div>
-
-            <!-- Name -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1.5">Username</label>
                 <input type="text" [(ngModel)]="editData.username"
                     class="w-full px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm">
             </div>
-
-            <!-- Email -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
                 <input type="email" [(ngModel)]="editData.email" readonly
-                    class="w-full px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm">
+                    class="w-full px-4 py-2.5 rounded-xl text-gray-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm">
             </div>
-
-            <!-- Phone -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1.5">Phone Number</label>
                 <input type="tel" [(ngModel)]="editData.phone"
                     class="w-full px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm">
             </div>
-
-            <!-- Location -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1.5">Location</label>
                 <input type="text" [(ngModel)]="editData.location"

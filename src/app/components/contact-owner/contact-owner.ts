@@ -22,6 +22,7 @@ export class ContactOwner implements OnInit {
     readonly X = X;
 
     user!: User;
+    propertyId!: number;
 
 
     constructor(
@@ -37,6 +38,7 @@ export class ContactOwner implements OnInit {
             if (id) {
                 this.propertyService.getPropertyById(+id).subscribe(prop => {
                     if (prop) {
+                        this.propertyId = prop.id || 0;
                         this.searchOwner(prop.ownerId);
                     }
                 })

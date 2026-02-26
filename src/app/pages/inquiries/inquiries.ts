@@ -23,6 +23,7 @@ export class InquiriesPage implements OnInit {
     isReplyModalOpen = false;
     replyMessage = '';
     isAdmin = false;
+    currentUserId: number = 0;
 
     readonly Search = Search;
     readonly MessageCircle = MessageCircle;
@@ -43,6 +44,7 @@ export class InquiriesPage implements OnInit {
 
     loadInquiries() {
         const userId = this.authService.getCurrentUserId();
+        this.currentUserId = userId;
         const role = this.authService.getCurrentRole();
 
         this.userService.getUsers().subscribe(users => {
@@ -50,9 +52,15 @@ export class InquiriesPage implements OnInit {
             this.isAdmin = user?.role === 'admin';
             const email = user ? user.email : '';
 
-            this.inquiryService.getInquiriesForUser(userId, role, email).subscribe({
+            this.inquiryService.getInquiriesForUser(userId, role).subscribe({
                 next: (data) => {
-                    this.inquiries = data;
+                    this.inquiries = data.map(inq => {
+                        const customerUser = users.find(u => u.id === inq.customerId) || users.find(u => u.email === inq.email);
+                        return {
+                            ...inq,
+                            customerImageUrl: customerUser ? customerUser.imageUrl : undefined
+                        };
+                    });
                     this.applyFilter();
                 },
                 error: (err) => console.error('Failed to load inquiries', err)
@@ -105,9 +113,9 @@ export class InquiriesPage implements OnInit {
 
     getStatusColor(status: string): string {
         switch (status) {
-            case 'New': return 'bg-blue-100 text-blue-800';
-            case 'In Progress': return 'bg-yellow-100 text-yellow-800';
-            case 'Responded': return 'bg-green-100 text-green-800';
+            case 'NEW': return 'bg-blue-100 text-blue-800';
+            case 'IN_PROGRESS': return 'bg-yellow-100 text-yellow-800';
+            case 'RESPONDED': return 'bg-green-100 text-green-800';
             default: return 'bg-gray-100 text-gray-800';
         }
     }

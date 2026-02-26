@@ -6,7 +6,9 @@ export interface Inquiry {
     message: string;
     propertyId?: number;
     propertyTitle?: string;
-    status: 'New' | 'In Progress' | 'Responded';
+    status: 'NEW' | 'IN_PROGRESS' | 'RESPONDED';
     date: Date;
     reply?: string;
+    customerId?: number;
+    customerImageUrl?: string;
 }
