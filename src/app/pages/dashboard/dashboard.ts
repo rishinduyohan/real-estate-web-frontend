@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { LucideAngularModule, Building2, MessageSquare, TrendingUp, Users, Eye, Heart, Phone } from 'lucide-angular';
 import { AuthService } from '../../service/auth.service';
 import { PropertyService } from '../../service/property-service.service';
+import { UserService } from '../../service/user.service';
+import { InquiryService } from '../../service/inquiry.service';
 import { Property } from '../../model/property.model';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { AdminInquiries } from '../../components/admin-inquiries/admin-inquiries';
@@ -12,7 +14,7 @@ import { PropertyTable } from '../../components/property-table/property-table';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, PropertyTable, LucideAngularModule,NavbarComponent,AdminInquiries],
+  imports: [CommonModule, RouterModule, PropertyTable, LucideAngularModule, NavbarComponent, AdminInquiries],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
@@ -67,20 +69,44 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private propertyService: PropertyService
+    private propertyService: PropertyService,
+    private userService: UserService,
+    private inquiryService: InquiryService
   ) { }
 
   ngOnInit() {
     this.userRole$ = this.authService.userRole$;
+
     this.propertyService.getProperties().subscribe(props => {
       this.topProperties = props.slice(0, 5);
+      this.updateStat('Total Properties', props.length);
+      this.updateStat('Properties Sold', props.filter(p => p.status === 'SOLD').length);
       this.loadAll();
     });
+
+    const userId = this.authService.getCurrentUserId();
+    const role = this.authService.getCurrentRole();
+    if (userId) {
+      this.inquiryService.getInquiriesForUser(userId, role).subscribe(inquiries => {
+        this.updateStat('Inquiries', inquiries.length);
+      });
+    }
+
+    this.userService.getUsers().subscribe(users => {
+      this.updateStat('Active Users', users.length);
+    });
+  }
+
+  updateStat(label: string, value: number) {
+    const stat = this.stats.find(s => s.label === label);
+    if (stat) {
+      stat.value = value.toString();
+    }
   }
 
   loadAll(): void {
     this.propertyService.getProperties().subscribe(res => {
-      this.recentProperties = res.slice(0,6);
+      this.recentProperties = res.slice(0, 6);
     });
   }
 

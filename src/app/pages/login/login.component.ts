@@ -35,7 +35,7 @@ export class LoginComponent {
     this.authService.login({ email: this.email, password: this.password }).subscribe({
       next: (response) => {
         const userRole = this.authService.getCurrentRole();
-        if (userRole === 'admin') {
+        if (userRole === 'ADMIN') {
           this.router.navigate(['/dashboard']);
         } else{
           this.router.navigate(['/']);

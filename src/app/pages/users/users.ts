@@ -8,16 +8,21 @@ import { CloudinaryService } from '../../service/CloudinaryService.service';
 import { User } from '../../model/user.model';
 import { LucideAngularModule, Search, Plus, Trash2, Edit, Mail, Trophy, MapPin, Star, Home, X, Camera } from 'lucide-angular';
 
+import { UserListComponent } from '../../components/user-list/user-list.component';
+import { TopPerformerComponent } from '../../components/top-performer/top-performer.component';
+import { UserModalComponent } from '../../components/user-modal/user-modal.component';
+
+
 @Component({
     selector: 'app-users',
     standalone: true,
-    imports: [CommonModule, FormsModule, NavbarComponent, FooterComponent, LucideAngularModule],
+    imports: [CommonModule, FormsModule, NavbarComponent, FooterComponent, LucideAngularModule, UserListComponent, TopPerformerComponent, UserModalComponent],
     templateUrl: './users.html',
 })
 export class UserManagementPage implements OnInit {
-    activeTab: 'owners' | 'customers' = 'owners';
+    activeTab: 'OWNERS' | 'CUSTOMERS' = 'OWNERS';
 
-    owners: User[] = [];
+    owners: User[] =[];
     customers: User[] = [];
     filteredUsers: any[] = [];
 
@@ -54,23 +59,23 @@ export class UserManagementPage implements OnInit {
 
     loadData() {
         this.userService.getUsers().subscribe(users => {
-            this.owners = users.filter(u => u.role === 'admin' || u.role === 'owner');
-            this.customers = users.filter(u => u.role === 'customer');
+            this.owners = users.filter(u => u.role === 'ADMIN' || u.role === 'OWNER');
+            this.customers = users.filter(u => u.role === 'CUSTOMER');
             this.filterUsers();
         });
     }
 
     get currentData() {
-        return this.activeTab === 'owners' ? this.owners : this.customers;
+        return this.activeTab === 'OWNERS' ? this.owners : this.customers;
     }
 
     filterUsers() {
         const data = this.currentData;
 
-        if (this.activeTab === 'owners') {
+        if (this.activeTab === 'OWNERS') {
             this.findBestUser(this.owners);
         } else {
-            this.bestUser = null; // No "best user" logic currently for customers
+            this.bestUser = null; 
         }
 
         if (!this.searchQuery) {
@@ -85,7 +90,7 @@ export class UserManagementPage implements OnInit {
         }
     }
 
-    switchTab(tab: 'owners' | 'customers') {
+    switchTab(tab: 'OWNERS' | 'CUSTOMERS') {
         this.activeTab = tab;
         this.searchQuery = '';
         this.filterUsers();
@@ -122,7 +127,7 @@ export class UserManagementPage implements OnInit {
             let baseId = Date.now();
             let baseImg = 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=400';
 
-            if (this.activeTab === 'owners') {
+            if (this.activeTab === 'OWNERS') {
                 this.formData = { id: baseId, username: '', email: '', phone: '', imageUrl: baseImg, role: 'owner', properties: [] };
             } else {
                 this.formData = { id: baseId, username: '', email: '', phone: '', role: 'customer', imageUrl: baseImg, password: 'password123' };
@@ -134,10 +139,10 @@ export class UserManagementPage implements OnInit {
     onFileSelected(event: any) {
         const file = event.target.files[0];
         if (file) {
-            this.selectedFile = file; // Persist internal blob cache
+            this.selectedFile = file;
             const reader = new FileReader();
             reader.onload = (e: any) => {
-                this.formData.imageUrl = e.target.result; // Pre-cache UI thumbnail preview
+                this.formData.imageUrl = e.target.result;
             };
             reader.readAsDataURL(file);
         }
@@ -146,18 +151,18 @@ export class UserManagementPage implements OnInit {
     closeModal() {
         this.isModalOpen = false;
         this.editingUser = null;
-        this.selectedFile = null; // Clear out pending blobs unconditionally
+        this.selectedFile = null; 
         this.formData = {};
     }
 
-    saveUser() {
-        const user = this.formData;
+    saveUser(event: { formData: any, file: File | null }) {
+        const user = event.formData;
         if (!user.properties) user.properties = [];
 
         this.isUploading = true;
 
-        if (this.selectedFile) {
-            this.cloudinaryService.uploadImages([this.selectedFile]).subscribe({
+        if (event.file) {
+            this.cloudinaryService.uploadImages([event.file]).subscribe({
                 next: (urls) => {
                     user.imageUrl = urls[0];
                     this.executeUserSave(user);
@@ -184,6 +189,6 @@ export class UserManagementPage implements OnInit {
     closeAndRefresh() {
         this.closeModal();
         this.loadData();
-        alert(`${this.activeTab === 'owners' ? 'Owner' : 'Customer'} saved successfully!`);
+        alert(`${this.activeTab === 'OWNERS' ? 'OWNER' : 'CUSTOMER'} saved successfully!`);
     }
 }

@@ -1,33 +1,32 @@
-<!-- Top Navigation & Title -->
 <app-navbar></app-navbar>
 
 <div class=" min-h-screen bg-gray-50 pt-24 pb-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Header Section -->
+
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
             <div>
                 <h1 class="text-3xl font-bold text-gray-900">User Management</h1>
                 <p class="text-gray-600 mt-1">Manage platform property owners and customers</p>
             </div>
 
-            <!-- Tab Navigation -->
+
             <div class="flex p-1 bg-white rounded-xl shadow-sm border border-gray-100">
-                <button (click)="switchTab('owners')"
-                    [class]="activeTab === 'owners' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'"
-                    class="px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-200">
-                    Owners
+                <button (click)="switchTab('OWNERS')"
+                    [class]="activeTab === 'OWNERS' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'"
+                    class="px-6 py-2.5 rounded-sm text-sm font-medium transition-all duration-200">
+                    OWNERS
                 </button>
-                <button (click)="switchTab('customers')"
-                    [class]="activeTab === 'customers' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'"
-                    class="px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-200">
-                    Customers
+                <button (click)="switchTab('CUSTOMERS')"
+                    [class]="activeTab === 'CUSTOMERS' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'"
+                    class="px-6 py-2.5 rounded-sm text-sm font-medium transition-all duration-200">
+                    CUSTOMERS
                 </button>
             </div>
         </div>
 
-        <!-- Action Bar -->
+
         <div class="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 mb-6">
-            <!-- Search -->
+  
             <div class="relative flex-1 max-w-md">
                 <lucide-angular [img]="Search"
                     class="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></lucide-angular>
@@ -36,268 +35,31 @@
             </div>
 
             <button (click)="openModal()"
-                class="flex items-center justify-center gap-2 px-6 py-2.5 bg-primary text-white rounded-xl font-medium hover:bg-primary/90 transition-all shadow-sm hover:shadow">
+                class="flex items-center justify-center gap-2 px-6 py-2.5 bg-primary text-white rounded-sm font-medium hover:bg-primary/90 transition-all shadow-sm hover:shadow">
                 <lucide-angular [img]="Plus" class="w-4 h-4"></lucide-angular>
-                Add {{ activeTab === 'owners' ? 'New Owner' : 'New Customer' }}
+                Add {{ activeTab === 'OWNERS' ? 'New OWNER' : 'New CUSTOMER' }}
             </button>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
 
-            <!-- Stats/Best User Column -->
             <div class="lg:col-span-1 space-y-6">
-                <!-- Top Performer Card -->
-                <div *ngIf="bestUser" class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                    <div class="flex items-center gap-3 mb-6 relative">
-                        <div
-                            class="absolute -top-3 -right-3 w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
-                            <lucide-angular [img]="Trophy" class="w-5 h-5 text-yellow-600"></lucide-angular>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-900 leading-tight">
-                            Top Performing Owner
-                        </h3>
-                    </div>
-
-                    <div class="flex flex-col items-center text-center">
-                        <div class="relative mb-4">
-                            <img [src]="bestUser.imageUrl || 'https://via.placeholder.com/150'"
-                                [alt]="bestUser.username"
-                                class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg mx-auto">
-                        </div>
-                        <h4 class="text-lg font-semibold text-gray-900">{{ bestUser.username }}</h4>
-                        <!-- No location on User model, showing rule or email -->
-                        <p class="text-sm text-gray-500 mb-4">{{ bestUser.email }}</p>
-
-                        <div class="w-full grid grid-cols-1 gap-3 py-4 border-t border-gray-100">
-                            <div class="flex flex-col items-center">
-                                <span class="text-2xl font-bold text-primary">{{ bestUser.properties?.length || 0
-                                    }}</span>
-                                <span
-                                    class="text-xs font-medium uppercase tracking-wider text-gray-500">Properties</span>
-                            </div>
-                        </div>
-
-                        <button (click)="contactUser(bestUser)"
-                            class="w-full mt-2 py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-xl font-medium text-sm transition-colors flex items-center justify-center gap-2">
-                            <lucide-angular [img]="Mail" class="w-4 h-4"></lucide-angular>
-                            Contact
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Empty state for best user -->
-                <div *ngIf="!bestUser && activeTab === 'owners'"
-                    class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
-                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <lucide-angular [img]="Trophy" class="w-8 h-8 text-gray-400"></lucide-angular>
-                    </div>
-                    <p class="text-gray-500 text-sm">Add owners to see top performers.</p>
-                </div>
-
-                <!-- Info Card for Customers Tab -->
-                <div *ngIf="activeTab === 'customers'"
-                    class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
-                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <lucide-angular [img]="Search" class="w-8 h-8 text-primary"></lucide-angular>
-                    </div>
-                    <h3 class="text-lg font-bold text-gray-900 leading-tight mb-2">Customer Base</h3>
-                    <p class="text-gray-500 text-sm">Manage users who browse and inquire about properties on LK Estate.
-                    </p>
-                </div>
+                <app-top-performer [bestUser]="bestUser" [activeTab]="activeTab" (contact)="contactUser($event)">
+                </app-top-performer>
             </div>
 
-            <!-- User List Column -->
             <div class="lg:col-span-3">
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr class="bg-gray-50/50 border-b border-gray-100">
-                                    <th class="py-4 px-6 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                                        User</th>
-                                    <th class="py-4 px-6 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                                        Contact</th>
-
-                                    <!-- Dynamic 3rd Column -->
-                                    <th *ngIf="activeTab === 'owners'"
-                                        class="py-4 px-6 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                                        Location</th>
-                                    <th *ngIf="activeTab === 'customers'"
-                                        class="py-4 px-6 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                                        Join Date</th>
-
-                                    <th
-                                        class="py-4 px-6 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">
-                                        Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100">
-                                <tr *ngFor="let user of filteredUsers"
-                                    class="hover:bg-gray-50/50 transition-colors group">
-                                    <td class="py-4 px-6">
-                                        <div class="flex items-center gap-4">
-                                            <img [src]="user.imageUrl || 'https://via.placeholder.com/150'"
-                                                alt="Profile" class="w-10 h-10 rounded-full object-cover">
-                                            <div>
-                                                <div class="font-medium text-gray-900">{{ user.username }}
-                                                </div>
-                                                <div class="text-xs text-gray-500 mt-0.5">
-                                                    <ng-container *ngIf="activeTab === 'owners'">
-                                                        {{ user.properties?.length || 0 }} Properties
-                                                    </ng-container>
-                                                    <ng-container *ngIf="activeTab === 'customers'">
-                                                        {{ user.role | titlecase }}
-                                                    </ng-container>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 px-6">
-                                        <div class="flex flex-col gap-1 text-sm text-gray-600">
-                                            <div class="flex items-center gap-2">
-                                                <lucide-angular [img]="Mail"
-                                                    class="w-3.5 h-3.5 text-gray-400"></lucide-angular>
-                                                {{ user.email }}
-                                            </div>
-                                            <div class="flex items-center gap-2">
-                                                <lucide-angular [img]="Home"
-                                                    class="w-3.5 h-3.5 text-gray-400"></lucide-angular>
-                                                {{ user.phone || 'N/A' }}
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 px-6">
-                                        <!-- Owners Location -->
-                                        <span *ngIf="activeTab === 'owners'"
-                                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
-                                            <lucide-angular [img]="Star" class="w-3.5 h-3.5"></lucide-angular>
-                                            {{ user.role | titlecase }}
-                                        </span>
-                                        <!-- Customers Date -->
-                                        <span *ngIf="activeTab === 'customers'"
-                                            class="inline-flex items-center gap-1.5 text-sm text-gray-600">
-                                            {{ user.createdDate | date:'mediumDate' }}
-                                        </span>
-                                    </td>
-                                    <td class="py-4 px-6 text-right">
-                                        <div
-                                            class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button (click)="openModal(user)"
-                                                class="p-2 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
-                                                title="Edit">
-                                                <lucide-angular [img]="Edit" class="w-4 h-4"></lucide-angular>
-                                            </button>
-                                            <button (click)="deleteUser(user.id)"
-                                                class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                                                title="Delete">
-                                                <lucide-angular [img]="Trash2" class="w-4 h-4"></lucide-angular>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr *ngIf="filteredUsers.length === 0">
-                                    <td colspan="4" class="py-12 text-center text-gray-500">
-                                        <div class="flex flex-col items-center justify-center">
-                                            <div
-                                                class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
-                                                <lucide-angular [img]="Search"
-                                                    class="w-8 h-8 text-gray-300"></lucide-angular>
-                                            </div>
-                                            <p class="text-base font-medium text-gray-900">No {{ activeTab }} found</p>
-                                            <p class="text-sm mt-1">Try adjusting your search query.</p>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <app-user-list [users]="filteredUsers" [activeTab]="activeTab" (edit)="openModal($event)"
+                    (delete)="deleteUser($event)">
+                </app-user-list>
             </div>
 
         </div>
     </div>
 </div>
 
-<!-- Add/Edit Modal -->
-<div *ngIf="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4">
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" (click)="closeModal()"></div>
 
-    <div
-        class="relative bg-white rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
-        <!-- Modal Header -->
-        <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-            <h3 class="text-lg font-bold text-gray-900">
-                {{ editingUser ? 'Edit' : 'Add New' }} {{ activeTab === 'owners' ? 'Owner' : 'Customer' }}
-            </h3>
-            <button (click)="closeModal()"
-                class="text-gray-400 hover:text-gray-600 p-1 hover:bg-gray-100 rounded-lg transition-colors">
-                <lucide-angular [img]="X" class="w-5 h-5"></lucide-angular>
-            </button>
-        </div>
-
-        <!-- Modal Body -->
-        <div class="p-6 max-h-[70vh] overflow-y-auto">
-            <form (ngSubmit)="saveUser()" #userForm="ngForm" class="space-y-5">
-
-                <div class="flex flex-col items-center mb-6">
-                    <div class="relative group cursor-pointer" (click)="fileInput.click()">
-                        <div class="w-24 h-24 rounded-full p-1">
-                            <img [src]="formData.imageUrl || 'https://via.placeholder.com/150'" alt="Preview"
-                                class="w-full h-full object-cover rounded-full border-4 border-gray-50 shadow-sm transition-opacity group-hover:opacity-80">
-                        </div>
-                        <div
-                            class="absolute inset-1 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <lucide-angular [img]="Camera" class="w-8 h-8 text-white"></lucide-angular>
-                        </div>
-                        <div
-                            class="absolute bottom-1 right-1 bg-primary text-white p-1.5 rounded-full shadow-md border-2 border-white">
-                            <lucide-angular [img]="Camera" class="w-3.5 h-3.5"></lucide-angular>
-                        </div>
-                    </div>
-                    <button type="button" (click)="fileInput.click()"
-                        class="mt-2 text-sm text-primary font-medium hover:underline">Change Photo</button>
-                    <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" class="hidden">
-                </div>
-
-                <!-- Form Fields common to all Users -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Username</label>
-                        <input type="text" [(ngModel)]="formData.username" name="username" required
-                            class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
-                        <input type="email" [(ngModel)]="formData.email" name="email" required
-                            class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Phone Number</label>
-                        <input type="tel" [(ngModel)]="formData.phone" name="phone" required
-                            class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm">
-                    </div>
-                    <div *ngIf="activeTab === 'customers'" class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
-                        <input type="password" [(ngModel)]="formData.password" name="password" required
-                            class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm">
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <!-- Modal Footer -->
-        <div class="px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex justify-end gap-3">
-            <button type="button" (click)="closeModal()" [disabled]="isUploading"
-                class="px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-200 bg-gray-100 rounded-xl transition-colors disabled:opacity-50">
-                Cancel
-            </button>
-            <button type="button" (click)="saveUser()"
-                [disabled]="(!formData.username || !formData.email) || isUploading"
-                class="px-5 py-2.5 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-xl transition-colors shadow-sm disabled:opacity-50 flex items-center gap-2">
-                <span *ngIf="isUploading"
-                    class="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
-                {{ isUploading ? 'Saving...' : 'Save Changes' }}
-            </button>
-        </div>
-    </div>
-    <app-footer></app-footer>
+<app-user-modal [isOpen]="isModalOpen" [activeTab]="activeTab" [editingUser]="editingUser" [formData]="formData"
+    [isUploading]="isUploading" (closeModal)="closeModal()" (saveUser)="saveUser($event)">
+</app-user-modal>
+<app-footer></app-footer>

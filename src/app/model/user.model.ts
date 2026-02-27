@@ -8,6 +8,7 @@ export interface User {
     phone?: string;
     imageUrl?: string;
     role?: string;
+    createdAt?: Date;
 
     properties?: Property[];
 }
