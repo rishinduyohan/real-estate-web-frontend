@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { InquiryCardComponent } from '../../components/inquiry-card/inquiry-card.component';
 import { InquiryService } from '../../service/inquiry.service';
 import { Inquiry } from '../../model/inquiry.model';
 import { AuthService } from '../../service/auth.service';
@@ -11,7 +12,7 @@ import { LucideAngularModule, Search, MessageCircle, MoreVertical, X, Send, Tras
 @Component({
     selector: 'app-inquiries',
     standalone: true,
-    imports: [CommonModule, FormsModule, NavbarComponent, LucideAngularModule],
+    imports: [CommonModule, FormsModule, NavbarComponent, LucideAngularModule, InquiryCardComponent],
     templateUrl: './inquiries.html',
 })
 export class InquiriesPage implements OnInit {

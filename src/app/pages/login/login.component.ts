@@ -50,6 +50,6 @@ export class LoginComponent {
 
   fillDemoAdmin() {
     this.email = 'admin@lkestate.lk';
-    this.password = '1234';
+    this.password = 'admin@1234';
   }
 }
