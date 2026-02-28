@@ -26,7 +26,6 @@ export class FeaturedPropertiesComponent implements OnInit {
         this.propertyService.getProperties().pipe(
             map(res=> res.slice(0,4))
         ).subscribe(res => {
-            console.log(res);
             this.featuredProperties = res;
         });
     }

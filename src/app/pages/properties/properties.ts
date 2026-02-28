@@ -46,7 +46,6 @@ export class Properties implements OnInit {
       map(res => res.slice(0, 9))
     ).subscribe(
       response => {
-        console.log(response);
         this.properties = response
       }
     );

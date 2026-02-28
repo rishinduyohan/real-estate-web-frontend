@@ -20,7 +20,6 @@ export class PropertyTable {
   selectedProperty: Property | null = null;
 
   onEdit(property: Property) {
-    console.log('Button clicked! Opening modal for:', property.title);
     this.selectedProperty = { ...property }; 
     this.isEditModalOpen = true; 
   }
