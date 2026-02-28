@@ -30,8 +30,8 @@
                 </button>
             </div>
             <div class="grid grid-cols-2 gap-3">
-                <button *ngFor="let loc of locations"
-                    class="bg-secondary rounded-xl p-4 text-left hover:bg-[#ffe8dd] transition-all group">
+                <button *ngFor="let loc of locations" 
+                    class="bg-secondary rounded-xl p-4 text-left hover:bg-[#ffe8dd] transition-all group" (click)="onSearchClick()">
                     <div class="flex items-center gap-2 mb-2">
                         <lucide-angular [img]="MapPin" class="w-4 h-4 text-primary"></lucide-angular>
                         <span class="text-foreground group-hover:text-primary transition-colors">{{ loc.name }}</span>

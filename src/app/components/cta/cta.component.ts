@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-cta',
@@ -8,4 +8,14 @@ import { RouterModule } from '@angular/router';
     imports: [CommonModule, RouterModule],
     templateUrl: './cta.component.html',
 })
-export class CtaComponent { }
+export class CtaComponent {
+    constructor(private router:Router){}
+
+    onGetStart(){
+        this.router.navigate(['/register']);
+    }
+
+    onProperties(){
+        this.router.navigate(['/properties']);
+    }
+ }

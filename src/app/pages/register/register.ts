@@ -22,11 +22,9 @@ export class Register {
   showPassword = false;
   userType: 'buyer' | 'seller' = 'buyer';
   agreedToTerms = false;
-  @Input() role !: 'customer' | 'owner';
+  @Input() role !: 'CUSTOMER' | 'OWNER';
 
   isUploading = false;
-  selectedFile: File | null = null;
-  avatarPreview: string | null = null;
 
   user !: User;
 
@@ -52,18 +50,6 @@ export class Register {
     this.userType = type;
   }
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.avatarPreview = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
   onSubmit() {
     if (this.password !== this.confirmPassword) {
       alert('Passwords do not match!');
@@ -75,28 +61,7 @@ export class Register {
       return;
     }
 
-    this.role = this.userType === 'buyer' ? 'customer' : 'owner';
-
-    this.isUploading = true;
-
-    // First upload the profile picture, if it exists
-    if (this.selectedFile) {
-      this.cloudinaryService.uploadImages([this.selectedFile]).subscribe({
-        next: (urls) => {
-          this.setUserDetails(urls[0]); // Pass Cloudinary link
-          this.executeRegistration();
-        },
-        error: (err) => {
-          console.error('Registration Avatar upload error', err);
-          alert('Failed to upload profile photo. Please try again.');
-          this.isUploading = false;
-        }
-      });
-    } else {
-      // Run with default placeholder mapping
-      this.setUserDetails();
-      this.executeRegistration();
-    }
+    this.role = this.userType === 'buyer' ? 'CUSTOMER' : 'OWNER';
   }
 
   private executeRegistration() {
@@ -120,9 +85,9 @@ export class Register {
       username: this.name,
       email: this.email,
       password: this.password,
-      role: this.role as 'customer' | 'owner' | 'admin',
+      role: this.role as 'CUSTOMER' | 'OWNER' | 'ADMIN',
       phone: this.phone,
-      imageUrl: uploadedUrl || 'https://via.placeholder.com/150',
+      imageUrl: 'https://via.placeholder.com/150',
     };
   }
 }

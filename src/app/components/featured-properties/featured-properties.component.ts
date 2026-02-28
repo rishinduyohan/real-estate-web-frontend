@@ -5,11 +5,12 @@ import { LucideAngularModule, ArrowRight } from 'lucide-angular';
 import { Property } from '../../model/property.model';
 import { PropertyService } from '../../service/property-service.service';
 import { map } from 'rxjs/operators';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-featured-properties',
     standalone: true,
-    imports: [CommonModule, PropertyCard, LucideAngularModule],
+    imports: [CommonModule, PropertyCard, LucideAngularModule,RouterModule],
     templateUrl: './featured-properties.component.html',
 })
 export class FeaturedPropertiesComponent implements OnInit {
@@ -17,7 +18,7 @@ export class FeaturedPropertiesComponent implements OnInit {
 
     featuredProperties: Property[] = [];
 
-    constructor(private propertyService:PropertyService){
+    constructor(private propertyService:PropertyService,private router: Router){
 
     }
 
@@ -33,6 +34,9 @@ export class FeaturedPropertiesComponent implements OnInit {
 
     onPropertyClick(id: string) {
         console.log('Property clicked:', id);
-        // Navigate to property details
+    }
+
+    onViewAllProperties(){
+        this.router.navigate(['/properties']);
     }
 }

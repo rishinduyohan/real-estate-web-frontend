@@ -4,17 +4,18 @@ import { LucideAngularModule, Search, SlidersHorizontal, Bell, MapPin } from 'lu
 import { User } from '../../model/user.model';
 import { AuthService } from '../../service/auth.service';
 import { Subscription } from 'rxjs';
+import { Router, RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-user-hero',
-  imports: [CommonModule, LucideAngularModule],
+  imports: [CommonModule, LucideAngularModule,RouterModule],
   templateUrl: './user-hero.html',
 })
 export class UserHero implements OnInit {
   private subs: Subscription = new Subscription();
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,private router:Router) { }
 
   user!: User;
 
@@ -42,7 +43,7 @@ export class UserHero implements OnInit {
 
 
   onSearchClick() {
-    console.log('Search clicked');
+    this.router.navigate(['/properties']);
   }
 
 }

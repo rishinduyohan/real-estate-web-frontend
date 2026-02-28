@@ -1,31 +1,6 @@
 <div class="min-h-screen flex items-center justify-center bg-background py-12 px-4">
     <div class="w-full max-w-md bg-card rounded-2xl shadow-xl p-8">
         <div class="text-center mb-8">
-            <div class="flex flex-col items-center justify-center mb-6">
-                <!-- Profile Image Upload Container -->
-                <div class="relative group cursor-pointer" (click)="fileInput.click()">
-                    <div class="w-24 h-24 rounded-full border-2 border-gray-100 p-1">
-                        <img [src]="avatarPreview || 'https://via.placeholder.com/150'" alt="Profile Avatar"
-                            class="w-full h-full object-cover rounded-full">
-                    </div>
-                    <div
-                        class="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <lucide-angular [img]="Camera" class="w-8 h-8 text-white"></lucide-angular>
-                    </div>
-                    <div
-                        class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full shadow-md border-2 border-white">
-                        <lucide-angular [img]="Camera" class="w-3.5 h-3.5"></lucide-angular>
-                    </div>
-                </div>
-
-                <button type="button" (click)="fileInput.click()"
-                    class="mt-2 text-sm text-primary font-medium hover:underline">
-                    Upload Profile Photo
-                </button>
-                <!-- Hidden File Input -->
-                <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" class="hidden">
-            </div>
-
             <h2 class="text-2xl font-semibold text-foreground">Join LK Estate today</h2>
         </div>
 
