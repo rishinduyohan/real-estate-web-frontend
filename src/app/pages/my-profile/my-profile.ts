@@ -5,20 +5,18 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { AuthService } from '../../service/auth.service';
 import { UserService } from '../../service/user.service';
 import { User } from '../../model/user.model';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { LucideAngularModule, User as UserIcon, Mail, Phone, MapPin, ChevronRight, Settings, Bell, Shield, HelpCircle, LogOut, X } from 'lucide-angular';
 import { EditProfileModalComponent } from '../../components/edit-profile-modal/edit-profile-modal';
 
 @Component({
     selector: 'app-my-profile',
     standalone: true,
-    imports: [CommonModule, FormsModule, NavbarComponent, LucideAngularModule, EditProfileModalComponent],
+    imports: [CommonModule, FormsModule, NavbarComponent, LucideAngularModule, EditProfileModalComponent,RouterModule],
     templateUrl: './my-profile.html',
 })
 export class MyProfileComponent implements OnInit {
     user!: User | any;
-
-    // Hardcoded location for now as it's not in the User model
     userLocation = 'Colombo, Sri Lanka';
 
     readonly UserIcon = UserIcon;
@@ -74,11 +72,10 @@ export class MyProfileComponent implements OnInit {
 
     onUserUpdated() {
         this.loadUser();
-        // Re-fetch user data to update the view
     }
 
     openNotifications() {
-        console.log('Notifications clicked');
+        this.router.navigate(['/inquiries']);
     }
 
     openPrivacy() {
