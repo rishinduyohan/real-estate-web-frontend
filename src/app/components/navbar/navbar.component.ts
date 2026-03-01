@@ -1,0 +1,103 @@
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { LucideAngularModule, Menu, X, User, Heart, Plus } from 'lucide-angular';
+import { AuthService } from '../../service/auth.service';
+import { Subscription } from 'rxjs';
+
+import { UserProfileComponent } from '../user-profile/user-profile';
+
+@Component({
+  selector: 'app-navbar',
+  standalone: true,
+  imports: [CommonModule, RouterModule, LucideAngularModule, UserProfileComponent],
+  templateUrl: './navbar.component.html',
+})
+export class NavbarComponent implements OnInit, OnDestroy {
+  @Input() isTransparent = true;
+  isAuthenticated = false;
+  userRole: string = '';
+  mobileMenuOpen = false;
+  currentScreen = 'home';
+  navItems:any;
+
+  private subs: Subscription = new Subscription();
+
+  readonly Menu = Menu;
+  readonly X = X;
+  readonly User = User;
+  readonly Heart = Heart;
+  readonly Plus = Plus;
+
+  constructor(private authService: AuthService, private router: Router) { }
+
+  ngOnInit() {
+    this.subs.add(
+      this.authService.isAuthenticated$.subscribe(isAuth => {
+        this.isAuthenticated = isAuth;
+        this.updateNavItems();
+      })
+    );
+
+    this.subs.add(
+      this.authService.userRole$.subscribe(role => {
+        this.userRole = role;
+        this.updateNavItems();
+      })
+    );
+  }
+
+  updateNavItems() {
+    if (!this.isAuthenticated) {
+      this.navItems = this.publicNavItems;
+      return;
+    }
+
+    switch (this.userRole) {
+      case 'ADMIN': this.navItems = this.admin; break;
+      case 'CUSTOMER': this.navItems = this.customer; break;
+      case 'OWNER': this.navItems = this.customer; break;
+      default: this.navItems = this.publicNavItems;
+    }
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+
+  publicNavItems = [
+    { id: 'home', label: 'Home', link: '/' },
+    { id: 'properties', label: 'Properties', link: '/properties' },
+    { id: 'contact', label: 'Contact', link: '/contact' },
+  ];
+
+  admin = [
+    { id: 'dashboard', label: 'Dashboard', link: '/dashboard' },
+    { id: 'manage-properties', label: 'Manage Properties', link: '/manage-properties' },
+    { id: 'inquiries', label: 'Inquiries', link: '/inquiries' },
+    { id: 'users', label: 'Users', link: '/users' },];
+
+  customer = [
+    { id: 'home', label: 'Home', link: '/' },
+    { id: 'search', label: 'Browse Properties', link: '/properties' },
+    { id: 'my-properties', label: 'My Properties', link: '/my-properties' },
+    { id: 'contact', label: 'Contact', link: '/contact' },
+  ];
+
+  toggleMobileMenu() {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
+
+  onLogin() {
+    this.router.navigate(['/login']);
+  }
+
+  onSignUp() {
+    this.router.navigate(['/register']);
+  }
+
+  onLogout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
+  }
+}

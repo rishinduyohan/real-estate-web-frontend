@@ -1,0 +1,77 @@
+<div *ngIf="isOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" (click)="handleClose()"></div>
+
+    <div
+        class="relative bg-white rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+        <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+            <h3 class="text-lg font-bold text-gray-900">
+                {{ editingUser ? 'Edit' : 'Add New' }} {{ activeTab === 'OWNERS' ? 'OWNER' : 'CUSTOMER' }}
+            </h3>
+            <button (click)="handleClose()"
+                class="text-gray-400 hover:text-gray-600 p-1 hover:bg-gray-100 rounded-lg transition-colors">
+                <lucide-angular [img]="X" class="w-5 h-5"></lucide-angular>
+            </button>
+        </div>
+
+        <div class="p-6 max-h-[70vh] overflow-y-auto">
+            <form (ngSubmit)="handleSave()" #userForm="ngForm" class="space-y-5">
+                <div class="flex flex-col items-center mb-6">
+                    <div class="relative group cursor-pointer" (click)="fileInput.click()">
+                        <div class="w-24 h-24 rounded-full p-1">
+                            <img [src]="formData.imageUrl || 'https://via.placeholder.com/150'" alt="Preview"
+                                class="w-full h-full object-cover rounded-full border-4 border-gray-50 shadow-sm transition-opacity group-hover:opacity-80">
+                        </div>
+                        <div
+                            class="absolute inset-1 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <lucide-angular [img]="Camera" class="w-8 h-8 text-white"></lucide-angular>
+                        </div>
+                        <div
+                            class="absolute bottom-1 right-1 bg-primary text-white p-1.5 rounded-full shadow-md border-2 border-white">
+                            <lucide-angular [img]="Camera" class="w-3.5 h-3.5"></lucide-angular>
+                        </div>
+                    </div>
+                    <button type="button" (click)="fileInput.click()"
+                        class="mt-2 text-sm text-primary font-medium hover:underline">Change Photo</button>
+                    <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" class="hidden">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Username</label>
+                        <input type="text" [(ngModel)]="formData.username" name="username" required
+                            class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
+                        <input type="email" [(ngModel)]="formData.email" name="email" readonly 
+                            class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm text-gray-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Phone Number</label>
+                        <input type="tel" [(ngModel)]="formData.phone" name="phone" required
+                            class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm">
+                    </div>
+                    <div *ngIf="activeTab === 'CUSTOMERS'" class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
+                        <input type="password" [(ngModel)]="formData.password" name="password" required
+                            class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex justify-end gap-3">
+            <button type="button" (click)="handleClose()" [disabled]="isUploading"
+                class="px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-200 bg-gray-100 rounded-xl transition-colors disabled:opacity-50">
+                Cancel
+            </button>
+            <button type="button" (click)="handleSave()"
+                [disabled]="(!formData.username || !formData.email) || isUploading"
+                class="px-5 py-2.5 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-xl transition-colors shadow-sm disabled:opacity-50 flex items-center gap-2">
+                <span *ngIf="isUploading"
+                    class="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
+                {{ isUploading ? 'Saving...' : 'Save Changes' }}
+            </button>
+        </div>
+    </div>
+</div>

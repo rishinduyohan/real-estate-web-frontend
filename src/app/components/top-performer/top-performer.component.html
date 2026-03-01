@@ -1,0 +1,53 @@
+<div class="space-y-6">
+    <div *ngIf="bestUser" class="bg-white rounded-none p-6 shadow-sm border border-gray-100">
+        <div class="flex items-center gap-3 mb-6 relative">
+            <div class="absolute -top-3 -right-3 w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
+                <lucide-angular [img]="Trophy" class="w-5 h-5 text-yellow-600"></lucide-angular>
+            </div>
+            <h3 class="text-lg font-normal text-gray-900 leading-tight">
+                Top Performing Owner
+            </h3>
+        </div>
+
+        <div class="flex flex-col items-center text-center">
+            <div class="relative mb-4">
+                <img [src]="bestUser.imageUrl || 'https://via.placeholder.com/150'" [alt]="bestUser.username"
+                    class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg mx-auto">
+            </div>
+            <h4 class="text-lg font-semibold text-gray-900">{{ bestUser.username }}</h4>
+            <p class="text-sm text-gray-500 mb-4">{{ bestUser.email }}</p>
+
+            <div class="w-full grid grid-cols-1 gap-3 py-4 border-t border-gray-100">
+                <div class="flex flex-col items-center">
+                    <span class="text-2xl font-bold text-primary">{{ bestUser.properties?.length || 0
+                        }}</span>
+                    <span class="text-xs font-medium uppercase tracking-wider text-gray-500">Properties</span>
+                </div>
+            </div>
+
+            <button (click)="contact.emit(bestUser)"
+                class="w-full mt-2 py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-xl font-medium text-sm transition-colors flex items-center justify-center gap-2">
+                <lucide-angular [img]="Mail" class="w-4 h-4"></lucide-angular>
+                Contact
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="!bestUser && activeTab === 'OWNERS'"
+        class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
+        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <lucide-angular [img]="Trophy" class="w-8 h-8 text-gray-400"></lucide-angular>
+        </div>
+        <p class="text-gray-500 text-sm">Add owners to see top performers.</p>
+    </div>
+
+    <div *ngIf="activeTab === 'CUSTOMERS'"
+        class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
+        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <lucide-angular [img]="Search" class="w-8 h-8 text-primary"></lucide-angular>
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 leading-tight mb-2">Customer Base</h3>
+        <p class="text-gray-500 text-sm">Manage users who browse and inquire about properties on LK Estate.
+        </p>
+    </div>
+</div>

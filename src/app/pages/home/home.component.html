@@ -1,0 +1,23 @@
+<div class="min-h-screen flex flex-col bg-background font-sans">
+  <div class="sticky top-0 z-50">
+    <app-navbar></app-navbar>
+  </div>
+
+  <main class="flex-grow">
+    @if (!isAuthenticated) {
+      <app-hero></app-hero>
+      <app-stats></app-stats>
+      <app-featured-properties class="lg:mr-52 lg:ml-52"></app-featured-properties>
+      <app-why-choose-us></app-why-choose-us>
+      <app-reviews></app-reviews>
+      <app-cta></app-cta>
+    } @else {
+      <div class="lg:mr-40 lg:ml-40">
+      <app-user-hero></app-user-hero>
+      <app-featured-properties></app-featured-properties>
+      <app-reviews></app-reviews>
+      </div>
+    }
+  </main>
+  <app-footer></app-footer>
+</div>
