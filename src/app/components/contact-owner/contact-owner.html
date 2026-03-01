@@ -1,0 +1,76 @@
+<div *ngIf="user" class="bg-card rounded-2xl p-6 shadow-sm sticky top-24">
+    <h3 class="mb-4 text-lg font-semibold">Contact Owner</h3>
+
+    <div class="flex items-center gap-3 mb-6">
+        <img [src]="user.imageUrl || 'https://via.placeholder.com/150'" alt="Owner"
+            class="w-16 h-16 rounded-full object-cover" />
+        <div>
+            <p class="font-medium">{{user.username}}</p>
+            <!-- Properties fallback check -->
+            <div class="flex items-center gap-1 mt-1">
+                <span class="text-xs text-muted-foreground">{{user.properties?.length || 0}} properties</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="space-y-3 mb-6">
+        <a [href]="'tel:' + user.phone" *ngIf="user.phone"
+            class="flex items-center gap-3 p-3 bg-secondary rounded-xl hover:bg-[#ffe8dd] transition-all">
+            <lucide-angular [img]="Phone" class="w-5 h-5 text-primary"></lucide-angular>
+            <span class="text-foreground">{{user.phone}}</span>
+        </a>
+        <a [href]="'mailto:' + user.email" *ngIf="user.email"
+            class="flex items-center gap-3 p-3 bg-secondary rounded-xl hover:bg-[#ffe8dd] transition-all">
+            <lucide-angular [img]="Mail" class="w-5 h-5 text-primary"></lucide-angular>
+            <span class="text-foreground">{{user.email}}</span>
+        </a>
+    </div>
+
+    <div class="space-y-3">
+        <button (click)="openInquiry()"
+            class="w-full bg-primary text-white font-medium py-3 rounded-xl hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+            Send Inquiry
+        </button>
+        <button (click)="openBooking()"
+            class="w-full border-2 border-primary text-primary font-medium py-3 rounded-xl hover:bg-secondary transition-all flex items-center justify-center gap-2">
+            <lucide-angular [img]="Calender" class="w-5 h-5"></lucide-angular>
+            Book a Visit
+        </button>
+    </div>
+</div>
+
+<div *ngIf="showInquiryForm"
+    class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-card bg-white rounded-xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto relative">
+        <div class="flex items-center justify-between mb-4">
+            <div
+                class="w-20 h-20 rounded-none flex items-center justify-center group-hover:scale-105 transition-transform">
+                <img src="https://res.cloudinary.com/dbndqriih/image/upload/136528126_77a00bd6-65f1-421c-8ae5-a2251b7b3802_iz7nie"
+                    alt="Profile" class="w-full h-full object-cover">
+            </div>
+            <h3 class="text-lg font-semibold">Send Inquiry</h3>
+            <button (click)="closeModals()" class="text-muted-foreground hover:text-foreground">
+                <lucide-angular [img]="X" class="w-5 h-5"></lucide-angular>
+            </button>
+        </div>
+        <app-inquiry [propertyId]="propertyId"></app-inquiry>
+    </div>
+</div>
+
+<div *ngIf="showBookingForm"
+    class="fixed inset-0  bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-card bg-white rounded-xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto relative text-left">
+        <div class="flex items-center justify-between mb-4">
+            <div
+                class="w-20 h-20 rounded-none flex items-center justify-center group-hover:scale-105 transition-transform">
+                <img src="https://res.cloudinary.com/dbndqriih/image/upload/390739724_8b4cd2f4-7af3-4502-bfb1-896f12ec4d37_bjyslt"
+                    alt="Profile" class="w-full h-full object-cover">
+            </div>
+            <h3 class="text-lg font-semibold">Book a Visit</h3>
+            <button (click)="closeModals()" class="text-muted-foreground hover:text-foreground">
+                <lucide-angular [img]="X" class="w-5 h-5"></lucide-angular>
+            </button>
+        </div>
+        <app-booking-contact></app-booking-contact>
+    </div>
+</div>

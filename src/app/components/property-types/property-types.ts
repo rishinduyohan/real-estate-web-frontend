@@ -1,0 +1,15 @@
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-property-types',
+  imports: [CommonModule],
+  templateUrl: './property-types.html',
+})
+export class PropertyTypes {
+  activeFilter = 'all';
+
+  setActiveFilter(filter: string) {
+    this.activeFilter = filter;
+  }
+}

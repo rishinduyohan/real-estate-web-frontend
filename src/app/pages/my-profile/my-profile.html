@@ -1,0 +1,73 @@
+<div class="sticky top-0 z-50">
+    <app-navbar></app-navbar>
+</div>
+
+<div class="min-h-screen bg-gray-50 pb-20 pt-6">
+    <div class="container mx-auto px-4 max-w-md">
+        <div *ngIf="user" class="flex flex-col items-center mb-8">
+            <div class="w-24 h-24 rounded-full border-4 border-white shadow-md overflow-hidden mb-3">
+                <img [src]="user.imageUrl || 'https://via.placeholder.com/150'" alt="Profile"
+                    class="w-full h-full object-cover">
+            </div>
+            <h1 class="text-xl font-bold text-gray-900">{{ user.username }}</h1>
+            <p class="text-sm text-gray-500 capitalize">{{ user.role }}</p>
+        </div>
+        <div *ngIf="user" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6">
+            <h2 class="text-sm font-semibold text-gray-900 mb-4">Contact Information</h2>
+
+            <div class="space-y-4">
+                <div class="flex items-start gap-3">
+                    <div class="w-5 h-5 mt-0.5 flex items-center justify-center">
+                        <lucide-angular [img]="Mail" class="w-4 h-4 text-orange-500"></lucide-angular>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-400 font-medium">Email</p>
+                        <p class="text-sm text-gray-700 break-all">{{ user.email }}</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3">
+                    <div class="w-5 h-5 mt-0.5 flex items-center justify-center">
+                        <lucide-angular [img]="Phone" class="w-4 h-4 text-orange-500"></lucide-angular>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-400 font-medium">Phone</p>
+                        <p class="text-sm text-gray-700">{{ user.phone }}</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3">
+                    <div class="w-5 h-5 mt-0.5 flex items-center justify-center">
+                        <lucide-angular [img]="MapPin" class="w-4 h-4 text-orange-500"></lucide-angular>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-400 font-medium">Location</p>
+                        <p class="text-sm text-gray-700">{{ userLocation }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Options -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+            <button *ngFor="let item of menuItems; let last = last" (click)="item.action()"
+                class="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+                [class.border-b]="!last" [class.border-gray-100]="!last">
+                <div class="flex items-center gap-3">
+                    <lucide-angular [img]="item.icon" class="w-5 h-5 text-gray-400"></lucide-angular>
+                    <span class="text-sm font-medium text-gray-700">{{ item.label }}</span>
+                </div>
+                <lucide-angular [img]="ChevronRight" class="w-4 h-4 text-gray-300"></lucide-angular>
+            </button>
+        </div>
+        <button (click)="onLogout()"
+            class="w-full py-3.5 rounded-xl border border-orange-500 text-orange-500 font-medium text-sm flex items-center justify-center gap-2 hover:bg-orange-50 transition-all active:scale-[0.98]">
+            <lucide-angular [img]="LogOut" class="w-4 h-4"></lucide-angular>
+            Logout
+        </button>
+
+    </div>
+    <app-edit-profile-modal [isOpen]="isEditModalOpen" [user]="user" (close)="closeSettings()"
+        (userUpdated)="onUserUpdated()">
+    </app-edit-profile-modal>
+</div>

@@ -1,0 +1,65 @@
+<app-navbar></app-navbar>
+
+<div class=" min-h-screen bg-gray-50 pt-24 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">User Management</h1>
+                <p class="text-gray-600 mt-1">Manage platform property owners and customers</p>
+            </div>
+
+
+            <div class="flex p-1 bg-white rounded-xl shadow-sm border border-gray-100">
+                <button (click)="switchTab('OWNERS')"
+                    [class]="activeTab === 'OWNERS' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'"
+                    class="px-6 py-2.5 rounded-sm text-sm font-medium transition-all duration-200">
+                    OWNERS
+                </button>
+                <button (click)="switchTab('CUSTOMERS')"
+                    [class]="activeTab === 'CUSTOMERS' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'"
+                    class="px-6 py-2.5 rounded-sm text-sm font-medium transition-all duration-200">
+                    CUSTOMERS
+                </button>
+            </div>
+        </div>
+
+
+        <div class="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 mb-6">
+  
+            <div class="relative flex-1 max-w-md">
+                <lucide-angular [img]="Search"
+                    class="absolute left-3.5 top-1/2 mr-3 -translate-y-1/2 w-5 h-5 text-gray-400"></lucide-angular>
+                <input type="text" [(ngModel)]="searchQuery" (input)="filterUsers()" placeholder="Search users..."
+                    class="w-full pl-11 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm">
+            </div>
+
+            <button (click)="openModal()"
+                class="flex items-center justify-center gap-2 px-6 py-2.5 bg-primary text-white rounded-sm font-medium hover:bg-primary/90 transition-all shadow-sm hover:shadow">
+                <lucide-angular [img]="Plus" class="w-4 h-4"></lucide-angular>
+                Add {{ activeTab === 'OWNERS' ? 'New OWNER' : 'New CUSTOMER' }}
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+            <div class="lg:col-span-1 space-y-6">
+                <app-top-performer [bestUser]="bestUser" [activeTab]="activeTab" (contact)="contactUser($event)">
+                </app-top-performer>
+            </div>
+
+            <div class="lg:col-span-3">
+                <app-user-list [users]="filteredUsers" [activeTab]="activeTab" (edit)="openModal($event)"
+                    (delete)="deleteUser($event)">
+                </app-user-list>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<app-user-modal [isOpen]="isModalOpen" [activeTab]="activeTab" [editingUser]="editingUser" [formData]="formData"
+    [isUploading]="isUploading" (closeModal)="closeModal()" (saveUser)="saveUser($event)">
+</app-user-modal>
+<app-footer></app-footer>

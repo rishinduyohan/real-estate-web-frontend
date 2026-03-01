@@ -1,0 +1,204 @@
+<div
+    [ngClass]="{'min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center': !isModal, 'fixed inset-0 z-50 overflow-y-auto': isModal}">
+
+    <div *ngIf="isModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
+        (click)="cancel()"></div>
+
+    <div
+        [ngClass]="{'max-w-2xl w-full space-y-8 relative z-10 transform transition-all sm:my-8 sm:align-middle': isModal, 'max-w-2xl w-full space-y-8': !isModal}">
+
+        <div class="flex items-center justify-between"
+            [ngClass]="{'bg-white px-4 py-4 sm:px-6 sm:rounded-t-lg': isModal}">
+            <button *ngIf="!isModal" (click)="cancel()"
+                class="flex items-center text-gray-500 hover:text-gray-900 transition-colors">
+                <lucide-angular [img]="ArrowLeft" class="w-5 h-5 mr-2"></lucide-angular>
+                Back to properties
+            </button>
+
+            <h2 class="text-center text-3xl font-extrabold text-gray-900"
+                [ngClass]="{'text-xl mt-0': isModal, 'mt-6': !isModal}">
+                {{ property && property.id === 0 ? 'Add Property' : 'Edit Property' }}
+            </h2>
+
+            <button *ngIf="isModal" (click)="cancel()" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+                <span class="sr-only">Close</span>
+                <lucide-angular [img]="X" class="w-6 h-6"></lucide-angular>
+            </button>
+
+            <div class="w-20" *ngIf="!isModal"></div>
+        </div>
+
+        <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10" [ngClass]="{'sm:rounded-t-none': isModal}"
+            *ngIf="property">
+            <form class="space-y-6" (ngSubmit)="onSubmit()">
+
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700">Property Title</label>
+                    <div class="mt-1">
+                        <input type="text" name="title" id="title" required [(ngModel)]="property.title"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                    <div class="mt-1">
+                        <input type="text" name="location" id="location" required [(ngModel)]="property.location"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                    </div>
+                </div>
+                <div>
+                    <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-gray-500 sm:text-sm">Rs.</span>
+                        </div>
+                        <input type="text" name="price" id="price" required [(ngModel)]="property.price"
+                            class="focus:ring-primary focus:border-primary block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                            placeholder="0.00">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+                    <div>
+                        <label for="type" class="block text-sm font-medium text-gray-700">Type</label>
+                        <div class="mt-1">
+                            <select id="type" name="type" [(ngModel)]="property.type"
+                                class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                                <option value="" disabled selected>Select Property Type</option>
+                                <option>HOUSE</option>
+                                <option>APARTMENT</option>
+                                <option>LAND</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                        <div class="mt-1">
+                            <select id="status" name="status" [(ngModel)]="property.status"
+                                class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                                <option>AVAILABLE</option>
+                                <option>SOLD</option>
+                                <option>RENTED</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-3">
+                    <div>
+                        <label for="bedrooms" class="block text-sm font-medium text-gray-700">Bedrooms</label>
+                        <div class="mt-1">
+                            <input type="number" name="bedrooms" id="bedrooms" required
+                                [(ngModel)]="property.details.bedrooms"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="bathrooms" class="block text-sm font-medium text-gray-700">Bathrooms</label>
+                        <div class="mt-1">
+                            <input type="number" name="bathrooms" id="bathrooms" required
+                                [(ngModel)]="property.details.bathrooms"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="area" class="block text-sm font-medium text-gray-700">Area</label>
+                        <div class="mt-1">
+                            <input type="text" name="area" id="area" required [(ngModel)]="property.size"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                    <div class="mt-1">
+                        <textarea id="description" name="description" rows="3"
+                            [(ngModel)]="property.details.description"
+                            class="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Property Images</label>
+
+                    <!-- Image Upload Container -->
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-primary hover:bg-gray-50 transition-colors cursor-pointer"
+                        (click)="fileInput.click()">
+                        <div class="space-y-1 text-center">
+                            <lucide-angular [img]="Plus" class="mx-auto h-12 w-12 text-gray-400"></lucide-angular>
+                            <div class="flex text-sm text-gray-600 justify-center">
+                                <label for="file-upload"
+                                    class="relative cursor-pointer bg-white rounded-md font-medium text-primary hover:text-orange-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary">
+                                    <span>Upload files</span>
+                                    <input id="file-upload" name="file-upload" type="file" multiple accept="image/*"
+                                        class="sr-only" #fileInput (change)="onFilesSelected($event)">
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                        </div>
+                    </div>
+
+                    <!-- Image Preview Grid -->
+                    <div *ngIf="property.images.length > 0 || selectedFiles.length > 0"
+                        class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+
+                        <!-- Existing Uploaded Images -->
+                        <div *ngFor="let imgUrl of property.images; let i = index"
+                            class="relative group aspect-w-1 aspect-h-1 rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+                            <img [src]="imgUrl" alt="Existing Property Image" class="object-cover w-full h-24">
+                            <div
+                                class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button type="button" (click)="removeExistingImage(i)"
+                                    class="p-2 bg-white text-red-600 rounded-full hover:bg-red-50 focus:outline-none shadow-sm">
+                                    <lucide-angular [img]="Trash2" class="w-4 h-4"></lucide-angular>
+                                </button>
+                            </div>
+                            <div *ngIf="i === 0"
+                                class="absolute top-0 left-0 bg-primary font-medium text-white text-[10px] px-2 py-0.5 m-1 rounded-sm shadow-sm">
+                                Main Cover
+                            </div>
+                        </div>
+
+                        <!-- Pending New Files -->
+                        <div *ngFor="let pending of selectedFiles; let j = index"
+                            class="relative group aspect-w-1 aspect-h-1 rounded-lg overflow-hidden border border-blue-200 border-2 shadow-sm">
+                            <img [src]="pending.preview" alt="Pending Image Preview"
+                                class="object-cover w-full h-24 opacity-80">
+                            <div
+                                class="absolute top-0 right-0 bg-blue-500 text-white text-[10px] px-1.5 py-0.5 rounded-bl-sm z-10">
+                                New</div>
+
+                            <div
+                                class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                                <button type="button" (click)="removeNewFile(j)"
+                                    class="p-2 bg-white text-red-600 rounded-full hover:bg-red-50 focus:outline-none shadow-sm">
+                                    <lucide-angular [img]="Trash2" class="w-4 h-4"></lucide-angular>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 mt-6">
+                    <button type="button" (click)="cancel()" [disabled]="isUploading"
+                        class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        [disabled]="isUploading || (property.images.length === 0 && selectedFiles.length === 0)"
+                        class="inline-flex justify-center items-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span *ngIf="isUploading"
+                            class="mr-2 h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
+                        {{ isUploading ? 'Saving...' : (property.id === 0 ? 'Add Property' : 'Save Changes') }}
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

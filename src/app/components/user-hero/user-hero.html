@@ -1,0 +1,44 @@
+<div class="bg-background pb-24 md:pb-8">
+    <div class="bg-gradient-to-br from-primary to-[#ff8555] px-6 pt-12 pb-24 rounded-b-[2.5rem]">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <p class="text-white/90 text-sm">Welcome back,</p>
+                <h2 class="text-white text-2xl font-medium">{{ user.username }}</h2>
+            </div>
+            <button
+                class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center text-white hover:bg-white/30 transition-all">
+                <lucide-angular [img]="Bell" class="w-5 h-5"></lucide-angular>
+            </button>
+        </div>
+
+        <button (click)="onSearchClick()"
+            class="w-full bg-white rounded-2xl p-4 flex items-center gap-3 shadow-lg hover:shadow-xl transition-all">
+            <lucide-angular [img]="Search" class="w-5 h-5 text-muted-foreground"></lucide-angular>
+            <span class="flex-1 text-left text-muted-foreground">
+                Search properties...
+            </span>
+            <lucide-angular [img]="SlidersHorizontal" class="w-5 h-5 text-muted-foreground"></lucide-angular>
+        </button>
+    </div>
+
+    <div class="px-6 -mt-12 ">
+        <div class="bg-card bg-white rounded-2xl shadow-lg p-5 mb-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-foreground font-medium text-lg">Popular Locations</h3>
+                <button class="text-primary text-sm hover:underline font-medium">
+                    View All
+                </button>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <button *ngFor="let loc of locations" 
+                    class="bg-secondary rounded-xl p-4 text-left hover:bg-[#ffe8dd] transition-all group" (click)="onSearchClick()">
+                    <div class="flex items-center gap-2 mb-2">
+                        <lucide-angular [img]="MapPin" class="w-4 h-4 text-primary"></lucide-angular>
+                        <span class="text-foreground group-hover:text-primary transition-colors">{{ loc.name }}</span>
+                    </div>
+                    <p class="text-sm text-muted-foreground">{{ loc.count }} properties</p>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

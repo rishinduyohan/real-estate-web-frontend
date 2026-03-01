@@ -1,0 +1,108 @@
+<div class="min-h-screen flex items-center justify-center bg-background py-12 px-4">
+    <div class="w-full max-w-md bg-card rounded-2xl shadow-xl p-8">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-semibold text-foreground">Join LK Estate today</h2>
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-sm font-normal text-muted-foreground mb-3">I want to:</label>
+            <div class="grid grid-cols-2 gap-4">
+                <button type="button" (click)="setUserType('buyer')" [class.border-primary]="userType === 'buyer'"
+                    [class.text-primary]="userType === 'buyer'" [class.bg-primary-50]="userType === 'buyer'"
+                    [class.border-border]="userType !== 'buyer'"
+                    class="flex flex-col items-center justify-center p-4 border-2 rounded-xl transition-all hover:border-primary/50">
+                    <span class="font-semibold text-lg">Find Property</span>
+                    <span class="text-xs opacity-80">Buy or Rent</span>
+                </button>
+
+                <button type="button" (click)="setUserType('seller')" [class.border-primary]="userType === 'seller'"
+                    [class.text-primary]="userType === 'seller'" [class.bg-primary-50]="userType === 'seller'"
+                    [class.border-border]="userType !== 'seller'"
+                    class="flex flex-col items-center justify-center p-4 border-2 rounded-xl transition-all hover:border-primary/50">
+                    <span class="font-semibold text-lg">List Property</span>
+                    <span class="text-xs opacity-80">Sell or Rent</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form (ngSubmit)="onSubmit()" class="space-y-4">
+            <!-- Name Input -->
+            <div class="relative">
+                <div class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                    <lucide-angular [img]="User2" class="w-5 h-5"></lucide-angular>
+                </div>
+                <input type="text" [(ngModel)]="name" name="name" placeholder="Full name" required
+                    class="w-full pl-10 pr-4 py-3 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all" />
+            </div>
+
+            <!-- Email Input -->
+            <div class="relative">
+                <div class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                    <lucide-angular [img]="Mail" class="w-5 h-5"></lucide-angular>
+                </div>
+                <input type="email" [(ngModel)]="email" name="email" placeholder="Email address" required
+                    class="w-full pl-10 pr-4 py-3 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all" />
+            </div>
+
+            <!-- Phone Input -->
+            <div class="relative">
+                <div class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                    <lucide-angular [img]="Phone" class="w-5 h-5"></lucide-angular>
+                </div>
+                <input type="tel" [(ngModel)]="phone" name="phone" placeholder="Phone number" required
+                    class="w-full pl-10 pr-4 py-3 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all" />
+            </div>
+
+            <div class="relative">
+                <div class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                    <lucide-angular [img]="Lock" class="w-5 h-5"></lucide-angular>
+                </div>
+                <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password"
+                    placeholder="Password" required
+                    class="w-full pl-10 pr-12 py-3 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all" />
+                <button type="button" (click)="togglePasswordVisibility()"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer">
+                    <lucide-angular *ngIf="showPassword" [img]="EyeOff" class="w-5 h-5"></lucide-angular>
+                    <lucide-angular *ngIf="!showPassword" [img]="Eye" class="w-5 h-5"></lucide-angular>
+                </button>
+            </div>
+
+            <div class="relative">
+                <div class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                    <lucide-angular [img]="Lock" class="w-5 h-5"></lucide-angular>
+                </div>
+                <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword"
+                    placeholder="Confirm password" required
+                    class="w-full pl-10 pr-4 py-3 bg-white border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all" />
+            </div>
+
+            <div class="flex items-start gap-3 mt-4">
+                <div class="flex items-center h-5">
+                    <input id="terms" type="checkbox" [(ngModel)]="agreedToTerms" name="terms" required
+                        class="w-4 h-4 rounded border-border text-primary focus:ring-primary" />
+                </div>
+                <label for="terms" class="text-sm text-muted-foreground">
+                    I agree to the <a href="#" class="text-primary hover:underline font-medium">Terms of Service</a> and
+                    <a href="#" class="text-primary hover:underline font-medium">Privacy Policy</a>
+                </label>
+            </div>
+
+            <button type="submit" [disabled]="isUploading"
+                class="w-full bg-primary text-white font-bold py-3 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 mt-6 flex justify-center items-center disabled:opacity-75 disabled:cursor-not-allowed">
+                <span *ngIf="isUploading"
+                    class="mr-2 h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
+                {{ isUploading ? 'Creating Account...' : 'Create Account' }}
+            </button>
+        </form>
+
+        <div class="mt-8 pt-6 border-t border-border text-center">
+            <p class="text-muted-foreground">
+                Already have an account?
+                <a routerLink="/login" class="text-primary hover:underline font-normal cursor-pointer">
+                    Sign In
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
